@@ -1,33 +1,8 @@
-# Google OAuth Setup Guide
+# Django Allauth Social App Setup Guide
 
-After setting up your Google OAuth credentials, you need to configure them in Django's database:
+After setting up your Google and Facebook OAuth credentials, you need to configure them in Django's database:
 
-## Step 1: Get Google OAuth Credentials
-
-1. Go to https://console.cloud.google.com/apis/credentials
-
-2. Create a new project or select an existing one
-
-3. Enable Google+ API
-
-4. Create OAuth 2.0 Client ID (Web application)
-
-5. Add authorized redirect URI:
-   ```
-   http://127.0.0.1:8000/accounts/google/login/callback/
-   ```
-
-6. Copy the Client ID and Client Secret
-
-7. Update your `.env` file:
-   ```
-   GOOGLE_CLIENT_ID=your-actual-client-id.apps.googleusercontent.com
-   GOOGLE_CLIENT_SECRET=your-actual-client-secret
-   ```
-
-## Step 2: Configure Google Social App in Django
-
-### Method 1: Using Django Admin (Recommended)
+## Method 1: Using Django Admin (Recommended)
 
 1. Make sure your server is running:
    ```
@@ -53,9 +28,16 @@ After setting up your Google OAuth credentials, you need to configure them in Dj
    - Secret key: [Your Google Client Secret]
    - Sites: Select your site (127.0.0.1:8000)
 
-7. Save the application
+   **For Facebook:**
+   - Provider: Facebook
+   - Name: Facebook OAuth
+   - Client id: [Your Facebook App ID]
+   - Secret key: [Your Facebook App Secret]
+   - Sites: Select your site (127.0.0.1:8000)
 
-### Method 2: Using Django Shell
+7. Save both applications
+
+## Method 2: Using Django Shell
 
 If you prefer to set up via command line:
 
@@ -83,20 +65,21 @@ google_app = SocialApp.objects.create(
 )
 google_app.sites.add(site)
 
-print("Google OAuth configured successfully!")
+# Create Facebook OAuth app
+facebook_app = SocialApp.objects.create(
+    provider='facebook',
+    name='Facebook OAuth',
+    client_id='YOUR_FACEBOOK_APP_ID',
+    secret='YOUR_FACEBOOK_APP_SECRET',
+)
+facebook_app.sites.add(site)
+
+print("Social apps configured successfully!")
 ```
-
-## Step 3: Test the Integration
-
-1. Restart your Django server
-2. Go to the login page: http://127.0.0.1:8000/login/
-3. Click "Continue with Google"
-4. You should be redirected to Google's login page
-5. After successful login, you'll be redirected back to your app
 
 ## Accessing the Settings Page
 
-Once configured, users can manage their Google connection at:
+Once configured, users can access the settings page at:
 - Direct URL: http://127.0.0.1:8000/settings/
 - Via Navigation: Click on username dropdown → Settings
 
@@ -104,40 +87,20 @@ Once configured, users can manage their Google connection at:
 
 1. **Change Email**: Manage email addresses
 2. **Change Password**: Update account password
-3. **Account Connections**: View connected social accounts
+3. **Account Connections**: View all connected social accounts
 4. **Connect/Disconnect Google**: Link or unlink Google account
-5. **Sign Out**: Log out from the account
+5. **Connect/Disconnect Facebook**: Link or unlink Facebook account
+6. **Sign Out**: Log out from the account
 
 ## Troubleshooting
 
-### "MultipleObjectsReturned" Error
-If you encounter this error:
+If you encounter "MultipleObjectsReturned" error:
 1. Go to Django Admin
 2. Navigate to Social Applications
-3. Delete duplicate Google apps
-4. Keep only one Google app
+3. Delete duplicate Google or Facebook apps
+4. Keep only one of each
 
-### Google Login Doesn't Work
 If social login doesn't work:
-1. Verify your OAuth credentials in .env match exactly what's in Google Console
-2. Check that redirect URI matches exactly (including http:// and port number)
+1. Verify your OAuth credentials in .env
+2. Check that redirect URIs match exactly
 3. Ensure the social app is added to the correct site in Django admin
-4. Clear your browser cache and try again
-5. Check Django server logs for error messages
-
-### Redirect URI Mismatch
-Make sure the redirect URI in Google Console exactly matches:
-```
-http://127.0.0.1:8000/accounts/google/login/callback/
-```
-
-Note: Don't use `localhost`, use `127.0.0.1` for consistency
-
-## Production Deployment
-
-When deploying to production:
-1. Update the redirect URI in Google Console to your production domain
-2. Update the Site domain in Django admin
-3. Update ALLOWED_HOSTS in settings.py
-4. Use environment variables for sensitive credentials
-5. Enable HTTPS for security

@@ -12,15 +12,17 @@ from google.auth.transport import requests as google_requests
 import json
 import uuid
 
-from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter
+from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, ProjectStat
 from .chatbot import get_panda_response
 
 # Home
 def index(request):
     """Render homepage"""
-    industrials = Industrial.objects.filter(status='active')[:3]  # Show featured industrials
+    industrials = Industrial.objects.filter(status='active')[:3]
+    stats = ProjectStat.objects.all()
     context = {
         'industrials': industrials,
+        'stats': stats,
     }
     return render(request, 'index.html', context)
 
@@ -82,7 +84,8 @@ def logout_view(request):
 def industrial_list(request):
     """List all industrials"""
     industrials = Industrial.objects.filter(status='active')
-    return render(request, 'industrial.html', {'industrials': industrials})
+    stats = ProjectStat.objects.all()
+    return render(request, 'industrial.html', {'industrials': industrials, 'stats': stats})
 
 def industrial_detail(request, ind_id):
     """Industrial details"""

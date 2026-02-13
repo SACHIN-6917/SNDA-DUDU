@@ -188,3 +188,15 @@ class Wish(models.Model):
     
     def __str__(self):
         return f"{self.session_id} - {self.query[:50]}"
+
+# ===== PROJECT STATS MODEL =====
+class ProjectStat(models.Model):
+    """Statistics for Landing Page Counter"""
+    title = models.CharField(max_length=100) # e.g. "Happy Users"
+    count = models.IntegerField(default=0)   # e.g. 80000
+    suffix = models.CharField(max_length=10, blank=True) # e.g. "+" or "/5"
+    icon = models.CharField(max_length=50, default="fa-users") # FontAwesome class
+    
+    def __str__(self):
+        return f"{self.title}: {self.count}{self.suffix}"
+

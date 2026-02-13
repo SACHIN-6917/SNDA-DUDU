@@ -300,6 +300,84 @@ document.addEventListener('DOMContentLoaded', () => {
     initAuth();
     initFooter();
     initPandaBot();
-    initCookieConsent();
     initRevealAnimations();
+    initCounters();
+    initTypingAnimation();
 });
+
+// ===== 8. TYPING ANIMATION =====
+function initTypingAnimation() {
+    const target = document.getElementById('typing-target');
+    if (!target) return;
+
+    const lyrics = [
+        "Dudu",
+        "is bridge for",
+        "connect your industrial visit",
+        "smoothly ✅"
+    ];
+
+    let lyricIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typeSpeed = 100;
+    const nextLyricDelay = 2000;
+
+    function type() {
+        const fullText = lyrics.join('\n');
+        // We actually want them to appear line by line or all at once?
+        // Let's do a simple continuous typing for the full block
+        const currentFullText = lyrics.slice(0, lyricIndex + 1).join('\n');
+        const currentVisibleText = lyrics.slice(0, lyricIndex).join('\n') + (lyricIndex > 0 ? '\n' : '') + lyrics[lyricIndex].substring(0, charIndex);
+
+        target.innerText = currentVisibleText;
+
+        if (charIndex < lyrics[lyricIndex].length) {
+            charIndex++;
+            setTimeout(type, typeSpeed);
+        } else if (lyricIndex < lyrics.length - 1) {
+            lyricIndex++;
+            charIndex = 0;
+            setTimeout(type, 500); // Pause between lines
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            type();
+            observer.unobserve(target);
+        }
+    }, { threshold: 0.5 });
+
+    observer.observe(target);
+}
+
+// ===== 9. COUNTER ANIMATION =====
+function initCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 800; // Increased from 200 to slow it down
+
+    const animateCounter = (el) => {
+        const target = +el.getAttribute('data-target');
+        const count = +el.innerText;
+        const inc = target / speed;
+
+        if (count < target) {
+            el.innerText = Math.ceil(count + inc);
+            setTimeout(() => animateCounter(el), 1); // Maintain smooth 60fps feel but slower progress
+        } else {
+            el.innerText = target;
+        }
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => observer.observe(counter));
+}

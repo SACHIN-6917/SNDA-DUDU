@@ -145,9 +145,9 @@
 }
 
 .dudu-highlight {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     color: #e96718;
-    font-weight: 400;
+    font-weight: 700;
     font-style: normal;
     font-size: 1.0em;
     /* Match headline size */
@@ -259,6 +259,208 @@
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 100px 20px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.stats-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #e96718;
+    margin-bottom: 15px;
+    letter-spacing: 0.05em;
+}
+
+.stats-header p {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 400;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.stats-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.stat-box {
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 50px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Staggered animation delays for each box */
+.stat-box:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stat-box:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stat-box:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.stat-box:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.stat-box:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #e96718, #ff8c42);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+}
+
+.stat-box:hover::before {
+    transform: scaleX(1);
+}
+
+.stat-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(233, 103, 24, 0.15);
+    border-color: #e96718;
+}
+
+.stat-box:nth-child(4),
+.stat-box:nth-child(5) {
+    grid-column: span 1;
+}
+
+.stat-box:nth-child(4) {
+    margin-left: 25%;
+}
+
+.stat-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    filter: grayscale(0.3);
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover .stat-icon {
+    transform: scale(1.2) rotate(5deg);
+    filter: grayscale(0);
+}
+
+.stat-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #e96718;
+    margin-bottom: 15px;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover .stat-number {
+    color: #d55a00;
+}
+
+.stat-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* Responsive Design for Stats */
+@media (max-width: 992px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .stat-box:nth-child(4),
+    .stat-box:nth-child(5) {
+        margin-left: 0;
+    }
+
+    .stat-box:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .stat-box:nth-child(3) {
+        grid-column: auto;
+        max-width: 100%;
+    }
+
+    .stats-header h2 {
+        font-size: 2rem;
+    }
+
+    .stats-header p {
+        font-size: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
     }
 }
 

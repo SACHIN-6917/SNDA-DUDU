@@ -158,7 +158,7 @@
     <!-- Industry Places Section -->
     <section class="industry-places-section reveal">
         <div class="places-header">
-            <h2 class="places-title">INDUSTRY PLACES</h2>
+            <h2 class="places-title">ABOUT ME</h2>
         </div>
         <div class="marquee-wrapper">
             <div class="marquee-content">
@@ -184,6 +184,28 @@
     </section>
 
 
+
+    <!-- Project Statistics Section -->
+    <section class="stats-section reveal">
+        <div class="stats-header">
+            <h2 class="stats-main-title">ABOUT ME</h2>
+            <p class="stats-subtitle">A bridge for smoothly connecting student curiosity with industrial reality.</p>
+        </div>
+        <div class="stats-grid">
+            {% for stat in stats %}
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas {{ stat.icon }}"></i></div>
+                <div class="stat-info">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="{{ stat.count }}">0</span>
+                        <span class="stat-suffix">{{ stat.suffix }}</span>
+                    </div>
+                    <div class="stat-label">{{ stat.title }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
     <!-- Enquiry Form Section -->
     <section id="enquire" class="dynamic-form-section reveal">
@@ -240,39 +262,11 @@
         </div>
     </section>
 
-    <!-- Antigravity Inspired Section -->
-    <section class="about-antigravity">
-        <div class="floating-icons-wave-container">
-            <!-- Wave Path SVG for visual reference (optional, or handled via GSAP motion path) -->
-            <svg class="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path fill="transparent" id="wavePath" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,208C1120,224,1280,192,1360,176L1440,160"></path>
-            </svg>
-            
-            <div class="floating-icons-wave">
-                <div class="icon-bubble" title="Student"><i class="fas fa-user-graduate"></i></div>
-                <div class="icon-bubble" title="Staff"><i class="fas fa-chalkboard-teacher"></i></div>
-                <div class="icon-bubble" title="Employee"><i class="fas fa-user-tie"></i></div>
-                <div class="icon-bubble" title="Bus"><i class="fas fa-bus"></i></div>
-                <div class="icon-bubble" title="Train"><i class="fas fa-train"></i></div>
-                <div class="icon-bubble" title="Flight"><i class="fas fa-plane"></i></div>
-                <div class="icon-bubble" title="Food"><i class="fas fa-utensils"></i></div>
-                <div class="icon-bubble" title="Snacks"><i class="fas fa-cookie-bite"></i></div>
-                <div class="icon-bubble" title="Companies"><i class="fas fa-building"></i></div>
-                <div class="icon-bubble" title="Hotels"><i class="fas fa-hotel"></i></div>
-                <div class="icon-bubble" title="Activities"><i class="fas fa-running"></i></div>
-                <div class="icon-bubble" title="Identity"><i class="fas fa-passport"></i></div>
-                <div class="icon-bubble" title="Memories"><i class="fas fa-camera-retro"></i></div>
-                <div class="icon-bubble" title="Booking"><i class="fas fa-ticket-alt"></i></div>
-                <div class="icon-bubble" title="Directions"><i class="fas fa-map-marked-alt"></i></div>
-                <div class="icon-bubble" title="Connectivity"><i class="fas fa-wifi"></i></div>
-            </div>
-        </div>
-
+    <!-- Antigravity Inspired Section (Typing Animation) -->
+    <section class="about-antigravity reveal">
         <div class="about-content">
             <h2 class="typing-text">
-                <span><span class="dudu-highlight">Dudu</span> is our agentic</span> 
-                <span>travel platform, evolving the IV</span>
-                <span>into the experience-first era.</span>
+                <span id="typing-target"></span><span class="cursor-colorful">|</span>
             </h2>
         </div>
     </section>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, Wish
+from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, Wish, ProjectStat
 
 # ===== USER ADMIN =====
 @admin.register(User)
@@ -153,3 +153,9 @@ class WishAdmin(admin.ModelAdmin):
             'fields': ('query', 'response')
         }),
     )
+
+@admin.register(ProjectStat)
+class ProjectStatAdmin(admin.ModelAdmin):
+    list_display = ('title', 'count', 'suffix', 'icon')
+    search_fields = ('title',)
+

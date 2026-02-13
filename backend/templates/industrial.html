@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/feedback.css' %}"> <!-- Reuse some feedback styles if needed, but mainly style.css -->
+    <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+ <!-- Reuse some feedback styles if needed, but mainly style.css -->
     
     <script src="{% static 'js/transitions.js' %}" defer></script>
     <script src="{% static 'js/script.js' %}" defer></script>
@@ -389,6 +391,28 @@
             {% empty %}
             <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
                 <p>No industrials found. Check back later!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Project Statistics Section -->
+    <section class="stats-section reveal">
+        <div class="stats-header">
+            <h2 class="stats-main-title">ABOUT ME</h2>
+            <p class="stats-subtitle">A bridge for smoothly connecting student curiosity with industrial reality.</p>
+        </div>
+        <div class="stats-grid">
+            {% for stat in stats %}
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas {{ stat.icon }}"></i></div>
+                <div class="stat-info">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="{{ stat.count }}">0</span>
+                        <span class="stat-suffix">{{ stat.suffix }}</span>
+                    </div>
+                    <div class="stat-label">{{ stat.title }}</div>
+                </div>
             </div>
             {% endfor %}
         </div>

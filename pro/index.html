@@ -108,6 +108,45 @@
         </div>
     </section>
 
+    <!-- About Me / Stats Section -->
+    <section class="stats-section">
+        <div class="stats-header"></div>
+        
+        <div class="stats-grid">
+            <!-- Top Row: 3 boxes -->
+            <div class="stat-box">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">2500 +</div>
+                <div class="stat-label">STUDENTS</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-number">120 +</div>
+                <div class="stat-label">VISITS</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-icon">🏭</div>
+                <div class="stat-number">50 +</div>
+                <div class="stat-label">COMPANIES</div>
+            </div>
+            
+            <!-- Bottom Row: 2 boxes -->
+            <div class="stat-box">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-number">4.7 ★</div>
+                <div class="stat-label">RATING</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-icon">📅</div>
+                <div class="stat-number">2 +</div>
+                <div class="stat-label">YEARS</div>
+            </div>
+        </div>
+    </section>
+
     <!-- Enquiry Form Section -->
     <section id="enquire" class="dynamic-form-section">
         <div class="form-container">
@@ -177,7 +216,7 @@
                 <span class="copyright">Copyright © <span id="footerYear"></span> DUDU Hub Pvt Ltd.</span>
             </div>
             <nav class="footer-nav" aria-label="Footer">
-                <a href="#home">About</a>
+                <a href="#" id="footerAboutLink">About</a>
                 <a href="#enquire">Contact</a>
             </nav>
             <div class="footer-social" aria-label="Social">
@@ -194,6 +233,20 @@
         </div>
     </footer>
 
+    <!-- About Modal -->
+    <div id="aboutModal" class="about-modal" style="display: none;">
+        <div class="about-modal-content">
+            <span class="about-close">&times;</span>
+            <h2>Welcome to DUDU IV Hub</h2>
+            <p>A bridge for smoothly connecting student curiosity with industrial reality.</p>
+            <p>We specialize in organizing educational industrial visits that transform classroom learning into real-world experiences. Our mission is to empower students with hands-on knowledge and industry insights.</p>
+            <div class="about-contact">
+                <p><strong>Contact Us:</strong></p>
+                <p><i class="fas fa-phone"></i> +91 99407 64517</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Enquiry form handler
         document.getElementById('enquiryForm')?.addEventListener('submit', (e) => {
@@ -201,6 +254,32 @@
             showToast('Thank you for your enquiry! We will contact you soon.', 'success');
             e.target.reset();
         });
+
+        // About modal handler
+        const aboutModal = document.getElementById('aboutModal');
+        const aboutLink = document.getElementById('footerAboutLink');
+        const aboutClose = document.querySelector('.about-close');
+
+        if (aboutLink && aboutModal) {
+            aboutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                aboutModal.style.display = 'flex';
+            });
+        }
+
+        if (aboutClose && aboutModal) {
+            aboutClose.addEventListener('click', () => {
+                aboutModal.style.display = 'none';
+            });
+        }
+
+        if (aboutModal) {
+            window.addEventListener('click', (e) => {
+                if (e.target === aboutModal) {
+                    aboutModal.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
