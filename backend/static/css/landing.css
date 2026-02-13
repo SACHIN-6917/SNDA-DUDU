@@ -100,7 +100,7 @@ body {
 .dudu-highlight {
     font-family: 'Poppins', sans-serif;
     color: var(--primary-orange);
-    font-weight: 800;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: -2px;
     font-size: 1.25em;
