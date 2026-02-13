@@ -31,30 +31,23 @@ def login_view(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
-        try:
-            # We use email as username, but Django expects username.
-            # Our custom User model uses email.
-            # Standard Django auth usually expects username.
-            # Let's adjust for our custom User model manually or just authenticate.
-            
-            # Since we are using Custom User model but not replacing AbstractUser fully in settings (using default auth backend),
-            # typically we need a custom backend or standard user model.
-            # But let's assume manual auth for this specific project structure request.
-            
-            user = User.objects.get(email=email)
-            if user.check_password(password):
-                # Manual session setting effectively logging in
-                request.session['user_id'] = user.id
-                request.session['user_name'] = user.name
-                request.session['user_email'] = user.email
-                messages.success(request, f"Welcome back, {user.name}!")
-                
-                next_url = request.GET.get('next', 'index')
-                return redirect(next_url)
-            else:
-                messages.error(request, "Invalid password.")
-        except User.DoesNotExist:
-            messages.error(request, "User does not exist.")
+        if email and password:
+            try:
+                user = authenticate(request, username=email, password=password)
+                if user is not None:
+                    auth_login(request, user)
+                    request.session['user_id'] = user.id
+                    request.session['user_name'] = user.name
+                    messages.success(request, f"Welcome back, {user.name}!")
+                    
+                    next_url = request.GET.get('next', 'index')
+                    return redirect(next_url)
+                else:
+                    messages.error(request, "Invalid email or password.")
+            except Exception as e:
+                messages.error(request, f"Login error: {str(e)}")
+        else:
+            messages.error(request, "Please provide both email and password.")
             
     return render(request, 'login.html')
 
@@ -80,7 +73,8 @@ def register_view(request):
 
 def logout_view(request):
     """Handle Logout"""
-    request.session.flush()
+    auth_logout(request)
+
     messages.success(request, "Logged out successfully.")
     return redirect('index')
 
@@ -100,18 +94,15 @@ def industrial_detail(request, ind_id):
         return redirect('industrial_list')
 
 # Booking & Payment
+@login_required
 def booking_create(request, ind_id):
     """Create a booking (renders payment page)"""
     industrial = get_object_or_404(Industrial, id=ind_id)
     
     if request.method == 'POST':
         # Process Payment Mock
-        user_id = request.session.get('user_id')
-        if not user_id:
-            messages.info(request, "Please login to complete your booking.")
-            return redirect(f'/login/?next=/book/{ind_id}/')
-            
-        user = User.objects.get(id=user_id)
+        user = request.user
+
         
         visit_date = request.POST.get('visit_date')
         if not visit_date:
@@ -155,15 +146,11 @@ def payment_view_direct(request):
     return render(request, 'payment.html', {'industrial': industrial})
 
 # Account
+@login_required
 def account_view(request):
     """User Dashboard"""
-    user_id = request.session.get('user_id')
-    if not user_id:
-        if request.headers.get('content-type') == 'application/json':
-             return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=401)
-        return redirect('login')
-        
-    user = User.objects.get(id=user_id)
+    user = request.user
+
     
     if request.method == 'POST':
         try:
