@@ -65,9 +65,10 @@ function initFooter() {
     // Newsletter subscription
     const nlForm = document.getElementById('footerNewsletter');
     if (nlForm) {
-        nlForm.addEventListener('submit', (e) => {
+        nlForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const emailInput = document.getElementById('nlEmail');
+            const submitBtn = nlForm.querySelector('button');
             const email = (emailInput.value || '').trim();
             const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -76,8 +77,56 @@ function initFooter() {
                 return;
             }
 
-            showToast('Thank you for subscribing!', 'success');
-            nlForm.reset();
+            // Disable button
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '...';
+            submitBtn.disabled = true;
+
+            try {
+                // Get CSRF
+                const getCookie = (name) => {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                };
+                const csrftoken = getCookie('csrftoken');
+
+                const response = await fetch('/api/newsletters/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+
+                if (response.ok) {
+                    showToast('Thank you for subscribing! Check your email. 📧', 'success');
+                    nlForm.reset();
+                } else {
+                    const data = await response.json();
+                    if (data.email && Array.isArray(data.email) && data.email[0].includes('unique')) {
+                        showToast('You are already subscribed! 🎉', 'info');
+                    } else {
+                        showToast('Subscription failed. Please try again.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Subscription error:', error);
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 }

@@ -172,6 +172,37 @@ class NewsletterViewSet(viewsets.ModelViewSet):
             return [permissions.AllowAny()]
         return [permissions.IsAdminUser()]
 
+    def perform_create(self, serializer):
+        """Send welcome email on subscription"""
+        instance = serializer.save()
+        
+        # Send confirmation email
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            send_mail(
+                subject='Welcome to DUDU IV Hub! 🐼',
+                message=(
+                    "Hi there! 👋\n\n"
+                    "Thank you for subscribing to the DUDU IV Hub newsletter. "
+                    "We're thrilled to have you on board!\n\n"
+                    "You'll be the first to know about:\n"
+                    "🏭 Exclusive Industrial Visits\n"
+                    "🎓 Educational Tours & Workshops\n"
+                    "🚀 Career Opportunities & Internships\n\n"
+                    "Stay tuned for exciting updates!\n\n"
+                    "Best Regards,\n"
+                    "Team DUDU IV Hub"
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[instance.email],
+                fail_silently=True,
+            )
+        except Exception as e:
+            # Log error strictly for debugging, don't crash
+            print(f"Newsletter Email Error: {e}")
+
 
 # Additional API Views (not ViewSets)
 from rest_framework.views import APIView
