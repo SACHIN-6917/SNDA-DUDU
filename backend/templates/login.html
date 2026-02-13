@@ -1,0 +1,531 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - DUDU IV Hub</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #ffd7b5;
+            background-image: url('{% static "images/iv.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-container {
+            background: #fff;
+            border: solid 1px rgba(233, 103, 24, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            border: 3px solid #e96718;
+            overflow: hidden;
+            background: #fdf2e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Panda Animation Styles --- */
+        .panda-container {
+            position: relative;
+            width: 200px;
+            height: 240px;
+            transform: scale(0.7);
+        }
+
+        .panda-head {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 160px;
+            background: #fff;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .ear {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 50%;
+            top: -5px;
+        }
+        .ear.left { left: 5px; }
+        .ear.right { right: 5px; }
+
+        .eye-patch {
+            position: absolute;
+            width: 45px;
+            height: 55px;
+            background: #333;
+            border-radius: 50%;
+            top: 45px;
+        }
+        .eye-patch.left { left: 25px; }
+        .eye-patch.right { right: 25px; }
+
+        .eye {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: black;
+            border-radius: 50%;
+            top: 20px;
+            left: 15px;
+            transition: transform 0.1s ease;
+        }
+        .eye.white {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+
+        .nose {
+            position: absolute;
+            width: 14px;
+            height: 10px;
+            background: black;
+            border-radius: 50%;
+            top: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .mouth {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            border-bottom: 3px solid black;
+            border-radius: 0 0 30px 30px;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .arm {
+            position: absolute;
+            width: 45px;
+            height: 80px;
+            background: #333;
+            border-radius: 40px;
+            top: 110px;
+            z-index: 5;
+            transition: transform 0.4s ease;
+        }
+        .arm.left { left: 0; transform-origin: top center; }
+        .arm.right { right: 0; transform-origin: top center; }
+
+        /* Animation class for password focus */
+        .arm.cover.left { transform: translate(60px, -70px) rotate(45deg); }
+        .arm.cover.right { transform: translate(-60px, -70px) rotate(-45deg); }
+
+        .panda-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 180px;
+            background: #fff;
+            border-radius: 50% 50% 45% 45%;
+        }
+
+        /* --- Form Styles --- */
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e96718;
+            margin-bottom: 25px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .welcome-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .welcome-sub {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #e96718;
+            margin-bottom: 8px;
+        }
+
+        .input-underline {
+            border: none;
+            border-bottom: 2px solid rgba(233, 103, 24, 0.2);
+            border-radius: 0;
+            padding: 10px 0;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .input-underline:focus {
+            outline: none;
+            border-bottom-color: #e96718;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            background: none;
+            border: none;
+            color: #e96718;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #e96718;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(233, 103, 24, 0.3);
+        }
+
+        .btn-login:hover {
+            background: #d55a00;
+            transform: translateY(-2px);
+        }
+
+        .btn-sso {
+            width: 100%;
+            padding: 12px;
+            background: #fff;
+            color: #555;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-sso:hover {
+            background: #fdf2e9;
+            border-color: #e96718;
+            color: #e96718;
+        }
+
+        .btn-facebook { color: #1877f2; }
+        .btn-facebook:hover { border-color: #1877f2; color: #1877f2; }
+        
+        .btn-passkey { color: #333; }
+        .btn-passkey:hover { border-color: #333; }
+
+        .sso-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        .sso-divider::before, .sso-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .sso-divider span {
+            padding: 0 10px;
+        }
+
+        .toggle-link {
+            color: #e96718;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        #messages-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="login-page">
+        <div class="login-container">
+            <!-- Animated Panda -->
+            <div class="avatar-frame">
+                <div class="panda-container">
+                    <div class="panda-head">
+                        <div class="ear left"></div>
+                        <div class="ear right"></div>
+                        <div class="eye-patch left"><div class="eye" id="eyeLeft"><div class="eye white"></div></div></div>
+                        <div class="eye-patch right"><div class="eye" id="eyeRight"><div class="eye white"></div></div></div>
+                        <div class="nose"></div>
+                        <div class="mouth"></div>
+                    </div>
+                    <div class="arm left" id="armLeft"></div>
+                    <div class="arm right" id="armRight"></div>
+                    <div class="panda-body"></div>
+                </div>
+            </div>
+
+            <span class="brand-name">DUDU IV Hub</span>
+
+            {% if messages %}
+            <div id="messages-container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} py-2 px-3 small">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <div id="loginSection">
+                <h1 class="welcome-title">Welcome Back!</h1>
+                <p class="welcome-sub">Sign in to your account</p>
+
+                <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label" for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" name="email" class="input-underline" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="password-wrapper">
+                        <label class="form-label" for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" class="input-underline" placeholder="Enter password" required>
+                        <button type="button" class="password-toggle" id="toggleLoginPass">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-end mb-4">
+                        <a href="#" class="toggle-link small" id="forgotBtn">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">Login</button>
+
+                    <div class="sso-divider mt-4 mb-3">
+                        <span class="text-muted small">OR CONTINUE WITH</span>
+                    </div>
+
+                    <a href="{% url 'google_login' %}" class="btn-sso btn-google mb-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20">
+                        Continue with Google
+                    </a>
+
+                    <a href="{% url 'facebook_login' %}" class="btn-sso btn-facebook mb-3">
+                        <i class="fab fa-facebook-f"></i> Continue with Facebook
+                    </a>
+
+                    <button type="button" class="btn-sso btn-passkey mb-3" id="passkeyBtn">
+                        <i class="fas fa-key"></i> Continue with Passkey
+                    </button>
+
+                    <p class="text-center mt-4 mb-0 small text-muted">
+                        Don't have an account? <a href="#" class="toggle-link" id="showSignup">Sign Up</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Signup Form (Hidden by default) -->
+            <div id="signupSection" style="display: none;">
+                <h1 class="welcome-title">Join Us</h1>
+                <p class="welcome-sub">Create your account today</p>
+
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label" for="signupName">Full Name</label>
+                        <input type="text" id="signupName" name="name" class="input-underline" placeholder="Your Name" required>
+                    </div>
+
+                    <div>
+                        <label class="form-label" for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" name="email" class="input-underline" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="password-wrapper">
+                        <label class="form-label" for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" name="password" class="input-underline" placeholder="Create password" required>
+                        <button type="button" class="password-toggle" id="toggleSignupPass">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" class="btn-login">Sign Up</button>
+
+                    <p class="text-center mt-4 mb-0 small text-muted">
+                        Already have an account? <a href="#" id="showLogin" class="toggle-link">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    <script>
+        // Google Auth Callback
+        async function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            try {
+                const res = await fetch("{% url 'google_auth' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ credential: response.credential })
+                });
+
+                const result = await res.json();
+                if (res.ok && result.status === 'success') {
+                    window.location.href = result.redirect_url || "{% url 'index' %}";
+                } else {
+                    alert(result.message || "Google Authentication failed.");
+                }
+            } catch (error) {
+                console.error("Error during Google Auth:", error);
+                alert("An error occurred during Google sign-in.");
+            }
+        }
+
+        // Panda Reactivity
+        const eyeLeft = document.getElementById("eyeLeft");
+        const eyeRight = document.getElementById("eyeRight");
+        const armLeft = document.getElementById("armLeft");
+        const armRight = document.getElementById("armRight");
+        
+        // Form Elements
+        const loginPass = document.getElementById("loginPassword");
+        const signupPass = document.getElementById("signupPassword");
+        
+        // Listeners for Password Input
+        [loginPass, signupPass].forEach(input => {
+            if(!input) return;
+            input.addEventListener("focus", () => {
+                armLeft.classList.add("cover");
+                armRight.classList.add("cover");
+            });
+            input.addEventListener("blur", () => {
+                armLeft.classList.remove("cover");
+                armRight.classList.remove("cover");
+            });
+        });
+
+        // Eye follow
+        document.addEventListener("mousemove", (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 15;
+            const y = (e.clientY / window.innerHeight - 0.5) * 15;
+            eyeLeft.style.transform = `translate(${x}px, ${y}px)`;
+            eyeRight.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Form Toggles
+        document.getElementById('showSignup').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('signupSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        });
+
+        // Password Toggles
+        function setupToggle(btnId, inputId) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            if(!btn || !input) return;
+            btn.addEventListener('click', () => {
+                const type = input.type === 'password' ? 'text' : 'password';
+                input.type = type;
+                btn.innerHTML = `<i class="fas fa-eye${type === 'password' ? '' : '-slash'}"></i>`;
+            });
+        }
+        setupToggle('toggleLoginPass', 'loginPassword');
+        setupToggle('toggleSignupPass', 'signupPassword');
+    </script>
+</body>
+</html>

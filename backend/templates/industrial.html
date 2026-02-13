@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrials - DUDU IV Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/feedback.css' %}"> <!-- Reuse some feedback styles if needed, but mainly style.css -->
+    
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <script src="{% static 'js/industrials.js' %}" defer></script>
+
+    <style>
+        /* Modernized Industrial Styles */
+        :root {
+            --color-primary: #e96718;
+            --color-bg: #fdf2e9; /* Updated to match feedback theme */
+            --color-card-bg: #ffffff;
+            --color-text: #333333;
+            --color-text-muted: #666666;
+            --color-border: #eeeeee;
+        }
+
+        body {
+            background-color: var(--color-bg);
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            height: 400px; /* Maintain aspect ratio ~1200:400 */
+            max-height: 60vh;
+            overflow: hidden;
+            margin-top: 80px; /* Space for fixed navbar */
+            border-radius: 0 0 50px 50px;
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Prevent distortion, maintain aspect */
+            object-position: center;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slider img.active {
+            opacity: 1;
+        }
+
+        /* Pause animation on hover */
+        .hero:hover .slider img {
+            animation-play-state: paused;
+        }
+
+        .hero-text {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-text p {
+            font-size: 1.4rem;
+            font-weight: 500;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SECTIONS */
+        .section-header {
+            text-align: center;
+            margin: 60px auto 40px;
+            max-width: 800px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* MARQUEE SECTION */
+        .industry-places-section {
+            padding: 60px 0;
+            overflow: hidden;
+            background: rgba(233, 103, 24, 0.02);
+        }
+
+        .places-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .places-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 40px;
+        }
+
+        .marquee-content {
+            display: flex;
+            flex-shrink: 0;
+            justify-content: space-around;
+            gap: 40px;
+            min-width: 100%;
+            animation: scroll-marquee 30s linear infinite;
+        }
+
+        .marquee-content img {
+            height: 200px;
+            width: 320px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .marquee-content img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes scroll-marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100% - 40px)); }
+        }
+
+        /* MAIN INDUSTRIALS GRID */
+        .industrials-section {
+            padding: 60px 20px;
+        }
+
+        .industrials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .industrial-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .industrial-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 45px rgba(233, 103, 24, 0.15);
+        }
+
+        .card-image-wrap {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .industrial-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .industrial-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .badge-top {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #2e7d32;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-size: 1.7rem;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .card-content p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card-stats {
+            margin-top: auto;
+            border-top: 1px solid var(--color-border);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-tag {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--color-text);
+        }
+
+        .rating-stars {
+            color: #ffb800;
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            margin-top: 20px;
+            background: var(--color-primary);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: background 0.3s ease;
+        }
+
+        .industrial-card:hover .view-btn {
+            background: #d85d15;
+        }
+
+        @media (max-width: 768px) {
+            .hero { height: 40vh; }
+            .hero-text h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- HERO SLIDER -->
+    <section class="hero">
+        <div class="slider">
+            <img src="{% static 'images/silder1.jpg' %}" class="slide active" alt="Industrial Visit Experience 1">
+            <img src="{% static 'images/silder2.jpg' %}" class="slide" alt="Industrial Visit Experience 2"  loading="lazy">
+            <img src="{% static 'images/silder3.jpg' %}" class="slide" alt="Industrial Visit Experience 3" loading="lazy">
+            <img src="{% static 'images/silder4.jpg' %}" class="slide" alt="Industrial Visit Experience 4" loading="lazy">
+            <img src="{% static 'images/silder5.jpg' %}" class="slide" alt="Industrial Visit Experience 5" loading="lazy">
+        </div>
+        <div class="hero-text">
+            <h1>Industrials</h1>
+            <p>Explore Learning & Travel across Tamil Nadu</p>
+        </div>
+    </section>
+
+    <!-- Moving Image Slides Section (1.png to 8.png) -->
+    <section class="industry-places-section reveal">
+        <div class="places-header">
+            <h2 class="places-title">TRENDING INDUSTRIALS</h2>
+        </div>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <img src="{% static 'images/1.png' %}" alt="Industry 1">
+                <img src="{% static 'images/2.png' %}" alt="Industry 2">
+                <img src="{% static 'images/3.png' %}" alt="Industry 3">
+                <img src="{% static 'images/4.png' %}" alt="Industry 4">
+                <img src="{% static 'images/5.png' %}" alt="Industry 5">
+                <img src="{% static 'images/6.png' %}" alt="Industry 6">
+                <img src="{% static 'images/7.png' %}" alt="Industry 7">
+                <img src="{% static 'images/8.png' %}" alt="Industry 8">
+                <!-- Duplicate for seamless loop -->
+                <img src="{% static 'images/1.png' %}" alt="Industry 1">
+                <img src="{% static 'images/2.png' %}" alt="Industry 2">
+                <img src="{% static 'images/3.png' %}" alt="Industry 3">
+                <img src="{% static 'images/4.png' %}" alt="Industry 4">
+                <img src="{% static 'images/5.png' %}" alt="Industry 5">
+                <img src="{% static 'images/6.png' %}" alt="Industry 6">
+                <img src="{% static 'images/7.png' %}" alt="Industry 7">
+                <img src="{% static 'images/8.png' %}" alt="Industry 8">
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL INDUSTRIALS SECTION -->
+    <section class="industrials-section reveal">
+        <div class="section-header">
+            <h2>All Industrial Visits</h2>
+            <p>Select a destination to view detailed itinerary and pricing</p>
+        </div>
+        <div class="industrials-container">
+            {% for ind in industrials %}
+            <a href="{% url 'industrial_detail' ind.id %}" class="industrial-card">
+                <div class="card-image-wrap">
+                    <img src="{% static ind.image %}" onerror="this.src='{% static 'images/iv.jpg' %}';" alt="{{ ind.title }}" loading="lazy">
+                    {% if forloop.counter <= 2 %}
+                        <span class="badge-top">Top Rated</span>
+                    {% endif %}
+                </div>
+                <div class="card-content">
+                    <h3>{{ ind.title }}</h3>
+                    <p>{{ ind.description|truncatewords:20 }}</p>
+                    <div class="card-stats">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="price-tag">₹{{ ind.price|floatformat:0 }}</div>
+                    </div>
+                    <div class="view-btn">View Details</div>
+                </div>
+            </a>
+            {% empty %}
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <p>No industrials found. Check back later!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+
+</body>
+
+</html>

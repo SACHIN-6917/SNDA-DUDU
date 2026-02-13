@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUDU IV Hub - Industrials</title>
+    <meta name="description" content="Book industrials with DUDU IV Hub. Explore top companies and educational tours.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Metamorphous&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <script src="{% static 'js/landing.js' %}" defer></script>
+</head>
+<body class="page-transition">
+
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- Hero Section (New Layout) -->
+    <section id="home" class="hero-layout">
+        <div class="hero-grid">
+            <!-- Left Column: Large Text -->
+            <div class="hero-text-col">
+                <h1 class="hero-headline">
+                    <span class="line-mask"><span class="line-text">Unfold your</span></span>
+                    <span class="line-mask"><span class="line-text">Education</span></span>
+                    <span class="line-mask"><span class="line-text">Journey</span></span>
+                    <span class="line-mask"><span class="line-text">with <span class="dudu-highlight">&quot;Dudu&quot;</span></span></span>
+                </h1>
+
+
+            </div>
+
+            <!-- Right Column: Image Card & Button -->
+            <div class="hero-image-col">
+                <div class="hero-image-card">
+                    <!-- Placeholder Image -->
+                    <img class="hero-pan" src="{% static 'images/iv.jpg' %}" alt="City skyline">
+                    <div class="hero-image-overlay">
+                        <h2>Explore</h2>
+                        <p>“Gain real-world exposure through organized and impactful visits.”</p>
+                    </div>
+                </div>
+                <a href="#enquire" class="enquire-btn">ENQUIRE</a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- RESTORED: Welcome Section (Separated from Hero) -->
+    <section id="welcome" class="content-section" style="padding: 100px 5%; background: var(--white);">
+        <div class="about-wrap">
+            <h1 class="ml5">
+                <span class="text-wrapper">
+                  <span class="line line1"></span>
+                  <span class="letters">WELCOME</span>
+                  <span class="line line2"></span>
+                </span>
+            </h1>
+            <div class="paragraph-lines">
+                <div class="line-wrapper">
+                    <p class="line-text">DUDU IV Hub is a smart solution designed to simplify industrial visits</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">We focus on safe transportation, reliable accommodation, quality food</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">With end-to-end coordination and trusted vendors for memorable experiences</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">Complete travel solutions with transport, accommodation, and planning</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">A trusted travel partner that understands real needs and delivers quality</p>
+                    <div class="line-underline"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smala Inspired Sections (Horizontal Pinning) -->
+    <section id="about" class="smala-pinned-section">
+        <div class="smala-pin-container">
+            <div class="smala-wrapper">
+                <div class="smala-pane" id="pane-industry">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">INDUSTRY</h2>
+                            <p class="smala-description">Bridge the gap between campus and corporate with immersive industrial visits to top-tier manufacturing and tech hubs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-travel">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">TRAVEL</h2>
+                            <p class="smala-description">End-to-end logistics handled. From luxury buses to safe railway transit, we ensure Every mile is a memory.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-foods">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">FOODS</h2>
+                            <p class="smala-description">Hygienic, nutritious, and diverse menu options tailored to student needs, ensuring energy for Every exploration.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-fun">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">FUN ACTIVITIES</h2>
+                            <p class="smala-description">Beyond the factories, we curate team-building exercises, local sightseeing, and cultural experiences that bond students for life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Places Section -->
+    <!-- Industry Places Section -->
+    <section class="industry-places-section reveal">
+        <div class="places-header">
+            <h2 class="places-title">INDUSTRY PLACES</h2>
+        </div>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <img src="{% static 'images/1.png' %}" alt="Industry Place 1">
+                <img src="{% static 'images/2.png' %}" alt="Industry Place 2">
+                <img src="{% static 'images/3.png' %}" alt="Industry Place 3">
+                <img src="{% static 'images/4.png' %}" alt="Industry Place 4">
+                <img src="{% static 'images/5.png' %}" alt="Industry Place 5">
+                <img src="{% static 'images/6.png' %}" alt="Industry Place 6">
+                <img src="{% static 'images/7.png' %}" alt="Industry Place 7">
+                <img src="{% static 'images/8.png' %}" alt="Industry Place 8">
+                <!-- Duplicate for seamless loop -->
+                <img src="{% static 'images/1.png' %}" alt="Industry Place 1">
+                <img src="{% static 'images/2.png' %}" alt="Industry Place 2">
+                <img src="{% static 'images/3.png' %}" alt="Industry Place 3">
+                <img src="{% static 'images/4.png' %}" alt="Industry Place 4">
+                <img src="{% static 'images/5.png' %}" alt="Industry Place 5">
+                <img src="{% static 'images/6.png' %}" alt="Industry Place 6">
+                <img src="{% static 'images/7.png' %}" alt="Industry Place 7">
+                <img src="{% static 'images/8.png' %}" alt="Industry Place 8">
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Enquiry Form Section -->
+    <section id="enquire" class="dynamic-form-section reveal">
+        <div class="form-container">
+            <div class="form-left">
+                <div class="brand-circle">
+                    <h2>DUDU</h2>
+                    <h3>IV Hub</h3>
+                    <h4>Stay Connected</h4>
+                    <p>+919940764517</p>
+                </div>
+            </div>
+            <div class="form-right">
+                <form id="enquiryForm" class="enquiry-form">
+                    <div class="form-group">
+                        <label>Name*</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City of Residence*</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number*</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Whatsapp</label>
+                        <input type="tel" name="whatsapp">
+                    </div>
+                    <div class="form-group">
+                        <label>Option 1</label>
+                        <select name="option">
+                            <option value="">Select Option</option>
+                            <option value="Industrial Info">Industrial Info</option>
+                            <option value="Custom Visit">Custom Visit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Travel*</label>
+                        <input type="date" name="travel_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. of People*</label>
+                        <input type="number" name="people" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Captcha* (1 + 7 = )</label>
+                        <input type="text" name="captcha" placeholder="Enter answer" required>
+                    </div>
+                    <button type="submit" class="submit-btn">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Antigravity Inspired Section -->
+    <section class="about-antigravity">
+        <div class="floating-icons-wave-container">
+            <!-- Wave Path SVG for visual reference (optional, or handled via GSAP motion path) -->
+            <svg class="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path fill="transparent" id="wavePath" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,208C1120,224,1280,192,1360,176L1440,160"></path>
+            </svg>
+            
+            <div class="floating-icons-wave">
+                <div class="icon-bubble" title="Student"><i class="fas fa-user-graduate"></i></div>
+                <div class="icon-bubble" title="Staff"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="icon-bubble" title="Employee"><i class="fas fa-user-tie"></i></div>
+                <div class="icon-bubble" title="Bus"><i class="fas fa-bus"></i></div>
+                <div class="icon-bubble" title="Train"><i class="fas fa-train"></i></div>
+                <div class="icon-bubble" title="Flight"><i class="fas fa-plane"></i></div>
+                <div class="icon-bubble" title="Food"><i class="fas fa-utensils"></i></div>
+                <div class="icon-bubble" title="Snacks"><i class="fas fa-cookie-bite"></i></div>
+                <div class="icon-bubble" title="Companies"><i class="fas fa-building"></i></div>
+                <div class="icon-bubble" title="Hotels"><i class="fas fa-hotel"></i></div>
+                <div class="icon-bubble" title="Activities"><i class="fas fa-running"></i></div>
+                <div class="icon-bubble" title="Identity"><i class="fas fa-passport"></i></div>
+                <div class="icon-bubble" title="Memories"><i class="fas fa-camera-retro"></i></div>
+                <div class="icon-bubble" title="Booking"><i class="fas fa-ticket-alt"></i></div>
+                <div class="icon-bubble" title="Directions"><i class="fas fa-map-marked-alt"></i></div>
+                <div class="icon-bubble" title="Connectivity"><i class="fas fa-wifi"></i></div>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <h2 class="typing-text">
+                <span><span class="dudu-highlight">Dudu</span> is our agentic</span> 
+                <span>travel platform, evolving the IV</span>
+                <span>into the experience-first era.</span>
+            </h2>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+
+
+    <script>
+        // Enquiry form handler
+        // Enquiry form handler
+        document.getElementById('enquiryForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("{% url 'submit_enquiry' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.status === 'success') {
+                    showToast('Thank you for your enquiry! We will contact you soon.', 'success');
+                    form.reset();
+                } else {
+                    showToast(result.message || 'Something went wrong. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

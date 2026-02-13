@@ -1,0 +1,203 @@
+:root {
+    --color-primary: #e96718;
+    --color-bg: #FFDAB9;
+    --focus-ring: #1a73e8;
+    --white: #ffffff;
+    --text-dark: #333;
+    --text-muted: #555;
+}
+
+main {
+    flex: 1;
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    padding-top: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+#feedback {
+    background: var(--color-bg);
+    padding: 60px 20px 40px;
+}
+
+#feedback h2 {
+    text-align: center;
+    color: #d85d15;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.enquire-btn-center {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 24px;
+}
+
+.enquire-btn {
+    display: inline-block;
+    min-width: 180px;
+    background: linear-gradient(90deg, #e96718, #ff8c42);
+    color: white;
+    text-align: center;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(233, 103, 24, 0.25);
+    text-transform: uppercase;
+}
+
+.enquire-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 8px 18px rgba(233, 103, 24, 0.3);
+}
+
+.feedback-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform .3s ease;
+    margin-bottom: 20px;
+}
+
+.feedback-card:hover {
+    transform: translateY(-4px);
+}
+
+.feedback-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feedback-card strong {
+    color: #d85d15;
+    font-size: 1.1rem;
+}
+
+.feedback-card .stars {
+    color: #d85d15;
+}
+
+.feedback-card p {
+    color: #333;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.feedback-card small {
+    color: #777;
+}
+
+.overall-rating-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.overall-rating-section p.label {
+    color: #d85d15;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.overall-rating-section .stars-large {
+    font-size: 32px;
+    color: #d85d15;
+}
+
+.overall-rating-section p.summary {
+    color: #555;
+    margin-top: 8px;
+}
+
+/* Form Styles */
+.feedback-form-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+#feedback-form {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+#feedback-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#feedback-form .form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+#feedback-form input[type="text"],
+#feedback-form textarea {
+    padding: 12px;
+    border: 1px solid #e96718;
+    border-radius: 8px;
+    width: 100%;
+    font-family: inherit;
+}
+
+#fb-stars {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+#fb-stars button {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: #d85d15;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+#fb-stars button:hover {
+    transform: scale(1.1);
+}
+
+#feedback-form button[type="submit"] {
+    background: #d85d15;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+#feedback-form button[type="submit"]:hover {
+    background: #c04d10;
+}
+
+#fb-error {
+    color: #b00020;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    #feedback h2 {
+        font-size: 2rem;
+    }
+}

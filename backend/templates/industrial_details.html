@@ -1,0 +1,451 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ industrial.title }} - DUDU IV Hub</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    
+    <!-- Scripts -->
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    
+    <style>
+        /* Specific Styles for Industrial Details Page - Redesigned */
+        .details-hero {
+            padding: 120px 5% 60px;
+            max-width: 1300px;
+            margin: 0 auto;
+            min-height: 80vh;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #e96718;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+        
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .details-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* Left Column: Image */
+        .details-image-card {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            aspect-ratio: 4 / 3.5;
+            position: sticky;
+            top: 100px; /* Sticky on scroll */
+        }
+
+        .details-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .details-image-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Right Column: Content */
+        .details-content-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .details-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            color: #e96718;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            line-height: 1.1;
+        }
+
+        .details-header p.subtitle {
+            font-size: 1.05rem;
+            color: #555;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #ffb800;
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .price-badge-large {
+            display: inline-flex;
+            align-items: center;
+            background: #e96718;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px; /* Smooth rounded corners */
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(233, 103, 24, 0.25);
+            width: fit-content;
+        }
+
+        .price-badge-large span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: 6px;
+            opacity: 0.95;
+        }
+
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .feature-box h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e96718;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+            color: #444;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f9f9f9;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li i {
+            color: #e96718;
+            font-size: 0.75rem;
+        }
+
+        .details-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-book {
+            flex: 1;
+            background: #e96718;
+            color: white;
+            padding: 16px;
+            border-radius: 50px; /* Pill shape */
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(233, 103, 24, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid #e96718;
+        }
+
+        .btn-enquire {
+            flex: 1;
+            background: white;
+            color: #e96718;
+            border: 2px solid #e96718;
+            padding: 16px;
+            border-radius: 50px; /* Pill shape */
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-book:hover { 
+            background: #d55a00; 
+            border-color: #d55a00;
+            transform: translateY(-2px);
+        }
+        
+        .btn-enquire:hover { 
+            background: #fffcf9; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 103, 24, 0.1);
+        }
+
+        .details-hero {
+            padding: 120px 5% 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+            min-height: auto; /* Remove min-height to prevent overlap if content is short */
+        }
+
+        .details-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+            margin-bottom: 60px; /* Space before itinerary */
+        }
+
+        @media (max-width: 992px) {
+            .details-main-grid { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            .details-image-card {
+                position: static;
+                aspect-ratio: 16/9;
+                max-height: 400px;
+            }
+            .details-header h1 { font-size: 2.2rem; }
+            .details-hero { padding-top: 100px; }
+            .details-actions { flex-direction: column; }
+        }
+
+
+        /* Itinerary Section Restored */
+        .itinerary-section {
+            margin-top: 40px;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 5% 80px;
+        }
+
+        .itinerary-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .itinerary-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e96718;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 35px;
+            border-left: 2px solid #fff3ed;
+            padding-bottom: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            background: #e96718;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #fff3ed;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.15rem;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="page-transition">
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- Details Hero -->
+    <main class="details-hero">
+        <a href="{% url 'industrial_list' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to All Industrials
+        </a>
+
+        <div class="details-main-grid">
+            <!-- Left Column: Image -->
+            <div class="details-image-card">
+                <img src="{% static industrial.image %}" alt="{{ industrial.title }}" onerror="this.src='{% static 'images/iv.jpg' %}';">
+            </div>
+
+            <!-- Right Column: Details & Content -->
+            <div class="details-content-column">
+                <!-- Header Info -->
+                <div class="details-header">
+                    <h1>{{ industrial.location }}</h1>
+                    <p class="subtitle">{{ industrial.title }} & Heritage Sites</p>
+                    
+                    <div class="rating-row">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-text">4.3 • 2.5k liked</span>
+                    </div>
+
+                    <div class="price-badge-large">
+                        ₹{{ industrial.price|floatformat:0 }} <span>/ student</span>
+                    </div>
+                </div>
+
+                <!-- Feature Blocks -->
+                <div class="feature-box">
+                    <h3><i class="fas fa-industry"></i> Industrial Visit</h3>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Standard Group Factory</li>
+                        <li><i class="fas fa-check"></i> Manufacturing Plant Tour</li>
+                        <li><i class="fas fa-check"></i> Assembly Line Experience</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <h3><i class="fas fa-utensils"></i> Food & Cuisine</h3>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Famous Jigarthanda</li>
+                        <li><i class="fas fa-check"></i> Local Mess Meals</li>
+                        <li><i class="fas fa-check"></i> Temple Prasadam</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <h3><i class="fas fa-map-marker-alt"></i> Places to Visit</h3>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Meenakshi Amman Temple</li>
+                        <li><i class="fas fa-check"></i> Thirumalai Nayakkar Palace</li>
+                        <li><i class="fas fa-check"></i> Gandhi Museum</li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="details-actions">
+                    <a href="{% url 'booking_create' industrial.id %}" class="btn-book">Book Now</a>
+                    <a href="{% url 'index' %}#enquire" class="btn-enquire">Enquire</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Itinerary Section -->
+    <section class="itinerary-section">
+        <div class="itinerary-card">
+            <h2><i class="fas fa-route"></i> Sample Itinerary</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Day 1 - Arrival</h4>
+                    <p>Reach {{ industrial.location }}, check-in, evening Meenakshi Temple visit.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Day 2 - Industrial Visit</h4>
+                    <p>TVS Group factory tour, understanding automotive manufacturing.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Day 3 - Heritage Tour</h4>
+                    <p>Palace visit, museum tour, Jigarthanda tasting, departure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Scripts -->
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Re-calculate the current year for footer if needed
+            const yearSpan = document.getElementById('footerYear');
+            if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

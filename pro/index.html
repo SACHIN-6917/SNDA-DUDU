@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUDU IV Hub - Industrial Visit Packages</title>
+    <meta name="description" content="Book industrial visit packages with DUDU IV Hub. Explore top companies and educational tours.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="js/transitions.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/landing.js" defer></script>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    <div class="hero-content" role="navigation" aria-label="Main">
+        <ul class="nav-links-floating">
+            <li><a href="#home" class="active" aria-current="page">Home</a></li>
+            <li><a href="package.html">Package's</a></li>
+            <li><a href="payment.html">Payment</a></li>
+            <li><a href="feedback.html">Feedback's</a></li>
+        </ul>
+        <details class="account-dropdown">
+            <summary><button class="account-summary" aria-haspopup="menu" aria-expanded="false">Account</button></summary>
+            <div class="account-menu" role="menu" aria-label="Account">
+                <a role="menuitem" href="account.html">My Profile</a>
+                <a role="menuitem" href="login.html" id="loginMenuItem">Login</a>
+                <a role="menuitem" href="#enquire">Enquire</a>
+                <a role="menuitem" href="#" id="logoutLink">Logout</a>
+            </div>
+        </details>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-layout">
+        <div class="hero-grid">
+            <div class="hero-text-col">
+                <h1 class="hero-headline">
+                    <span class="line-mask"><span class="line-text">Welcome to</span></span><br>
+                    <span class="line-mask"><span class="line-text dudu-highlight">DUDU IV Hub</span></span>
+                </h1>
+                <div class="about-wrap">
+                    <h1 class="ml5">
+                        <span class="text-wrapper">
+                            <span class="line line1"></span>
+                            <span class="letters letters-left">Signal</span>
+                            <span class="letters ampersand">&amp;</span>
+                            <span class="letters letters-right">Noise</span>
+                            <span class="line line2"></span>
+                        </span>
+                    </h1>
+                    <div class="paragraph-lines">
+                        <div class="line-wrapper">
+                            <p class="line-text">Your gateway to transformative industrial visits.</p>
+                            <div class="line-underline"></div>
+                        </div>
+                        <div class="line-wrapper">
+                            <p class="line-text">Explore leading companies, gain hands-on experience,</p>
+                            <div class="line-underline"></div>
+                        </div>
+                        <div class="line-wrapper">
+                            <p class="line-text">and connect classroom learning to real-world innovation.</p>
+                            <div class="line-underline"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image-col">
+                <div class="hero-image-card">
+                    <img src="images/hero-image.jpg" alt="Industrial Visit" class="hero-pan" 
+                         onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop'">
+                    <div class="hero-image-overlay">
+                        <h2>Empowering Future Innovators</h2>
+                        <p>Transform learning through real-world industrial experiences</p>
+                    </div>
+                </div>
+                <a href="#enquire" class="enquire-btn">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enquiry Form Section -->
+    <section id="enquire" class="dynamic-form-section">
+        <div class="form-container">
+            <div class="form-left">
+                <div class="brand-circle">
+                    <h2>DUDU</h2>
+                    <h3>IV Hub</h3>
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-phone"></i> +91 99407 64517</p>
+                </div>
+            </div>
+            <div class="form-right">
+                <h2 style="margin-bottom: 30px; color: #e96718; font-size: 1.8rem;">Enquiry Form</h2>
+                <form id="enquiryForm" class="enquiry-form">
+                    <div class="form-group">
+                        <label for="enquiryName">Full Name *</label>
+                        <input type="text" id="enquiryName" name="name" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="enquiryEmail">Email *</label>
+                        <input type="email" id="enquiryEmail" name="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="enquiryPhone">Phone *</label>
+                        <input type="tel" id="enquiryPhone" name="phone" required placeholder="+91 99999 99999">
+                    </div>
+                    <div class="form-group">
+                        <label for="enquiryCollege">College/Organization</label>
+                        <input type="text" id="enquiryCollege" name="college" placeholder="Your College">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="enquiryMessage">Message</label>
+                        <select id="enquiryMessage" name="message">
+                            <option value="">Select an option</option>
+                            <option value="package-info">Package Information</option>
+                            <option value="custom-request">Custom Visit Request</option>
+                            <option value="group-booking">Group Booking</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Enquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panda Bot -->
+    <button class="footer-panda" id="pandaFab" aria-label="Open Panda Bot">🐼</button>
+    <div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog" aria-label="Panda Bot">
+        <div class="chat-header">
+            <span>Panda Bot</span>
+            <button class="chat-close" id="pandaClose" aria-label="Close">×</button>
+        </div>
+        <div class="chat-body" id="pandaBody">
+            <div class="chat-message bot">Hi! I'm here to help. Ask me about packages, bookings, or anything else!</div>
+        </div>
+        <div class="chat-input-container">
+            <input class="chat-input" id="pandaInput" placeholder="Type your question..." />
+            <button class="chat-send" id="pandaSend">➤</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo" aria-label="Footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="copyright">Copyright © <span id="footerYear"></span> DUDU Hub Pvt Ltd.</span>
+            </div>
+            <nav class="footer-nav" aria-label="Footer">
+                <a href="#home">About</a>
+                <a href="#enquire">Contact</a>
+            </nav>
+            <div class="footer-social" aria-label="Social">
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+                <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+                <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+                <a href="https://wa.me/919940764517" target="_blank" rel="noopener" aria-label="WhatsApp">📱</a>
+            </div>
+            <form class="footer-newsletter" id="footerNewsletter" aria-label="Newsletter subscription" novalidate>
+                <input type="email" id="nlEmail" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
+                <button type="submit" class="footer-subscribe">Subscribe</button>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        // Enquiry form handler
+        document.getElementById('enquiryForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Thank you for your enquiry! We will contact you soon.', 'success');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

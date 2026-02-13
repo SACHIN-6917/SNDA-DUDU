@@ -1,0 +1,1260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    <style>
+        :root {
+            --color-primary: #e96718;
+            --color-bg: #FFDAB9;
+            --color-card-bg: #ffffff;
+            --color-text: #333333;
+            --color-text-muted: #333333;
+            --color-border: #dddddd;
+            --focus-ring: #1a73e8;
+        }
+
+        [data-theme="dark"] {
+            --color-bg: #121212;
+            --color-card-bg: #1c1c1c;
+            --color-text: #eaeaea;
+            --color-text-muted: #cfcfcf;
+            --color-border: #333333;
+        }
+
+        body {
+            background: var(--color-bg);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--color-text-muted);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 2px;
+            border-radius: 4px
+        }
+
+        .hero-content {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1100px;
+            background: #fff;
+            border: 1px solid var(--color-border);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            z-index: 1200;
+        }
+
+        .nav-links-floating {
+            list-style: none;
+            display: flex;
+            gap: 18px;
+            margin: 0;
+            padding: 0
+        }
+
+        .nav-links-floating a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 20px;
+            outline: none;
+            position: relative;
+        }
+
+        .nav-links-floating a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0px;
+            left: 0;
+            background-color: var(--color-primary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        .nav-links-floating a:hover,
+        .nav-links-floating a.active {
+            color: var(--color-primary);
+        }
+
+        .nav-links-floating a:hover::after,
+        .nav-links-floating a.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .account-dropdown {
+            position: relative
+        }
+
+        .account-summary {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            padding: 8px 14px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .account-menu {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            min-width: 180px;
+            background: #fff;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            padding: 8px
+        }
+
+        .account-menu a {
+            display: block;
+            padding: 8px 10px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px
+        }
+
+        .account-menu a:hover {
+            background: #f5f5f5
+        }
+
+        details.account-dropdown .account-menu {
+            display: none
+        }
+
+        details.account-dropdown[open] .account-menu {
+            display: block
+        }
+
+        .account-menu a.active {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        @media (max-width:768px) {
+            .hero-content {
+                width: calc(100% - 20px);
+                left: 10px;
+                transform: none;
+                flex-wrap: wrap;
+                gap: 10px
+            }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 110px auto 40px;
+            padding: 0 16px
+        }
+
+        .gateway-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .panel {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .left-panel {
+            background: linear-gradient(180deg, rgba(233, 103, 24, 0.12), rgba(255, 218, 185, 0.8));
+            padding: 26px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 520px;
+        }
+
+        .brand-kicker {
+            font-weight: 900;
+            color: var(--color-primary);
+            letter-spacing: 0.6px
+        }
+
+        .left-title {
+            font-size: 1.9rem;
+            line-height: 1.15;
+            margin: 10px 0 10px 0;
+            color: #111;
+            font-weight: 900
+        }
+
+        .left-quote {
+            color: #333;
+            line-height: 1.65;
+            font-size: 0.95rem;
+            max-width: 46ch
+        }
+
+        .author {
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid rgba(233, 103, 24, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: var(--color-primary);
+            flex: 0 0 auto;
+        }
+
+        .author-name {
+            font-weight: 900;
+            color: #111
+        }
+
+        .author-role {
+            font-size: 0.85rem;
+            color: #333
+        }
+
+        .left-art {
+            margin-top: 22px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .blob {
+            width: 72px;
+            height: 38px;
+            border-radius: 999px;
+            background: rgba(233, 103, 24, 0.18);
+            border: 1px solid rgba(233, 103, 24, 0.25);
+        }
+
+        .blob.b2 {
+            width: 54px;
+            background: rgba(233, 103, 24, 0.12)
+        }
+
+        .blob.b3 {
+            width: 86px;
+            background: rgba(233, 103, 24, 0.22)
+        }
+
+        .right-panel {
+            padding: 18px
+        }
+
+        .gateway-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .gateway-header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: 900;
+            color: #111;
+        }
+
+        .pkg-pill {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(233, 103, 24, 0.1);
+            border: 1px solid rgba(233, 103, 24, 0.25);
+            color: #111;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-weight: 800;
+            max-width: 100%;
+        }
+
+        .pkg-pill span {
+            white-space: nowrap
+        }
+
+        .pkg-pill strong {
+            white-space: nowrap;
+            color: var(--color-primary)
+        }
+
+        .plan-toggle {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0 14px;
+        }
+
+        .plan {
+            flex: 1 1 180px;
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 10px 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            user-select: none;
+        }
+
+        .plan input {
+            accent-color: var(--color-primary)
+        }
+
+        .plan.active {
+            border-color: rgba(233, 103, 24, 0.55);
+            box-shadow: 0 0 0 3px rgba(233, 103, 24, 0.12);
+        }
+
+        .plan .meta {
+            display: flex;
+            flex-direction: column
+        }
+
+        .plan .meta b {
+            color: #111
+        }
+
+        .plan .meta small {
+            color: #555
+        }
+
+        .plan .price {
+            font-weight: 900;
+            color: var(--color-primary)
+        }
+
+        .pay-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0 12px;
+        }
+
+        .pay-btn {
+            flex: 1 1 140px;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+            color: #fff;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.10)
+        }
+
+        .pay-btn.active {
+            outline: 3px solid rgba(26, 115, 232, 0.25);
+            outline-offset: 2px
+        }
+
+        /* UPI Brand Colors */
+        .pay-btn.phonepe {
+            background: #5f259f;
+            border-color: #5f259f;
+        }
+
+        .pay-btn.paytm {
+            background: #00baf2;
+            border-color: #00baf2;
+        }
+
+        .pay-btn.gpay {
+            background: #fff;
+            color: #3c4043;
+            border-color: #d1d1d1;
+        }
+
+        .pay-btn.bhim {
+            background: #ff7a00;
+            border-color: #ff7a00;
+        }
+
+        .pay-btn.others {
+            background: #fff;
+            color: #000;
+            border-color: #d1d1d1;
+        }
+
+        .pay-btn.gpay img {
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0;
+            color: #666;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: var(--color-border);
+            flex: 1
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .card-grid .full {
+            grid-column: 1 / -1
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .field input {
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 10px
+        }
+
+        .field label {
+            font-weight: 800;
+            color: #111;
+            font-size: 0.9rem
+        }
+
+        .pay-summary {
+            margin-top: 14px;
+            border-top: 1px solid var(--color-border);
+            padding-top: 12px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: #444;
+            margin: 8px 0;
+            font-weight: 700;
+        }
+
+        .sum-row.total {
+            color: #111;
+            font-weight: 900;
+            font-size: 1.05rem
+        }
+
+        .sum-row.discount {
+            color: #b00020
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px
+        }
+
+        .pay-now {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-weight: 900;
+            cursor: pointer;
+            flex: 1 1 220px
+        }
+
+        .pay-now:disabled {
+            opacity: 0.7;
+            cursor: not-allowed
+        }
+
+        .back-link {
+            color: var(--color-primary);
+            font-weight: 900;
+            text-decoration: none
+        }
+
+        .back-link:hover {
+            text-decoration: underline
+        }
+
+        .inline-msg {
+            margin-top: 10px
+        }
+
+        .inline-msg .success,
+        .inline-msg .error {
+            display: none
+        }
+
+        .inline-msg .success.show {
+            display: block;
+            color: #2e7d32
+        }
+
+        .inline-msg .error.show {
+            display: block;
+            color: #b00020
+        }
+
+        /* QR & Success Styles */
+        .upi-qr-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            background: #fff;
+            border: 1px dashed var(--color-primary);
+            border-radius: 20px;
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .upi-qr-container h3 {
+            margin: 0 0 10px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .upi-id-copy {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .qr-code-img {
+            width: 180px;
+            height: 180px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fff;
+        }
+
+        /* Success Overlay */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .success-checkmark {
+            width: 100px;
+            height: 100px;
+            background: #2e7d32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(46, 125, 50, 0.3);
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: #666;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gateway-layout {
+                grid-template-columns: 1fr
+            }
+
+            .left-panel {
+                min-height: unset
+            }
+
+            .container {
+                margin-top: 120px
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr
+            }
+
+            .plan {
+                flex: 1 1 220px
+            }
+        }
+
+        .site-footer {
+            position: static;
+            width: 100%;
+            background: #d85d15;
+            color: #fff;
+            z-index: 1;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1)
+        }
+
+        .footer-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 18px 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 14px
+        }
+
+        .footer-nav a:hover,
+        .footer-nav a:focus-visible {
+            color: #ffd9b3;
+            outline: none
+        }
+
+        .footer-social a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 12px;
+            font-size: 20px
+        }
+
+        .footer-newsletter {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .footer-newsletter input[type="email"] {
+            padding: 8px 12px;
+            border: 1px solid #fff;
+            border-radius: 18px;
+            background: #fff;
+            color: #333;
+            min-width: 220px
+        }
+
+        .footer-subscribe {
+            background: #fff;
+            color: #d85d15;
+            border: none;
+            border-radius: 18px;
+            padding: 8px 14px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .footer-panda {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            color: #d85d15;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--color-primary);
+            display: none;
+            z-index: 1100;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .chat-window.active {
+            display: flex
+        }
+
+        .chat-header {
+            background: var(--color-primary);
+            color: #fff;
+            padding: 15px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .chat-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9f9f9
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 80%
+        }
+
+        .chat-message.bot {
+            background: var(--color-primary);
+            color: #fff;
+            align-self: flex-start
+        }
+
+        .chat-message.user {
+            background: #fff;
+            color: #333;
+            align-self: flex-end;
+            border: 1px solid #ddd
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            outline: none
+        }
+
+        .chat-send {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        @media (max-width:768px) {
+            .footer-container {
+                padding: 18px 20px;
+                flex-direction: column;
+                align-items: flex-start
+            }
+
+            .footer-newsletter {
+                width: 100%
+            }
+
+            .footer-newsletter input[type="email"] {
+                flex: 1;
+                min-width: 0;
+                width: 100%
+            }
+        }
+    </style>
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+
+    {% include 'navbar.html' %}
+    <div class="container" role="main" aria-label="Payment gateway">
+        <div class="gateway-layout">
+            <!-- Left panel -->
+            <aside class="panel left-panel reveal-left" aria-label="Info panel">
+                <div>
+                    <div class="brand-kicker">DUDU IV HUB</div>
+                    <div class="left-title">Pay securely and confirm your industrial visit.</div>
+                    <div class="left-quote">
+                        "Our team coordinates transport, visit slots, and on‑site support. Complete your payment to lock
+                        your date
+                        and receive confirmation."
+                    </div>
+                    <div class="author" aria-label="Testimonial">
+                        <div class="avatar" aria-hidden="true">D</div>
+                        <div>
+                            <div class="author-name">DUDU Support</div>
+                            <div class="author-role">Travel & Visit Coordinator</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-art" aria-hidden="true">
+                    <div class="blob"></div>
+                    <div class="blob b2"></div>
+                    <div class="blob b3"></div>
+                </div>
+            </aside>
+
+            <!-- Right panel -->
+            <section class="panel right-panel reveal-right" aria-label="Checkout">
+                <div class="gateway-header">
+                    <h1>Payment Details</h1>
+                    <div class="pkg-pill" title="Selected industrial">
+                        <span>Industrial:</span> <strong id="pkgTitle">{{ industrial.title }}</strong>
+                        <span style="opacity:.7">|</span>
+                        <span id="pkgAmountTop">₹{{ industrial.price|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <div id="noPkgNote" class="note" style="display:none;margin:8px 0 0 0">
+                    No industrial amount found. Please select an industrial from <a class="back-link"
+                        href="{% url 'industrial_list' %}">Industrial's</a>.
+                </div>
+
+                <!-- Plan toggle -->
+                <div class="plan-toggle" aria-label="Choose payment plan">
+                    <label class="plan active" id="planFullWrap">
+                        <input type="radio" name="plan" id="planFull" value="full" checked>
+                        <span class="meta">
+                            <b>Pay Full</b>
+                            <small>100% payment now</small>
+                        </span>
+                        <span class="price" id="planFullPrice">₹0</span>
+                    </label>
+                    <label class="plan" id="planAdvWrap">
+                        <input type="radio" name="plan" id="planAdv" value="advance">
+                        <span class="meta">
+                            <b>Pay Advance</b>
+                            <small>30% now, balance later</small>
+                        </span>
+                        <span class="price" id="planAdvPrice">₹0</span>
+                    </label>
+                </div>
+
+                <!-- Quick gateway buttons (Modified for Indian UPI) -->
+                <div class="pay-actions" aria-label="Quick pay options">
+                    <button type="button" class="pay-btn gpay" id="btnGPay" aria-label="Pay with Google Pay">
+                        <i class="fab fa-google"></i> Pay
+                    </button>
+                    <button type="button" class="pay-btn phonepe" id="btnPhonePe" aria-label="Pay with PhonePe">
+                        PhonePe
+                    </button>
+                    <button type="button" class="pay-btn paytm" id="btnPaytm" aria-label="Pay with Paytm">
+                        Paytm
+                    </button>
+                    <button type="button" class="pay-btn bhim" id="btnBHIM" aria-label="Pay with BHIM UPI">
+                        BHIM
+                    </button>
+                    <button type="button" class="pay-btn others" id="btnOthers" aria-label="Other UPI Apps">
+                        Others
+                    </button>
+                </div>
+
+                <!-- Hidden container for Other UPI Apps -->
+                <div id="otherUPIContainer"
+                    style="display:none; margin-top: 15px; border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; background: #fafafa;">
+                    <p style="margin: 0 0 10px; font-weight: 700; color: #555; font-size: 0.9rem;">Select other UPI App:
+                    </p>
+                    <div class="pay-actions" style="margin: 0;">
+                        <button type="button" class="pay-btn amazon" id="btnAmazon" aria-label="Amazon Pay"
+                            style="background: #232f3e; color: white; border-color: #232f3e;">Amazon Pay</button>
+                        <button type="button" class="pay-btn whatsapp" id="btnWhatsApp" aria-label="WhatsApp Pay"
+                            style="background: #25d366; color: white; border-color: #25d366;">WhatsApp</button>
+                        <button type="button" class="pay-btn cred" id="btnCred" aria-label="CRED"
+                            style="background: #000; color: white; border-color: #000;">CRED</button>
+                        <button type="button" class="pay-btn jio" id="btnJio" aria-label="JioPay"
+                            style="background: #0f3cc9; color: white; border-color: #0f3cc9;">JioPay</button>
+                        <button type="button" class="pay-btn mobikwik" id="btnMobikwik" aria-label="MobiKwik"
+                            style="background: #0036ac; color: white; border-color: #0036ac;">MobiKwik</button>
+                        <button type="button" class="pay-btn freecharge" id="btnFreecharge" aria-label="Freecharge"
+                            style="background: #f47920; color: white; border-color: #f47920;">Freecharge</button>
+                    </div>
+                </div>
+
+                <!-- UPI ID & QR Code Container -->
+                <div id="upiQRContainer" class="upi-qr-container">
+                    <h3>Scan QR or Copy UPI ID</h3>
+                    <div class="upi-id-copy" onclick="copyUPI()" title="Click to copy UPI ID">
+                        <span id="upiID">sachinvelu6925-1@okaxis</span>
+                        <i class="far fa-copy"></i>
+                    </div>
+                    <img src="" id="upiQRCode" class="qr-code-img" alt="Scan to pay">
+                    <p style="margin-top: 15px; font-size: 0.85rem; color: #666; font-weight: 600;">
+                        Please complete payment and stay on this page.
+                    </p>
+                </div>
+
+                <div class="divider">or pay using a card</div>
+
+                <form id="paymentForm" method="POST" action="{% url 'booking_create' industrial.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="method" id="inputMethod" value="card">
+                    
+                    <div class="card-grid" style="margin-bottom: 20px;">
+                        <div class="field">
+                            <label for="inputParticipants">Number of Students</label>
+                            <input type="number" name="participants" id="inputParticipants" value="1" min="1" step="1" required>
+                        </div>
+                        <div class="field">
+                            <label for="visit_date">Visit Date</label>
+                            <input type="date" name="visit_date" id="visit_date" required>
+                        </div>
+                    </div>
+
+                    <div class="card-grid">
+                        <div class="field full">
+                            <label for="cardName">Cardholder Name</label>
+                            <input type="text" id="cardName" name="card_name" placeholder="Full Name" autocomplete="cc-name">
+                        </div>
+                        <div class="field full">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" name="card_number" inputmode="numeric" autocomplete="cc-number"
+                                placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="field">
+                            <label for="cardExpiry">Expiration</label>
+                            <input type="text" id="cardExpiry" name="card_expiry" inputmode="numeric" autocomplete="cc-exp"
+                                placeholder="MM/YY">
+                        </div>
+                        <div class="field">
+                            <label for="cardCvv">CVV</label>
+                            <input type="password" id="cardCvv" name="card_cvv" inputmode="numeric" autocomplete="cc-csc"
+                                placeholder="123">
+                        </div>
+                        <div class="field full">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" id="postalCode" name="postal_code" inputmode="numeric" autocomplete="postal-code"
+                                placeholder="Postal code / ZIP code">
+                        </div>
+                    </div>
+                    <div id="cardErrors" class="error" role="alert" aria-live="polite" style="margin-top:10px"></div>
+
+                    <div class="pay-summary" aria-label="Summary">
+                        <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">—</span></div>
+                        <div class="sum-row"><span>Gateway fees</span><span id="sumFees">₹0</span></div>
+                        <div class="sum-row discount" id="sumDiscountRow" style="display:none"><span>Advance plan
+                                note</span><span id="sumDiscount">—</span></div>
+                        <div class="sum-row total"><span>Due now</span><span id="sumDueNow">—</span></div>
+                        <div class="cta-row">
+                            <button class="pay-now" id="payNowBtn" type="submit">Pay securely</button>
+                            <a class="back-link" href="{% url 'industrial_list' %}">Back to Industrials</a>
+                        </div>
+                        <div class="inline-msg">
+                            <div id="statusMsg" class="success" role="status" aria-live="polite"></div>
+                            <div id="errorMsg" class="error" role="alert" aria-live="assertive"></div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-checkmark">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2 class="success-title">Payment Completed!</h2>
+        <p class="success-text">Your booking has been successfully processed.</p>
+        <p style="margin-top: 20px; color: #888;">Redirecting you to your account...</p>
+    </div>
+    <!-- Footer -->
+    {% include 'footer.html' %}
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <script>
+        // --- Data & Initialization ---
+        const UPI_ID = "sachinvelu6925-1@okaxis";
+        const MERCHANT_NAME = "DUDU Hub";
+        const ADVANCE_RATE = 0.30;
+        let selectedMethod = 'card';
+
+        // Sounds
+        const successSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3'); 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Nav active state
+            document.querySelectorAll('.nav-links-floating a').forEach(a => {
+                if (a.getAttribute('href').includes("payment")) {
+                    a.classList.add('active');
+                    a.setAttribute('aria-current', 'page');
+                }
+            });
+
+            // Account dropdown fix
+            const acc = document.querySelector('details.account-dropdown');
+            const btn = acc?.querySelector('.account-summary');
+            if (acc && btn) {
+                acc.addEventListener('toggle', () => btn.setAttribute('aria-expanded', acc.open ? 'true' : 'false'));
+            }
+
+            updatePlanUI();
+            initGPay();
+        });
+
+        const amount = parseFloat("{{ industrial.price }}") || 0;
+        const fmt = (n) => '₹' + (Math.max(0, n || 0)).toLocaleString('en-IN');
+        
+        const noPkgNote = document.getElementById('noPkgNote');
+        const payNowBtn = document.getElementById('payNowBtn');
+        if (!amount || Number.isNaN(amount)) {
+            if(noPkgNote) noPkgNote.style.display = 'block';
+            if(payNowBtn) payNowBtn.disabled = true;
+        }
+
+        // --- Functions ---
+
+        function copyUPI() {
+            navigator.clipboard.writeText(UPI_ID).then(() => {
+                // Flash effect on UPI ID
+                const upiDisplay = document.getElementById('upiID');
+                upiDisplay.style.color = '#2e7d32';
+                setTimeout(() => upiDisplay.style.color = 'var(--color-primary)', 500);
+            });
+        }
+
+        function generateQR(amt) {
+            const qrContainer = document.getElementById('upiQRContainer');
+            const qrImg = document.getElementById('upiQRCode');
+            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR`;
+            const qrSize = 200;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(upiUrl)}`;
+            qrContainer.style.display = 'flex';
+        }
+
+        function setMethod(m) {
+            selectedMethod = m;
+            document.querySelectorAll('.pay-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const upiQR = document.getElementById('upiQRContainer');
+            const otherContainer = document.getElementById('otherUPIContainer');
+            
+            const btnId = 'btn' + m.charAt(0).toUpperCase() + m.slice(1);
+            const btn = document.getElementById(btnId) || document.getElementById('btn' + m.toUpperCase());
+            if (btn) btn.classList.add('active');
+
+            if (m === 'card') {
+                upiQR.style.display = 'none';
+                otherContainer.style.display = 'none';
+            } else if (m === 'others') {
+                otherContainer.style.display = 'block';
+                upiQR.style.display = 'none';
+            } else {
+                // List of sub-apps in Other container
+                const isSubApp = ['amazon', 'whatsapp', 'cred', 'jio', 'mobikwik', 'freecharge'].includes(m);
+                otherContainer.style.display = (m === 'others' || isSubApp) ? 'block' : 'none';
+                
+                const participants = parseInt(document.getElementById('inputParticipants').value) || 1;
+                const payAmt = (document.getElementById('planAdv').checked) ? Math.round(amount * participants * ADVANCE_RATE) : (amount * participants);
+                generateQR(payAmt);
+            }
+        }
+
+        // --- Listeners ---
+        document.getElementById('btnGPay').addEventListener('click', () => setMethod('gpay'));
+        document.getElementById('btnPhonePe').addEventListener('click', () => setMethod('phonepe'));
+        document.getElementById('btnPaytm').addEventListener('click', () => setMethod('paytm'));
+        document.getElementById('btnBHIM').addEventListener('click', () => setMethod('bhim'));
+        document.getElementById('btnOthers').addEventListener('click', () => setMethod('others'));
+        
+        ['Amazon', 'WhatsApp', 'Cred', 'Jio', 'Mobikwik', 'Freecharge'].forEach(app => {
+            document.getElementById('btn' + app)?.addEventListener('click', () => setMethod(app.toLowerCase()));
+        });
+
+        function updatePlanUI() {
+            const plan = document.getElementById('planAdv').checked ? 'advance' : 'full';
+            const participants = parseInt(document.getElementById('inputParticipants').value) || 1;
+            const baseAmount = amount * participants;
+            
+            document.getElementById('planFullWrap').classList.toggle('active', plan === 'full');
+            document.getElementById('planAdvWrap').classList.toggle('active', plan === 'advance');
+            
+            const full = baseAmount;
+            const adv = Math.round(baseAmount * ADVANCE_RATE);
+            document.getElementById('planFullPrice').textContent = fmt(full);
+            document.getElementById('planAdvPrice').textContent = fmt(adv);
+            
+            const dueNow = (plan === 'advance') ? adv : full;
+            document.getElementById('sumSubtotal').textContent = fmt(full);
+            document.getElementById('sumDueNow').textContent = fmt(dueNow);
+            
+            const discRow = document.getElementById('sumDiscountRow');
+            if (plan === 'advance') {
+                discRow.style.display = 'flex';
+                document.getElementById('sumDiscount').textContent = `Balance later: ${fmt(full - adv)}`;
+            } else {
+                discRow.style.display = 'none';
+            }
+
+            if (document.getElementById('upiQRContainer').style.display === 'flex') {
+                generateQR(dueNow);
+            }
+        }
+
+        document.getElementById('planFull').addEventListener('change', updatePlanUI);
+        document.getElementById('planAdv').addEventListener('change', updatePlanUI);
+        document.getElementById('inputParticipants').addEventListener('input', updatePlanUI);
+
+        function triggerSuccess() {
+            const overlay = document.getElementById('successOverlay');
+            overlay.style.display = 'flex';
+            successSound.play().catch(e => console.warn("Sound blocked:", e));
+            
+            setTimeout(() => {
+                document.getElementById('paymentForm').submit();
+            }, 3500);
+        }
+
+        function processPayment() {
+            if (!amount || Number.isNaN(amount)) {
+                alert('Please select an industrial first.');
+                return;
+            }
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            payNowBtn.disabled = true;
+            payNowBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                document.getElementById('inputMethod').value = selectedMethod;
+                triggerSuccess();
+            }, 2500);
+        }
+
+        document.getElementById('paymentForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            processPayment();
+        });
+
+        // --- API Integrations (Scaffolds) ---
+        function initGPay() {
+            // Google Pay placeholder
+            console.log("Google Pay API Readiness: Scaffolding integrated for VPA " + UPI_ID);
+        }
+    </script>
+</body>
+
+</html>

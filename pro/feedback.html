@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - DUDU IV Hub</title>
+    <meta name="description"
+        content="Share your experience with DUDU IV Hub. Read reviews from other visitors and submit your feedback.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/feedback.css">
+
+    <!-- Scripts -->
+    <script src="js/transitions.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/feedback.js" defer></script>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    <div class="hero-content" role="navigation" aria-label="Main">
+        <ul class="nav-links-floating">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="package.html">Package's</a></li>
+            <li><a href="payment.html">Payment</a></li>
+            <li><a href="feedback.html" class="active" aria-current="page">Feedback's</a></li>
+        </ul>
+        <details class="account-dropdown">
+            <summary><button class="account-summary" aria-haspopup="menu" aria-expanded="false">Account</button>
+            </summary>
+            <div class="account-menu" role="menu" aria-label="Account">
+                <a role="menuitem" href="account.html">My Profile</a>
+                <a role="menuitem" href="login.html" id="loginMenuItem">Login</a>
+                <a role="menuitem" href="index.html#enquire">Enquire</a>
+                <a role="menuitem" href="#" id="logoutLink">Logout</a>
+            </div>
+        </details>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Main Content -->
+    <main>
+        <section id="feedback">
+            <div class="container">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 10px;">Customer Feedback</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 1.1rem;">
+                    We value your opinion! Share your experience with us.
+                </p>
+
+                <!-- Feedback Form -->
+                <div style="max-width: 700px; margin: 0 auto 50px;">
+                    <h3 style="color: #e96718; margin-bottom: 20px; font-size: 1.5rem;">Submit Your Feedback</h3>
+                    <form id="feedback-form">
+                        <div style="margin-bottom: 15px;">
+                            <label for="fb-name"
+                                style="display: block; margin-bottom: 6px; font-weight: 600; color: #333;">Your Name
+                                *</label>
+                            <input type="text" id="fb-name" placeholder="Enter your name" required>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #333;">Rating
+                                *</label>
+                            <div id="fb-stars" style="margin-top: 8px;">
+                                <button type="button" aria-label="1 star">☆</button>
+                                <button type="button" aria-label="2 stars">☆</button>
+                                <button type="button" aria-label="3 stars">☆</button>
+                                <button type="button" aria-label="4 stars">☆</button>
+                                <button type="button" aria-label="5 stars">☆</button>
+                                <span id="fb-stars-label">Select rating</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label for="fb-comment"
+                                style="display: block; margin-bottom: 6px; font-weight: 600; color: #333;">Your Comment
+                                *</label>
+                            <textarea id="fb-comment" rows="4" placeholder="Share your experience..." required
+                                style="width: 100%; padding: 10px; border: 1px solid #e96718; border-radius: 8px; font-family: 'Poppins', sans-serif;"></textarea>
+                        </div>
+
+                        <div id="fb-error" style="margin-bottom: 10px;"></div>
+
+                        <button type="submit" id="fb-submit">Submit Feedback</button>
+                    </form>
+                </div>
+
+                <!-- Feedback Display -->
+                <div>
+                    <h3 style="color:#e96718;margin-bottom:25px;font-size:1.5rem;text-align:center;">
+                        What Our Customers Say
+                        <span id="averageRating" style="display:block;font-size:1rem;color:#666;margin-top:5px;"></span>
+                    </h3>
+                    <div id="feedback-cards"
+                        style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1200px;margin:0 auto;">
+                        <!-- Feedback cards will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Panda Bot -->
+    <button class="footer-panda" id="pandaFab" aria-label="Open Panda Bot">🐼</button>
+    <div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog" aria-label="Panda Bot">
+        <div class="chat-header">
+            <span>Panda Bot</span>
+            <button class="chat-close" id="pandaClose" aria-label="Close">×</button>
+        </div>
+        <div class="chat-body" id="pandaBody">
+            <div class="chat-message bot">Thank you for your feedback! How can I help you today?</div>
+        </div>
+        <div class="chat-input-container">
+            <input class="chat-input" id="pandaInput" placeholder="Type your question..." />
+            <button class="chat-send" id="pandaSend">➤</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo" aria-label="Footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="copyright">Copyright © <span id="footerYear"></span> DUDU Hub Pvt Ltd.</span>
+            </div>
+            <nav class="footer-nav" aria-label="Footer">
+                <a href="index.html#home">About</a>
+                <a href="index.html#enquire">Contact</a>
+            </nav>
+            <div class="footer-social" aria-label="Social">
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+                <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener"
+                    aria-label="Instagram">◎</a>
+                <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+                <a href="https://wa.me/919940764517" target="_blank" rel="noopener" aria-label="WhatsApp">📱</a>
+            </div>
+            <form class="footer-newsletter" id="footerNewsletter" aria-label="Newsletter subscription" novalidate>
+                <input type="email" id="nlEmail" name="email" placeholder="Your Email" required aria-required="true"
+                    autocomplete="email">
+                <button type="submit" class="footer-subscribe">Subscribe</button>
+            </form>
+            <div class="footer-actions">
+                <a href="https://wa.me/919940764517" class="footer-whatsapp" target="_blank" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

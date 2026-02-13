@@ -1,0 +1,49 @@
+<!-- WhatsApp Float -->
+<a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Panda Bot -->
+<button class="footer-panda" id="pandaFab" aria-label="Open Panda Bot">
+    <span>🐼</span>
+</button>
+<div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog" aria-label="Panda Bot">
+    <div class="chat-header">
+        <span>Panda Bot</span>
+        <button class="chat-close" id="pandaClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="chat-body" id="pandaBody">
+        <!-- Messages populated by script.js -->
+    </div>
+    <div class="chat-input-container">
+        <input class="chat-input" id="pandaInput" placeholder="Type your question..." aria-label="Message Panda Bot" />
+        <button class="chat-send" id="pandaSend" aria-label="Send Message">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<footer class="site-footer" role="contentinfo" aria-label="Footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="copyright">Copyright © <span id="footerYear"></span> DUDU Hub Pvt Ltd.</span>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+            <a href="{% url 'index' %}#about">About</a>
+            <a href="{% url 'index' %}#enquire">Contact</a>
+        </nav>
+        <div class="footer-social" aria-label="Social">
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+            <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+            <a href="https://wa.me/919940764517" target="_blank" rel="noopener" aria-label="WhatsApp">📱</a>
+        </div>
+        <form class="footer-newsletter" id="footerNewsletter" aria-label="Newsletter subscription" novalidate>
+            <input type="email" id="nlEmail" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
+            <button type="submit" class="footer-subscribe">Subscribe</button>
+        </form>
+    </div>
+</footer>
+
+
