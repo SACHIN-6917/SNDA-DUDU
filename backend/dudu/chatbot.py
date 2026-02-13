@@ -15,7 +15,16 @@ def get_local_fallback(user_message, industrials):
     titles = [ind.title for ind in industrials]
     
     # 0. Specific User Training (Highest Priority)
-    if any(phrase in msg for phrase in ['how to fill', 'how to payment', 'how to login', 'enquire form']):
+    
+    # Q1: What is your name
+    if 'what is your name' in msg:
+        return "i am panda bot welcome to dudu iv hub 🐼"
+        
+    # Q2: How to fill enquire form
+    if 'how to fill the enquire form' in msg or 'fill' in msg and 'enquire' in msg:
+        return "Sure! I will help for that. Go to home page, scroll down and there was a enquire form. Fill the name, city of residence, phone no, whatsapp no, select the options, select the date of travel, no. of people and enter the captcha. 📝"
+
+    if any(phrase in msg for phrase in ['how to payment', 'how to login']):
         return f"I'm Panda Bot 🐼, here to help with industrial visits! We serve {', '.join(areas[:3])}.... Ask me about:\n• Available locations\n• Pricing & packages\n• Booking process\n• Facilities included\n\nWhat would you like to know? 🚌"
 
     # 1. Greeting
