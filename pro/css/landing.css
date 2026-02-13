@@ -147,7 +147,7 @@
 .dudu-highlight {
     font-family: 'Poppins', sans-serif !important;
     color: #e96718;
-    font-weight: 400;
+    font-weight: 400 !important;
     font-style: normal;
     font-size: 1.0em;
     /* Match headline size */
