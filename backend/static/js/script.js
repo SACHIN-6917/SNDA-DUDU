@@ -173,11 +173,29 @@ function initPandaBot() {
         pandaBody.appendChild(loadingMsg);
         pandaBody.scrollTop = pandaBody.scrollHeight;
 
+        // Helper to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
         try {
+            const csrftoken = getCookie('csrftoken');
             const response = await fetch('/api/chat/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify({ message: q })
             });
@@ -192,7 +210,8 @@ function initPandaBot() {
             // Add Bot Response
             const botMsg = document.createElement('div');
             botMsg.className = 'chat-message bot';
-            botMsg.innerText = data.response || "I'm having trouble connecting right now.";
+            botMsg.innerText = data.response || data.message || "I'm having trouble connecting right now.";
+            if (!data.response && data.message) console.error("Chatbot Error:", data.message);
             pandaBody.appendChild(botMsg);
             pandaBody.scrollTop = pandaBody.scrollHeight;
 

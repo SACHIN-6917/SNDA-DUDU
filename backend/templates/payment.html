@@ -742,19 +742,27 @@
         }
 
         .footer-panda {
-            width: 36px;
-            height: 36px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: #fff;
             color: #d85d15;
             border: none;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 30px;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             z-index: 1100;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .footer-panda:hover {
+            transform: scale(1.1);
         }
 
         .chat-window {

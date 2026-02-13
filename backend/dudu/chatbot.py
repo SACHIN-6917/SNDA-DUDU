@@ -2,7 +2,7 @@ import os
 import re
 from openai import OpenAI
 from django.conf import settings
-from .models import Industrial, User, Booking, ChatbotLog
+from .models import Industrial, User, Booking, Wish
 
 def get_local_fallback(user_message, industrials):
     """
@@ -93,21 +93,36 @@ def get_panda_response(user_message, user=None, session_id=None):
                 
                 area_list = ", ".join(areas)
                 
+
+                # Personalization
+                user_name = "Guest"
+                if user and not user.is_anonymous:
+                    # Try to get best available name
+                    user_name = getattr(user, 'first_name', '') or getattr(user, 'name', '') or getattr(user, 'username', 'Friend')
+
                 system_instruction = f"""
-                You are 'Panda Bot' 🐼, the friendly AI assistant for DUDU Industrial Visit Hub.
+                You are 'Panda Bot' 🐼, the expert AI assistant for DUDU Industrial Visit Hub.
+                You are speaking to: {user_name}
                 
-                Personality: Energetic, helpful, professional yet warm. Use emojis sparingly but effectively.
+                Your Goal: Provide accurate, helpful, and PERSONALIZED assistance.
                 
                 Available Locations: {area_list}
+                
+                Service Details:
                 {industrial_context}
                 
+                HOW-TO GUIDES:
+                1. ENQUIRY: "To make an enquiry, go to the 'Contact Us' section, fill in your Name, College, and Requirements, then click Submit!"
+                2. PAYMENT: "Select a package -> Click 'Book Now' -> Choose 'Full Payment' or 'Advance' -> You'll be redirected to Google Pay/UPI to complete the transaction securey."
+                3. SELECT PLAN: "Browse our 'Industrials' page. Click on any card to see Itinerary, Price, and Inclusions. Choose the one that fits your budget and schedule!"
+                4. FEEDBACK: "Visit the 'Feedback' page, rate us 1-5 stars, write your review, and click 'Submit Feedback'. We love hearing from you!"
+                
                 Guidelines:
-                1. Provide specific information about our industrial visits
-                2. Mention exact locations, prices, and durations when asked
-                3. Direct users to the 'Industrial's' page for booking
-                4. Keep responses concise (2-4 sentences max)
-                5. Be encouraging and enthusiastic about industrial learning!
-                6. If you don't know something, admit it and suggest contacting +919940764517
+                1. GREETING: Always greet the user by their name ({user_name}) at the start if known.
+                2. BE ACCURATE: Only mention prices, locations, and details listed above.
+                3. CONCISE: Keep answers to 2-3 sentences unless explaining a process.
+                4. HELPFUL: If they ask "how to...", use the guides above.
+                5. CONTACT: For custom help, call +919940764517.
                 """
                 
                 api_response = client.chat.completions.create(
@@ -117,26 +132,22 @@ def get_panda_response(user_message, user=None, session_id=None):
                         {"role": "user", "content": user_message}
                     ],
                     max_tokens=250,
-                    temperature=0.8
+                    temperature=0.5  # Lower temperature for more accuracy
                 )
                 
                 response = api_response.choices[0].message.content.strip()
                 
         except Exception as e:
-            error_msg = str(e).lower()
             print(f"DEBUG: OpenAI API Error: {e}")
-            
-            # Intelligent fallback based on error type
-            if any(keyword in error_msg for keyword in ['quota', '429', 'rate_limit', 'insufficient']):
-                print("DEBUG: API quota exceeded, using fallback")
-            elif any(keyword in error_msg for keyword in ['api_key', 'authentication', 'invalid']):
-                print("DEBUG: API authentication failed, using fallback")
-            
+            # Fallback to local logic on ANY error
             response = get_local_fallback(user_message, industrials)
+            
+
+
     
     # 4. Log conversation
     try:
-        log_entry = ChatbotLog.objects.create(
+        log_entry = Wish.objects.create(
             user=user if user and not user.is_anonymous else None,
             session_id=session_id or 'anonymous',
             query=user_message,

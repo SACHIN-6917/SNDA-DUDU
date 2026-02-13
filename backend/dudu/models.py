@@ -168,17 +168,23 @@ class Newsletter(models.Model):
 
 
 # ===== CHATBOT LOGS MODEL =====
-class ChatbotLog(models.Model):
-    """Chatbot conversation logs"""
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='chatbot_logs', null=True, blank=True)
+from django.conf import settings
+
+# ...
+
+# ===== CHATBOT LOGS (WISH) MODEL =====
+class Wish(models.Model):
+    """Chatbot conversation logs (Wish List)"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='wishes', null=True, blank=True)
     session_id = models.CharField(max_length=100)  # For anonymous users
     query = models.TextField()
     response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        db_table = 'chatbot_logs'
+        db_table = 'wish'
         ordering = ['-created_at']
+        verbose_name_plural = "Wishes"
     
     def __str__(self):
         return f"{self.session_id} - {self.query[:50]}"

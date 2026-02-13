@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter
+from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, Wish
 
 # ===== USER ADMIN =====
 @admin.register(User)
@@ -134,3 +134,22 @@ class NewsletterAdmin(admin.ModelAdmin):
     def mark_inactive(self, request, queryset):
         queryset.update(is_active=False)
     mark_inactive.short_description = "Mark selected as inactive"
+
+
+# ===== WISH (CHATBOT) ADMIN =====
+@admin.register(Wish)
+class WishAdmin(admin.ModelAdmin):
+    list_display = ('session_id', 'user', 'query', 'created_at')
+    list_filter = ('created_at',)
+    search_fields = ('query', 'response', 'user__username', 'user__email', 'session_id')
+    readonly_fields = ('created_at',)
+    ordering = ('-created_at',)
+    
+    fieldsets = (
+        ('Session Info', {
+            'fields': ('session_id', 'user', 'created_at')
+        }),
+        ('Conversation', {
+            'fields': ('query', 'response')
+        }),
+    )

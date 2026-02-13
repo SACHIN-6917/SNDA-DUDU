@@ -1,0 +1,180 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - DUDU IV Hub</title>
+    <meta name="description" content="Manage your DUDU IV Hub account settings and social connections.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+
+    <!-- Scripts -->
+    <script src="{% static 'js/transitions.js' %}" defer></script>
+    <script src="{% static 'js/script.js' %}" defer></script>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Main Content -->
+    <main>
+        {% if user.is_authenticated %}
+        <div class="settings-container">
+            <h1 class="page-title">Account Settings</h1>
+
+            <!-- Settings Menu -->
+            <div class="settings-menu reveal">
+                <a href="{% url 'account_email' %}" class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Change Email</h3>
+                        <p>Update your email address</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+
+                <a href="{% url 'account_change_password' %}" class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Change Password</h3>
+                        <p>Update your password for better security</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+
+                <a href="{% url 'socialaccount_connections' %}" class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Account Connections</h3>
+                        <p>Manage your social account connections</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- Social Accounts Section -->
+            <div class="social-accounts-card reveal">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Connected Accounts
+                </h2>
+
+                {% get_providers as socialaccount_providers %}
+                
+                <!-- Google Account -->
+                <div class="social-account-item">
+                    <div class="social-left">
+                        <div class="social-icon google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-info">
+                            <h3>Google</h3>
+                            {% get_social_accounts user as accounts %}
+                            {% for account in accounts %}
+                                {% if account.provider == 'google' %}
+                                    <p class="connected">
+                                        <i class="fas fa-check-circle"></i> 
+                                        Connected as {{ account.extra_data.email }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                            {% if not accounts or not accounts|dictsort:"provider"|first.provider == 'google' %}
+                                <p class="not-connected">
+                                    <i class="fas fa-times-circle"></i> 
+                                    Not connected
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="social-actions">
+                        {% if accounts %}
+                            {% for account in accounts %}
+                                {% if account.provider == 'google' %}
+                                    <form method="post" action="{% provider_login_url 'google' process='disconnect' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger-outline">
+                                            <i class="fas fa-unlink"></i> Disconnect
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-primary-outline">
+                                <i class="fas fa-link"></i> Connect
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone reveal">
+                <h2 class="section-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Danger Zone
+                </h2>
+                <div class="danger-content">
+                    <div class="danger-info">
+                        <h3>Sign Out</h3>
+                        <p>Sign out from your account on this device</p>
+                    </div>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Login Required Message -->
+        <div class="login-required">
+            <i class="fas fa-user-lock"></i>
+            <h2>Login Required</h2>
+            <p>Please login to access account settings.</p>
+            <a href="{% url 'login' %}?next={% url 'settings' %}" class="btn btn-primary">Go to Login</a>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+</body>
+
+</html>

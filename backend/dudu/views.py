@@ -178,6 +178,12 @@ def account_view(request):
     
     return render(request, 'account.html', {'user': user, 'bookings': bookings})
 
+# Settings
+def settings_view(request):
+    """Account Settings & Social Connections"""
+    return render(request, 'settings.html')
+
+
 # Feedback
 def feedback_view(request):
     """Feedback Page"""

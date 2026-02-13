@@ -28,9 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+
 
 
 # Application definition
@@ -53,7 +54,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
     
     # Local
     'dudu',
@@ -200,24 +200,6 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
-        'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
-            'key': ''
-        }
-    },
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email', 'public_profile'],
-        'FIELDS': ['id', 'email', 'name', 'first_name', 'last_name', 'verified', 'locale', 'timezone', 'link', 'gender', 'updated_time'],
-        'EXCHANGE_TOKEN': True,
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v13.0',
-        'APP': {
-            'client_id': os.getenv('FACEBOOK_APP_ID', ''),
-            'secret': os.getenv('FACEBOOK_APP_SECRET', ''),
-            'key': ''
-        }
     }
 }
 
@@ -227,15 +209,14 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = True
 
 # API Keys
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 CHATBOT_FALLBACK_MODE = os.getenv('CHATBOT_FALLBACK_MODE', 'True') == 'True'
 
-# Razorpay Configuration
-RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', 'rzp_test_demo')
-RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', 'demo_secret')
-RAZORPAY_ENABLED = os.getenv('RAZORPAY_ENABLED', 'False') == 'True'
+
 
 # Email Configuration
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')

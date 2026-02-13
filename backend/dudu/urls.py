@@ -24,6 +24,7 @@ urlpatterns = [
     path('payment/', views.payment_view_direct, name='payment'),
     path('api/google-auth/', views.google_auth, name='google_auth'),
     path('account/', views.account_view, name='account'),
+    path('settings/', views.settings_view, name='settings'),
     path('feedback/', views.feedback_view, name='feedback'),
     
     # API endpoints (Specific/Legacy)

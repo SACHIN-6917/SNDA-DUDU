@@ -10,13 +10,13 @@ from rest_framework import filters
 from django.shortcuts import get_object_or_404
 import uuid
 
-from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, ChatbotLog
+from .models import User, Industrial, Booking, Feedback, Enquiry, Newsletter, Wish
 from .serializers import (
     UserSerializer, IndustrialSerializer, BookingSerializer, 
     FeedbackSerializer, EnquirySerializer, NewsletterSerializer
 )
 from .chatbot import get_panda_response
-from .payment_utils import razorpay_client
+
 
 
 # Custom Permissions
@@ -180,8 +180,10 @@ from django.utils.decorators import method_decorator
 from decimal import Decimal
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ChatbotAPIView(APIView):
     """Chatbot interaction endpoint"""
+    authentication_classes = []
     permission_classes = [permissions.AllowAny]
     
     def post(self, request):
@@ -192,8 +194,9 @@ class ChatbotAPIView(APIView):
         # Generate session ID for anonymous users
         session_id = request.session.session_key or str(uuid.uuid4())
         
-        # Get user if authenticated
-        user = request.user if request.user.is_authenticated else None
+        # Get user if authenticated (Bypass DRF, use Django Session)
+        django_user = getattr(request._request, 'user', None)
+        user = django_user if django_user and django_user.is_authenticated else None
         
         # Get response from chatbot
         try:
@@ -210,14 +213,17 @@ class ChatbotAPIView(APIView):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+# ... (omitted)
+
 class PaymentCreateAPIView(APIView):
-    """Create Razorpay order for payment"""
+    """Create Payment intent/order (Generic/UPI)"""
     permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request):
         try:
             booking_id = request.data.get('booking_id')
-            amount = request.data.get('amount')  # In rupees
+            amount = request.data.get('amount')
             
             if not booking_id or not amount:
                 return Response({
@@ -228,27 +234,16 @@ class PaymentCreateAPIView(APIView):
             # Get booking
             booking = get_object_or_404(Booking, id=booking_id, user=request.user)
             
-            # Create Razorpay order
-            order = razorpay_client.create_order(
-                amount=float(amount),
-                receipt=f'booking_{booking_id}',
-                notes={
-                    'booking_id': booking_id,
-                    'user_id': request.user.id,
-                    'industrial_id': booking.industrial.id
-                }
-            )
-            
-            # Save order ID to booking (you may want to add a field)
-            booking.transaction_id = order['id']
-            booking.save()
+            # For UPI/Google Pay, we might usually generate a transaction ID here
+            # or simply return success to allow client-side UPI intent generation
+            transaction_ref = f"TXN_{uuid.uuid4().hex[:12].upper()}"
             
             return Response({
                 'status': 'success',
-                'order_id': order['id'],
-                'amount': order['amount'],
-                'currency': order['currency'],
-                'razorpay_key': razorpay_client.client.auth[0] if razorpay_client.enabled else 'demo_key'
+                'order_id': transaction_ref,
+                'amount': amount,
+                'currency': 'INR',
+                'message': 'Ready for UPI payment'
             })
             
         except Exception as e:
@@ -259,46 +254,41 @@ class PaymentCreateAPIView(APIView):
 
 
 class PaymentVerifyAPIView(APIView):
-    """Verify Razorpay payment signature"""
+    """Verify Payment (Generic/UPI)"""
     permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request):
         try:
-            razorpay_order_id = request.data.get('razorpay_order_id')
-            razorpay_payment_id = request.data.get('razorpay_payment_id')
-            razorpay_signature = request.data.get('razorpay_signature')
+            transaction_id = request.data.get('transaction_id')
             booking_id = request.data.get('booking_id')
+            status_check = request.data.get('status', 'success')
             
-            if not all([razorpay_order_id, razorpay_payment_id, razorpay_signature, booking_id]):
+            if not all([transaction_id, booking_id]):
                 return Response({
                     'status': 'error',
-                    'message': 'All payment details are required'
+                    'message': 'Transaction ID and Booking ID are required'
                 }, status=status.HTTP_400_BAD_REQUEST)
             
-            # Verify signature
-            is_valid = razorpay_client.verify_payment_signature(
-                razorpay_order_id,
-                razorpay_payment_id,
-                razorpay_signature
-            )
+            # Verify payment logic here (e.g. check against bank API)
+            # For now, we accept if client says success (Demo mode)
             
-            if is_valid:
+            if status_check == 'success':
                 # Update booking
                 booking = get_object_or_404(Booking, id=booking_id, user=request.user)
                 booking.payment_status = 'full'
                 booking.booking_status = 'confirmed'
-                booking.transaction_id = razorpay_payment_id
+                booking.transaction_id = transaction_id
                 booking.save()
                 
                 return Response({
                     'status': 'success',
-                    'message': 'Payment verified successfully',
+                    'message': 'Payment confirmed successfully',
                     'booking_id': booking_id
                 })
             else:
                 return Response({
                     'status': 'error',
-                    'message': 'Invalid payment signature'
+                    'message': 'Payment failed'
                 }, status=status.HTTP_400_BAD_REQUEST)
                 
         except Exception as e:

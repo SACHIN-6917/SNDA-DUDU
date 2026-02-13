@@ -1,25 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Django
-.env
+backend/.env
+__pycache__
+*.pyc
+.ipynb_checkpoints
 db.sqlite3
-db.sqlite3-journal
-media/
-staticfiles/
-
-# IDEs
-.vscode/
-.idea/
-
-# OS
 .DS_Store
-Thumbs.db
+backend/staticfiles/
+backend/media/
+.vscode/
