@@ -14,6 +14,10 @@ def get_local_fallback(user_message, industrials):
     areas = list(set(ind.location for ind in industrials))
     titles = [ind.title for ind in industrials]
     
+    # 0. Specific User Training (Highest Priority)
+    if any(phrase in msg for phrase in ['how to fill', 'how to payment', 'how to login', 'enquire form']):
+        return f"I'm Panda Bot 🐼, here to help with industrial visits! We serve {', '.join(areas[:3])}.... Ask me about:\n• Available locations\n• Pricing & packages\n• Booking process\n• Facilities included\n\nWhat would you like to know? 🚌"
+
     # 1. Greeting
     if any(word in msg for word in ['hello', 'hi', 'hey', 'greetings']):
         return f"Hello! 🐼 I'm Panda Bot, your DUDU Industrial Visit assistant! We offer amazing industrial visits across {', '.join(areas)}. How can I help you today?"
