@@ -182,16 +182,7 @@ textarea:focus-visible {
 }
 
 .nav-links-floating a::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0px;
-  left: 0;
-  background-color: var(--color-primary);
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  display: none;
 }
 
 .nav-links-floating a:hover,

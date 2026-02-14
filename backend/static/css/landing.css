@@ -157,7 +157,7 @@ body {
 
 .about-antigravity {
     padding: 150px 10%;
-    background: #fff;
+    background: var(--color-card-bg);
     overflow: hidden;
 }
 
@@ -294,7 +294,7 @@ body {
 /* 2. Welcome Section */
 .welcome-section {
     padding: 150px 10%;
-    background: var(--white);
+    background: var(--color-card-bg);
 }
 
 .welcome-title {
@@ -353,19 +353,19 @@ body {
 }
 
 #pane-industry {
-    background: #fdf2e9;
+    background: var(--color-bg);
 }
 
 #pane-travel {
-    background: #ffffff;
+    background: var(--color-card-bg);
 }
 
 #pane-foods {
-    background: #fdf2e9;
+    background: var(--color-bg);
 }
 
 #pane-fun {
-    background: #ffffff;
+    background: var(--color-card-bg);
 }
 
 .smala-title {
@@ -386,7 +386,7 @@ body {
 /* 4. Industry Places Marquee */
 .industry-places-section {
     padding: 100px 0;
-    background: var(--white);
+    background: var(--color-card-bg);
     overflow: hidden;
 }
 
@@ -481,7 +481,7 @@ body {
 /* 6. Form Section */
 .dynamic-form-section {
     padding: 100px 5%;
-    background: var(--white);
+    background: var(--color-card-bg);
 }
 
 .form-container {
@@ -505,7 +505,7 @@ body {
 .brand-circle {
     width: 300px;
     height: 300px;
-    background: var(--white);
+    background: var(--color-card-bg);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -566,7 +566,7 @@ body {
 .about-antigravity {
     position: relative;
     padding: 150px 5%;
-    background: var(--white);
+    background: var(--color-card-bg);
     overflow: hidden;
     min-height: 80vh;
     display: flex;
@@ -606,13 +606,13 @@ body {
     /* Changed for wave flex alignment */
     width: 70px;
     height: 70px;
-    background: #ffffff;
+    background: var(--color-card-bg);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--color-border);
     color: #444;
     /* Muted gray icons like Antigravity */
     font-size: 1.6rem;
