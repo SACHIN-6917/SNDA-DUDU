@@ -205,7 +205,10 @@ def account_view(request):
 
     bookings = Booking.objects.filter(user=user).order_by('-created_at')
     
-    return render(request, 'account.html', {'user': user, 'bookings': bookings})
+    return render(request, 'account.html', {
+        'profile': user, 
+        'bookings': bookings
+    })
 
 # Settings
 def settings_view(request):

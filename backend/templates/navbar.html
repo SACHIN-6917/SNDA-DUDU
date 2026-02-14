@@ -16,16 +16,16 @@
             <i class="fas fa-moon"></i>
         </button>
 
-    {% if request.session.user_id %}
+    {% if request.user.is_authenticated %}
     <details class="account-dropdown">
         <summary>
             <button class="account-summary" aria-haspopup="menu" aria-expanded="false" style="display: flex; align-items: center; gap: 10px;">
                 {% if request.user.avatar %}
                     <img src="{{ request.user.avatar }}" alt="User" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
                 {% else %}
-                    <img src="https://ui-avatars.com/api/?name={{ request.session.user_name }}&background=e96718&color=fff&size=50" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%;">
+                    <img src="https://ui-avatars.com/api/?name={{ request.user.first_name|default:request.user.username }}&background=e96718&color=fff&size=50" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%;">
                 {% endif %}
-                {{ request.session.user_name }}
+                {{ request.user.first_name|default:request.user.username }}
             </button>
         </summary>
         <div class="account-menu" role="menu" aria-label="Account">
@@ -59,11 +59,11 @@
 <script>
     // Sync Django session to localStorage for script.js and others
     (function() {
-        {% if request.session.user_id %}
+        {% if request.user.is_authenticated %}
             const user = {
-                id: "{{ request.session.user_id }}",
-                name: "{{ request.session.user_name }}",
-                email: "{{ request.session.user_email }}"
+                id: "{{ request.user.id }}",
+                name: "{{ request.user.first_name|default:request.user.username }}",
+                email: "{{ request.user.email }}"
             };
             localStorage.setItem('authUser', JSON.stringify(user));
         {% else %}
