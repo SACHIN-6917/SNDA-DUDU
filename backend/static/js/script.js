@@ -171,8 +171,9 @@ function initPandaBot() {
                 // If it's the first open, add greeting
                 if (pandaBody.children.length <= 1) {
                     pandaBody.innerHTML = ''; // Clear default
-                    addMsg("Hi! I'm Panda Bot 🐼. Which area (city) are you interested in for an industrial visit?", 'bot');
-                    addMsg("We have premium industrials for: Chennai, Coimbatore, Madurai, Bengaluru, Pondicherry, Ooty, Kodaikanal, and more!", 'bot');
+                    addMsg("Hi! I'm Panda Bot 🐼😊", 'bot');
+                    addMsg("I'm super excited to help you plan your industrial visit! 🎉", 'bot');
+                    addMsg("Which city are you interested in today? 🏙✨", 'bot');
                 }
                 pandaBody.scrollTop = pandaBody.scrollHeight;
             }
@@ -291,31 +292,61 @@ function initPandaBot() {
 }
 
 // ===== 6. COOKIE CONSENT =====
+// Standalone function for emergency visibility
+function forceShowCookies() {
+    console.log('Cookie Consent: EMERGENCY SHOW TRIGGERED');
+    const banner = document.getElementById('cookieConsent');
+    if (banner) {
+        banner.classList.add('visible');
+        banner.style.display = 'block'; // Direct override if CSS fails
+        console.log('Cookie Consent: Banner should now be visible');
+    } else {
+        console.error('Cookie Consent: Banner element NOT FOUND in DOM!');
+    }
+}
+
 function initCookieConsent() {
+    console.log('Cookie Consent: Initializing (Foolproof Mode)...');
     const banner = document.getElementById('cookieConsent');
     const acceptBtn = document.getElementById('acceptCookies');
     const rejectBtn = document.getElementById('rejectCookies');
 
-    if (!banner || !acceptBtn || !rejectBtn) return;
+    if (!banner) {
+        console.error('Cookie Consent: Banner element not found!');
+        return;
+    }
+    if (!acceptBtn || !rejectBtn) {
+        console.error('Cookie Consent: Buttons not found!');
+        return;
+    }
 
-    // Check if user has already made a choice
-    const consent = localStorage.getItem('cookieConsent');
+    // Check if user has already made a choice (v1)
+    const consent = localStorage.getItem('cookieConsent_v1');
+    console.log('Cookie Consent: Current status:', consent);
+
     if (!consent) {
         // Show banner after a slight delay
         setTimeout(() => {
-            banner.style.display = 'block';
+            console.log('Cookie Consent: Showing banner now');
+            banner.classList.add('visible');
+            // Additional safety: ensure it's not hidden by any parent
+            banner.parentElement.style.overflow = 'visible';
         }, 1000);
+    } else {
+        console.log('Cookie Consent: Already dismissed');
     }
 
     acceptBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'accepted');
-        banner.style.display = 'none';
+        console.log('Cookie Consent: Choice -> Accepted');
+        localStorage.setItem('cookieConsent_v1', 'accepted');
+        banner.classList.remove('visible');
         showToast('Cookies accepted. Enjoy your experience!', 'success');
     });
 
     rejectBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'rejected');
-        banner.style.display = 'none';
+        console.log('Cookie Consent: Choice -> Rejected');
+        localStorage.setItem('cookieConsent_v1', 'rejected');
+        banner.classList.remove('visible');
         showToast('Cookies rejected. Some features may be limited.', 'info');
     });
 }
@@ -345,13 +376,46 @@ function initRevealAnimations() {
 }
 
 // ===== 8. INIT ON DOM READY =====
+// ===== 8. INIT ON DOM READY =====
 document.addEventListener('DOMContentLoaded', () => {
-    initAuth();
-    initFooter();
-    initPandaBot();
-    initRevealAnimations();
-    initCounters();
-    initTypingAnimation();
+    console.log('DOM Ready: Initializing components...');
+
+    // 1. Critical: Cookie Consent (Prioritize)
+    try {
+        initCookieConsent();
+    } catch (e) {
+        console.error('Error in initCookieConsent:', e);
+    }
+
+    // 2. Auth
+    try {
+        initAuth();
+    } catch (e) {
+        console.error('Error in initAuth:', e);
+    }
+
+    // 3. Footer
+    try {
+        initFooter();
+    } catch (e) {
+        console.error('Error in initFooter:', e);
+    }
+
+    // 4. Chatbot
+    try {
+        initPandaBot();
+    } catch (e) {
+        console.error('Error in initPandaBot:', e);
+    }
+
+    // 5. Animations & Others
+    try {
+        initRevealAnimations();
+        initCounters();
+        initTypingAnimation();
+    } catch (e) {
+        console.error('Error in secondary inits:', e);
+    }
 });
 
 // ===== 8. TYPING ANIMATION =====

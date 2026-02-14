@@ -55,22 +55,33 @@
         </div>
 
         <!-- Individual Feedbacks -->
-        <div id="feedback-list">
+        <div id="feedback-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {% for review in reviews %}
-          <div class="feedback-card reveal">
-            <div class="feedback-card-header">
-              <strong>{{ review.name }}</strong>
-              <div class="stars">
-                {% for i in "12345" %}
-                  {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
-                {% endfor %}
+          <div class="col">
+            <div class="feedback-card reveal h-100">
+              <div class="feedback-card-header">
+                {% if review.user and review.user.avatar %}
+                  <img src="{{ review.user.avatar }}" class="feedback-avatar" alt="{{ review.name }}">
+                {% else %}
+                  <div class="feedback-avatar avatar-initials">{{ review.name|slice:":1"|upper }}</div>
+                {% endif %}
+                <div class="feedback-meta">
+                  <strong>{{ review.name }}</strong>
+                  <div class="stars">
+                    {% for i in "12345" %}
+                      {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
               </div>
+              <p>“{{ review.comment }}”</p>
+              <small>Visited on {{ review.created_at|date:"d M Y" }}</small>
             </div>
-            <p>{{ review.comment }}</p>
-            <small>Visited on {{ review.created_at|date:"d M Y" }}</small>
           </div>
           {% empty %}
-          <p style="text-align:center; color:#666;" class="reveal">No feedback yet. Be the first to share your experience!</p>
+          <div class="col-12">
+            <p style="text-align:center; color:#666;" class="reveal">No feedback yet. Be the first to share your experience!</p>
+          </div>
           {% endfor %}
         </div>
 

@@ -58,41 +58,83 @@ main {
 }
 
 .feedback-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: transform .3s ease;
-    margin-bottom: 20px;
+    background: #e96718;
+    background: linear-gradient(135deg, #e96718 0%, #f07a2e 100%);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(233, 103, 24, 0.2);
+    transition: transform .3s ease, box-shadow 0.3s ease;
+    margin-bottom: 25px;
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .feedback-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(233, 103, 24, 0.3);
 }
 
 .feedback-card-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.feedback-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #e96718;
+    font-size: 1.5rem;
+}
+
+.avatar-initials {
+    background: #fff;
+    color: #e96718;
+}
+
+.feedback-meta {
+    display: flex;
+    flex-direction: column;
 }
 
 .feedback-card strong {
-    color: #d85d15;
-    font-size: 1.1rem;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .feedback-card .stars {
-    color: #d85d15;
+    color: #ffc107;
+    font-size: 1rem;
+    margin-top: 2px;
 }
 
 .feedback-card p {
-    color: #333;
-    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 5px;
     line-height: 1.6;
+    font-weight: 400;
+    font-size: 0.95rem;
 }
 
 .feedback-card small {
-    color: #777;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 15px;
 }
 
 .overall-rating-section {
