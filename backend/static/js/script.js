@@ -207,6 +207,10 @@ function initPandaBot() {
         const q = (pandaInput.value || '').trim();
         if (!q) return;
 
+        // Disable UI during request
+        pandaInput.disabled = true;
+        pandaSend.disabled = true;
+
         // Add User Message
         const userMsg = document.createElement('div');
         userMsg.className = 'chat-message user';
@@ -219,7 +223,7 @@ function initPandaBot() {
         // Add Loading Indicator
         const loadingMsg = document.createElement('div');
         loadingMsg.className = 'chat-message bot thinking';
-        loadingMsg.innerText = 'Panda is thinking...';
+        loadingMsg.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
         pandaBody.appendChild(loadingMsg);
         pandaBody.scrollTop = pandaBody.scrollHeight;
 
@@ -241,15 +245,22 @@ function initPandaBot() {
 
         try {
             const csrftoken = getCookie('csrftoken');
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
             const response = await fetch('/api/chat/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
                 },
-                body: JSON.stringify({ message: q })
+                body: JSON.stringify({ message: q }),
+                signal: controller.signal
             });
 
+            clearTimeout(timeoutId);
+
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
 
             // Remove loading
@@ -260,20 +271,27 @@ function initPandaBot() {
             // Add Bot Response
             const botMsg = document.createElement('div');
             botMsg.className = 'chat-message bot';
-            botMsg.innerText = data.response || data.message || "I'm having trouble connecting right now.";
-            if (!data.response && data.message) console.error("Chatbot Error:", data.message);
+            botMsg.innerText = data.response || "I'm having a bit of trouble finding that answer right now. 🐼";
             pandaBody.appendChild(botMsg);
             pandaBody.scrollTop = pandaBody.scrollHeight;
 
         } catch (error) {
+            console.error("Chatbot Error:", error);
             if (pandaBody.contains(loadingMsg)) {
                 pandaBody.removeChild(loadingMsg);
             }
             const errorMsg = document.createElement('div');
             errorMsg.className = 'chat-message bot';
-            errorMsg.innerText = "Error encountered. Please try again.";
+            errorMsg.innerText = error.name === 'AbortError'
+                ? "Panda is taking too long to think. Please try again! 🐼⏳"
+                : "⚠️ Something went wrong. Please check your connection and try again.";
             pandaBody.appendChild(errorMsg);
             pandaBody.scrollTop = pandaBody.scrollHeight;
+        } finally {
+            // Re-enable UI
+            pandaInput.disabled = false;
+            pandaSend.disabled = false;
+            pandaInput.focus();
         }
     }
 
@@ -375,8 +393,58 @@ function initRevealAnimations() {
     reveals.forEach(el => revealObserver.observe(el));
 }
 
-// ===== 8. INIT ON DOM READY =====
-// ===== 8. INIT ON DOM READY =====
+// ===== 8. THEME TOGGLE (Light/Dark Mode) =====
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    if (!themeToggle) return;
+
+    // Load saved theme or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    html.setAttribute('data-theme', initialTheme);
+    updateToggleIcon(initialTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateToggleIcon(newTheme);
+    });
+
+    function updateToggleIcon(theme) {
+        const icon = themeToggle.querySelector('i');
+        if (icon) {
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    }
+}
+
+// ===== 9. PROFILE DROPDOWN =====
+function initProfileDropdown() {
+    const trigger = document.getElementById('profileTrigger');
+    const menu = document.getElementById('profileMenu');
+
+    if (!trigger || !menu) return;
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+}
+
+// ===== 10. INIT ON DOM READY =====
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Ready: Initializing components...');
 
@@ -387,28 +455,36 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error in initCookieConsent:', e);
     }
 
-    // 2. Auth
+    // 2. Theme & UI
+    try {
+        initTheme();
+        initProfileDropdown();
+    } catch (e) {
+        console.error('Error in UI inits:', e);
+    }
+
+    // 3. Auth
     try {
         initAuth();
     } catch (e) {
         console.error('Error in initAuth:', e);
     }
 
-    // 3. Footer
+    // 4. Footer
     try {
         initFooter();
     } catch (e) {
         console.error('Error in initFooter:', e);
     }
 
-    // 4. Chatbot
+    // 5. Chatbot
     try {
         initPandaBot();
     } catch (e) {
         console.error('Error in initPandaBot:', e);
     }
 
-    // 5. Animations & Others
+    // 6. Animations & Others
     try {
         initRevealAnimations();
         initCounters();

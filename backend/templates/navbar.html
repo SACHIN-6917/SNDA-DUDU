@@ -1,4 +1,5 @@
 {% load static %}
+{% if not "/login/" in request.path and not "/register/" in request.path %}
 {% include 'cookie_banner.html' %}
 <div class="hero-content" role="navigation" aria-label="Main">
     <ul class="nav-links-floating">
@@ -7,21 +8,41 @@
         <li><a href="{% url 'payment' %}" id="nav-payment">Payment</a></li>
         <li><a href="{% url 'feedback' %}" id="nav-feedback">Feedback's <span class="nav-arrow">▶</span></a></li>
     </ul>
-    {% if request.session.user_id %}
-    <details class="account-dropdown">
-        <summary><button class="account-summary" aria-haspopup="menu" aria-expanded="false">
-             {{ request.session.user_name }}
-        </button></summary>
-        <div class="account-menu" role="menu" aria-label="Account">
-            <a role="menuitem" href="{% url 'account' %}">My Profile</a>
-            <a role="menuitem" href="{% url 'settings' %}">Settings</a>
-            <a role="menuitem" href="{% url 'logout' %}">Logout</a>
+    
+    <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        {% if request.session.user_id %}
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown">
+            <div class="profile-trigger" id="profileTrigger">
+                {% if request.session.user_avatar %}
+                    <img src="{{ request.session.user_avatar }}" class="user-avatar" alt="Profile">
+                {% else %}
+                    <div class="user-avatar-placeholder">
+                        {{ request.session.user_name|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="profile-menu" id="profileMenu">
+                <div class="profile-header">
+                    <p class="user-email-text">{{ request.session.user_email }}</p>
+                </div>
+                <hr>
+                <a href="{% url 'account' %}"><i class="fas fa-user-circle"></i> My Account</a>
+                <a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a>
+                <a href="{% url 'logout' %}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
         </div>
-    </details>
-    {% else %}
-    <a href="{% url 'login' %}" class="account-summary" style="text-decoration: none; display: inline-block;">Login</a>
-    {% endif %}
+        {% else %}
+        <a href="{% url 'login' %}" class="login-nav-btn">Login</a>
+        {% endif %}
+    </div>
 </div>
+{% endif %}
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

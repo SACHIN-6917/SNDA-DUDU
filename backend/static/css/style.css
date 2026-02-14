@@ -1,5 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+:root {
+  --color-primary: #e96718;
+  --color-primary-hover: #d55a00;
+  --color-bg-blobs: rgba(233, 103, 24, 0.18);
+  --color-bg: #FFDAB9;
+  --color-card-bg: #ffffff;
+  --color-text: #333333;
+  --color-text-muted: #666666;
+  --color-border: #dddddd;
+  --focus-ring: #1a73e8;
+  --color-success: #2e7d32;
+  --color-error: #b00020;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-text: #333333;
+  --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+  --color-bg: #121212;
+  --color-card-bg: #1e1e1e;
+  --color-bg-blobs: rgba(233, 103, 24, 0.1);
+  --color-text: #f0f0f0;
+  --color-text-muted: #aaaaaa;
+  --color-border: #333333;
+  --nav-bg: rgba(30, 30, 30, 0.9);
+  --nav-text: #f0f0f0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
 /* Antigravity Inspired Background Blobs */
 .bg-blobs-container {
   position: fixed;
@@ -18,94 +52,16 @@
   height: 50vmax;
   border-radius: 50%;
   filter: blur(80px);
-  /* Increased blur slightly for better look with less detail */
-  opacity: 0.18;
+  opacity: var(--color-bg-blobs-opacity, 0.18);
+  background: var(--color-primary);
   animation: blob-float 25s infinite alternate ease-in-out;
   will-change: transform;
   transform: translateZ(0);
-  /* Hardware acceleration */
   backface-visibility: hidden;
 }
 
-.blob-1 {
-  background: var(--color-primary);
-  top: -20%;
-  left: -20%;
-}
-
-.blob-2 {
-  background: var(--color-primary);
-  bottom: -20%;
-  right: -20%;
-  animation-duration: 35s;
-  animation-delay: -5s;
-}
-
-.blob-3 {
-  background: var(--color-primary);
-  top: 40%;
-  left: 30%;
-  width: 40vmax;
-  height: 40vmax;
-  animation-duration: 30s;
-  animation-delay: -10s;
-  opacity: 0.18;
-}
-
 [data-theme="dark"] .blob {
-  opacity: 0.15;
-  /* Subtler for dark mode */
-}
-
-@keyframes blob-float {
-  0% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-
-  33% {
-    transform: translate(10%, 15%) scale(1.1) rotate(10deg);
-  }
-
-  66% {
-    transform: translate(-15%, 10%) scale(0.9) rotate(-15deg);
-  }
-
-  100% {
-    transform: translate(5%, -5%) scale(1) rotate(0deg);
-  }
-}
-
-/* Subtle Noise Texture Overlay */
-.noise-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: -1;
-}
-
-:root {
-  --color-primary: #e96718;
-  --color-bg: #FFDAB9;
-  --color-card-bg: #ffffff;
-  --color-text: #333333;
-  --color-text-muted: #666666;
-  --color-border: #dddddd;
-  --focus-ring: #1a73e8;
-  --color-success: #2e7d32;
-  --color-error: #b00020;
-}
-
-[data-theme="dark"] {
-  --color-bg: #121212;
-  --color-card-bg: #1c1c1c;
-  --color-text: #eaeaea;
-  --color-text-muted: #cfcfcf;
-  --color-border: #333333;
+  --color-bg-blobs-opacity: 0.15;
 }
 
 /* Global Reveal Animations */
@@ -179,17 +135,19 @@ textarea:focus-visible {
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
   border-radius: 40px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  padding: 10px 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
   display: flex;
   align-items: center;
-  gap: 18px;
-  z-index: 1200;
-  /* Ensure it handles smaller screens */
-  width: fit-content;
-  max-width: 95vw;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 1000;
+  border: 1px solid var(--color-border);
+  min-width: 600px;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
 .nav-arrow {
@@ -210,27 +168,17 @@ textarea:focus-visible {
 }
 
 .nav-links-floating {
-  list-style: none;
   display: flex;
-  gap: 18px;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  flex: 1;
-  justify-content: space-between;
+  list-style: none;
+  gap: 24px;
 }
 
 .nav-links-floating a {
-  color: var(--color-text-muted);
   text-decoration: none;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 20px;
-  outline: none;
-  transition: color 0.3s ease;
-  white-space: nowrap;
-  position: relative;
-  /* For pseudo-element */
+  color: var(--nav-text);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s;
 }
 
 .nav-links-floating a::after {
