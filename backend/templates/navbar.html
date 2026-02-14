@@ -6,7 +6,8 @@
         <li><a href="{% url 'index' %}#home" id="nav-home">Home</a></li>
         <li><a href="{% url 'industrial_list' %}" id="nav-industrials">Industrials</a></li>
         <li><a href="{% url 'payment' %}" id="nav-payment">Payment</a></li>
-        <li><a href="{% url 'feedback' %}" id="nav-feedback">Feedback's <span class="nav-arrow">▶</span></a></li>
+        <li><a href="{% url 'feedback' %}" id="nav-feedback">Feedback's</a></li>
+        <li><a href="{% url 'account' %}" id="nav-account">Account</a></li>
     </ul>
     
     <div class="nav-actions">
@@ -51,6 +52,7 @@
         else if (path.includes('industrial')) document.getElementById('nav-industrials')?.classList.add('active');
         else if (path.includes('payment')) document.getElementById('nav-payment')?.classList.add('active');
         else if (path.includes('feedback')) document.getElementById('nav-feedback')?.classList.add('active');
+        else if (path.includes('account')) document.getElementById('nav-account')?.classList.add('active');
     });
 </script>
 
