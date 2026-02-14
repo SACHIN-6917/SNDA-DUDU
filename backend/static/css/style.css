@@ -850,12 +850,12 @@ details.account-dropdown[open] .account-menu {
 }
 
 .cookie-content p a {
-  color: #2563eb;
+  color: #e96718;
   text-decoration: underline;
 }
 
 .manage-prefs {
-  color: #2563eb;
+  color: #e96718;
   text-decoration: underline;
   font-weight: 500;
   font-size: 0.95rem;
@@ -882,23 +882,23 @@ details.account-dropdown[open] .account-menu {
 }
 
 .cookie-btn.accept {
-  background: #2563eb;
+  background: #e96718;
   color: white;
 }
 
 .cookie-btn.accept:hover {
-  background: #1d4ed8;
+  background: #d55a00;
   transform: translateY(-2px);
 }
 
 .cookie-btn.reject {
   background: transparent;
-  color: #2563eb;
-  border: 1px solid #2563eb;
+  color: #e96718;
+  border: 1px solid #e96718;
 }
 
 .cookie-btn.reject:hover {
-  background: rgba(37, 99, 235, 0.05);
+  background: rgba(233, 103, 24, 0.05);
   transform: translateY(-2px);
 }
 
