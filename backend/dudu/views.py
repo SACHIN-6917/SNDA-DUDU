@@ -119,8 +119,7 @@ def _get_local_user(auth_user):
     if not local_user:
         local_user = User.objects.create(
             name=getattr(auth_user, 'first_name', '') or auth_user.username,
-            email=getattr(auth_user, 'email', f"{auth_user.username}@example.com"),
-            is_staff=auth_user.is_staff
+            email=getattr(auth_user, 'email', f"{auth_user.username}@example.com")
         )
     return local_user
 
@@ -291,6 +290,7 @@ def google_auth(request):
         # ID token is valid. Get user's Google ID information.
         email = idinfo.get('email')
         name = idinfo.get('name')
+        picture = idinfo.get('picture') # Google profile picture URL
         
         if not email:
             return JsonResponse({'status': 'error', 'message': 'Email not found in Google account'}, status=400)
@@ -306,8 +306,20 @@ def google_auth(request):
         # 2. Sync with local User model
         user, created = User.objects.get_or_create(
             email=email,
-            defaults={'name': name, 'phone': '', 'is_staff': False}
+            defaults={'name': name, 'phone': ''}
         )
+        
+        # Always update name/avatar from Google if they changed or were empty
+        needs_save = False
+        if not user.name or user.name == email: # If name is missing or just email
+            user.name = name
+            needs_save = True
+        if picture and not user.avatar: # Sync avatar if not already set locally
+            user.avatar = picture
+            needs_save = True
+            
+        if needs_save:
+            user.save()
         
         # Set session helpers
         request.session['user_id'] = user.id
