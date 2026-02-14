@@ -42,7 +42,8 @@ def login_view(request):
                     request.session['user_name'] = user.name
                     messages.success(request, f"Welcome back, {user.name}!")
                     
-                    next_url = request.GET.get('next', 'index')
+                    # Default redirect to home unless 'next' is specified
+                    next_url = request.GET.get('next') or 'index'
                     return redirect(next_url)
                 else:
                     messages.error(request, "Invalid email or password.")
@@ -68,10 +69,19 @@ def register_view(request):
         user.set_password(password)
         user.save()
         
+        # Auto-login after registration
+        authenticated_user = authenticate(request, username=email, password=password)
+        if authenticated_user:
+            auth_login(request, authenticated_user)
+            request.session['user_id'] = authenticated_user.id
+            request.session['user_name'] = authenticated_user.name
+            messages.success(request, f"Welcome to Dudu IV Hub, {name}! Your account has been created.")
+            return redirect('index')
+        
         messages.success(request, "Registration successful. Please login.")
         return redirect('login')
         
-    return render(request, 'login.html') # Reusing login template which has toggle
+    return render(request, 'login.html')
 
 def logout_view(request):
     """Handle Logout"""

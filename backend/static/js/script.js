@@ -425,26 +425,7 @@ function initTheme() {
     }
 }
 
-// ===== 9. PROFILE DROPDOWN =====
-function initProfileDropdown() {
-    const trigger = document.getElementById('profileTrigger');
-    const menu = document.getElementById('profileMenu');
-
-    if (!trigger || !menu) return;
-
-    trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('show');
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target) && !trigger.contains(e.target)) {
-            menu.classList.remove('show');
-        }
-    });
-}
-
-// ===== 10. INIT ON DOM READY =====
+// ===== 9. INIT ON DOM READY =====
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Ready: Initializing components...');
 
@@ -458,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Theme & UI
     try {
         initTheme();
-        initProfileDropdown();
     } catch (e) {
         console.error('Error in UI inits:', e);
     }

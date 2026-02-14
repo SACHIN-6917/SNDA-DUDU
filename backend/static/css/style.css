@@ -146,7 +146,7 @@ textarea:focus-visible {
   gap: 20px;
   z-index: 1000;
   border: 1px solid var(--color-border);
-  min-width: 600px;
+  min-width: 630px;
   transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
@@ -205,63 +205,95 @@ textarea:focus-visible {
   transform-origin: bottom left;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--nav-text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.1);
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Account Summary Dropdown (RESTORED) */
 .account-dropdown {
   position: relative;
 }
 
 .account-summary {
   background: var(--color-primary);
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 22px;
-  padding: 8px 18px;
-  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   transition: all 0.3s ease;
-}
-
-.account-summary::before {
-  content: '▶';
-  font-size: 0.7rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .account-summary:hover {
-  background: #d85d15;
-  transform: scale(1.05);
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(233, 103, 24, 0.2);
 }
 
 .account-menu {
   position: absolute;
+  top: 100%;
   right: 0;
-  top: 110%;
-  min-width: 180px;
-  background: #fff;
-  border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  padding: 8px;
-  display: none;
-  /* Initially hidden */
-  text-align: left;
-}
-
-details.account-dropdown[open] .account-menu {
-  display: block;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  min-width: 160px;
+  margin-top: 10px;
+  z-index: 1000;
+  border: 1px solid var(--color-border);
 }
 
 .account-menu a {
   display: block;
-  padding: 8px 10px;
-  color: var(--color-text-muted);
+  padding: 10px 20px;
+  color: var(--color-text);
   text-decoration: none;
-  border-radius: 8px;
+  transition: background 0.2s;
+  font-size: 0.9rem;
 }
 
 .account-menu a:hover {
-  background: #f5f5f5;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .account-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.logout-link {
+  color: var(--color-error) !important;
 }
 
 /* Footer */
