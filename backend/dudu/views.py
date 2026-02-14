@@ -106,6 +106,24 @@ def industrial_detail(request, ind_id):
         messages.error(request, "Industrial not found.")
         return redirect('industrial_list')
 
+# Helper to bridge standard Auth User with local Dudu User
+def _get_local_user(auth_user):
+    """Bridge between request.user (Django Auth) and dudu.models.User (local)"""
+    if auth_user.is_anonymous:
+        return None
+    
+    # Try to find existing local user by email or username
+    local_user = User.objects.filter(email=getattr(auth_user, 'email', '')).first()
+    
+    # If not found (e.g. if we used standard Django createsuperuser), link them
+    if not local_user:
+        local_user = User.objects.create(
+            name=getattr(auth_user, 'first_name', '') or auth_user.username,
+            email=getattr(auth_user, 'email', f"{auth_user.username}@example.com"),
+            is_staff=auth_user.is_staff
+        )
+    return local_user
+
 # Booking & Payment
 @login_required
 def booking_create(request, ind_id):
@@ -114,7 +132,7 @@ def booking_create(request, ind_id):
     
     if request.method == 'POST':
         # Process Payment Mock
-        user = request.user
+        user = _get_local_user(request.user)
 
         
         visit_date = request.POST.get('visit_date')
@@ -162,9 +180,8 @@ def payment_view_direct(request):
 @login_required
 def account_view(request):
     """User Dashboard"""
-    user = request.user
+    user = _get_local_user(request.user)
 
-    
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -278,13 +295,21 @@ def google_auth(request):
         if not email:
             return JsonResponse({'status': 'error', 'message': 'Email not found in Google account'}, status=400)
             
-        # Check if user exists, else create
+        # 1. Handle standard Django Auth
+        from django.contrib.auth.models import User as AuthUser
+        auth_user, created = AuthUser.objects.get_or_create(
+            username=email,
+            defaults={'email': email, 'first_name': name}
+        )
+        auth_login(request, auth_user, backend='django.contrib.auth.backends.ModelBackend')
+
+        # 2. Sync with local User model
         user, created = User.objects.get_or_create(
             email=email,
             defaults={'name': name, 'phone': '', 'is_staff': False}
         )
         
-        # Set session
+        # Set session helpers
         request.session['user_id'] = user.id
         request.session['user_name'] = user.name
         request.session['user_email'] = user.email
