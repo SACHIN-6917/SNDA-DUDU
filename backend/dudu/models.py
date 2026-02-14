@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
+from django.conf import settings
 
 # ===== USER MODEL =====
 class User(models.Model):
@@ -167,11 +168,6 @@ class Newsletter(models.Model):
         return self.email
 
 
-# ===== CHATBOT LOGS MODEL =====
-from django.conf import settings
-
-# ...
-
 # ===== CHATBOT LOGS (WISH) MODEL =====
 class Wish(models.Model):
     """Chatbot conversation logs (Wish List)"""
@@ -189,6 +185,22 @@ class Wish(models.Model):
     def __str__(self):
         return f"{self.session_id} - {self.query[:50]}"
 
+# ===== CHATBOT KNOWLEDGE MODEL =====
+class ChatbotKnowledge(models.Model):
+    """Stored Q&A pairs for the chatbot to ensure persistence and easy management"""
+    question = models.TextField()
+    answer = models.TextField()
+    category = models.CharField(max_length=50, default="general")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'chatbot_knowledge'
+        verbose_name_plural = "Chatbot Knowledge"
+
+    def __str__(self):
+        return f"Q: {self.question[:50]}..."
+
 # ===== PROJECT STATS MODEL =====
 class ProjectStat(models.Model):
     """Statistics for Landing Page Counter"""
@@ -199,4 +211,3 @@ class ProjectStat(models.Model):
     
     def __str__(self):
         return f"{self.title}: {self.count}{self.suffix}"
-

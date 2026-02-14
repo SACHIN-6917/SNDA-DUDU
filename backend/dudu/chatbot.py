@@ -4,77 +4,71 @@ import json
 import uuid
 from openai import OpenAI
 from django.conf import settings
-from .models import Industrial, User, Booking, Wish
+from .models import Industrial, User, Booking, Wish, ChatbotKnowledge
 
 def get_local_fallback(user_message, industrials):
     """
-    Smarter keyword-based matching using scoring.
+    Smarter keyword-based matching using scoring and database knowledge.
     """
     msg = user_message.lower().strip()
     words = re.findall(r'\w+', msg)
     
-    # 1. Stopword filtering for better matching
-    stopwords = {'the', 'a', 'is', 'am', 'are', 'was', 'were', 'to', 'for', 'in', 'on', 'with', 'and', 'or', 'of', 'at', 'by', 'from', 'it', 'tell', 'me', 'about', 'how', 'what', 'where', 'who', 'i'}
+    # 1. Expanded Stopword filtering
+    stopwords = {
+        'the', 'a', 'is', 'am', 'are', 'was', 'were', 'to', 'for', 'in', 'on', 'with', 'and', 'or', 'of', 'at', 'by', 'from', 
+        'it', 'tell', 'me', 'about', 'how', 'what', 'where', 'who', 'i', 'can', 'you', 'do', 'does', 'please', 'help', 'want', 'need'
+    }
     query_keywords = [w for w in words if w not in stopwords and len(w) > 1]
     
-    # Fallback to full words if keywords list is empty (for short queries)
     if not query_keywords:
         query_keywords = words
 
-    # Try to load dataset
-    data_path = os.path.join(os.path.dirname(__file__), 'chatbot_data.json')
-    dataset = []
-    if os.path.exists(data_path):
-        try:
-            with open(data_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                dataset = data.get('dataset', [])
-        except Exception as e:
-            print(f"DEBUG: Error loading chatbot_data.json: {e}")
+    # Load knowledge from database
+    knowledge_base = ChatbotKnowledge.objects.all()
 
-    # 1. SCORING MATCHES
     best_score = 0
     best_answer = None
 
-    for item in dataset:
-        q_words = re.findall(r'\w+', item['q'].lower())
+    for item in knowledge_base:
+        q_text = item.question.lower()
+        q_words = re.findall(r'\w+', q_text)
         q_keywords = [w for w in q_words if w not in stopwords]
         
-        # Calculate score (number of matching keywords)
         score = 0
+        # Matching precision improvements
         for kw in query_keywords:
             if kw in q_words:
-                score += 2 # Direct word match
+                score += 3 # Direct word match (Weight increased)
             elif any(kw in qw or qw in kw for qw in q_keywords):
-                score += 1 # Partial match
+                score += 1 # Partial/Substring match
         
-        # Exact substring match bonus
-        if item['q'].lower() in msg or msg in item['q'].lower():
-            score += 5
+        # Substring sequence match (Strong signal)
+        if q_text in msg or msg in q_text:
+            score += 10 # Massive bonus for phrasing overlap
 
         if score > best_score:
             best_score = score
-            best_answer = item['a']
+            best_answer = item.answer
 
-    if best_score > 2: # Minimum threshold for a "good" match
+    # Threshold reduced to 1 to allow more matches if any keyword hits
+    if best_score >= 2: 
         return best_answer
     
-    # 2. ADDITIONAL LOGIC (Cities, etc.)
+    # 2. DYNAMIC LOGIC (Cities, Booking, etc.)
     if any(k in msg for k in ['cities', 'locations', 'where', 'city']):
         areas = list(set(ind.location for ind in industrials))
         area_str = ", ".join(areas) if areas else "multiple cities"
         return f"We currently offer IVs in: {area_str}! And guess what? 😍 More cities are coming soon! 🚀"
 
-    # 3. DYNAMIC REASONING FALLBACK
-    if 'how' in msg and 'book' in msg:
-        return "Booking is simple and smooth! 😊 Just choose your city 🏙, select the industry 🏭, fill in your details ✍, and confirm your booking. That’s it! 🎉"
+    if 'how' in msg and ('book' in msg or 'enquire' in msg or 'payment' in msg):
+        return "Booking is simple! 😊 Choose your city 🏙, select the industry 🏭, fill in your details ✍, and confirm. For payments, we accept UPI, Cards, and Net Banking! 💳🎉"
 
-    # Default fallback
+    # Default fallback (Friendly and helpful)
     return "Hmm 🤔 I’m not sure about that yet. But I can definitely help you with industrial visits, bookings, customization, and contact details! 😊 How can I assist you?"
 
 def get_panda_response(user_message, user=None, session_id=None):
     """
-    Main chatbot function with fallback support and dynamic context retrieval.
+    Main chatbot function with database context retrieval and optional GPT fallback.
     """
     try:
         industrials = Industrial.objects.filter(status='active')
@@ -82,7 +76,7 @@ def get_panda_response(user_message, user=None, session_id=None):
         print(f"DEBUG: Database error in chatbot: {e}")
         return "I'm having trouble accessing our database right now. Please try again in a moment! 🐼"
     
-    if settings.CHATBOT_FALLBACK_MODE:
+    if getattr(settings, 'CHATBOT_FALLBACK_MODE', True):
         return get_local_fallback(user_message, industrials)
 
     # try OpenAI API
@@ -102,49 +96,39 @@ def get_panda_response(user_message, user=None, session_id=None):
         
         area_list = ", ".join(areas)
         
-        # Smarter Dynamic context selection from knowledge base
-        data_path = os.path.join(os.path.dirname(__file__), 'chatbot_data.json')
+        # Pull dynamic context from database
+        knowledge_base = ChatbotKnowledge.objects.all()
+        msg_words = set(re.findall(r'\w+', user_message.lower()))
+        scored_items = []
+        for item in knowledge_base:
+            q_words = set(re.findall(r'\w+', item.question.lower()))
+            score = len(msg_words.intersection(q_words))
+            scored_items.append((score, item))
+        
+        scored_items.sort(key=lambda x: x[0], reverse=True)
         qa_context = ""
-        if os.path.exists(data_path):
-            with open(data_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                dataset = data.get('dataset', [])
-                
-                # Simple relevance ranking for context
-                msg_words = set(re.findall(r'\w+', user_message.lower()))
-                scored_items = []
-                for item in dataset:
-                    q_words = set(re.findall(r'\w+', item['q'].lower()))
-                    score = len(msg_words.intersection(q_words))
-                    scored_items.append((score, item))
-                
-                # Sort by relevance and take top 15
-                scored_items.sort(key=lambda x: x[0], reverse=True)
-                for score, item in scored_items[:15]:
-                    qa_context += f"Q: {item['q']} | A: {item['a']}\n"
+        for score, item in scored_items[:15]:
+            qa_context += f"Q: {item.question} | A: {item.answer}\n"
 
         user_name = "Guest"
         if user and not user.is_anonymous:
-            user_name = getattr(user, 'first_name', '') or getattr(user, 'name', '') or getattr(user, 'username', 'Friend')
+            user_name = getattr(user, 'name', 'Friend')
 
         system_instruction = f"""
         You are 'Panda Bot' 🐼😊, the expert AI assistant for DUDU Industrial Visit Hub.
         Speak to: {user_name}
-        
         Tone: Happy, high-energy, supportive, and empathetic. Use emojis!
         
-        Knowledge Base (Fact source):
+        Facts:
         {qa_context}
         
-        Available Locations: {area_list}
-        
-        Service Context:
-        {industrial_context}
+        Locations: {area_list}
+        Industrials: {industrial_context}
         
         Instructions:
-        - Prioritize facts from the Knowledge Base above. 
-        - If the exact answer isn't in the context, use your Dudu Hub expertise to provide a helpful, relevant answer in same Panda tone.
-        - Be concise but warm.
+        - Use emojis! Be warm!
+        - Prioritize the 'Facts' provided. 
+        - If not sure, guide them to contact support: 📧 sachinvelu6925@gmail.com | 📞 9940764517
         """
         
         api_response = client.chat.completions.create(
@@ -156,7 +140,6 @@ def get_panda_response(user_message, user=None, session_id=None):
             max_tokens=300,
             temperature=0.6
         )
-        
         response = api_response.choices[0].message.content.strip()
         
     except Exception as e:
