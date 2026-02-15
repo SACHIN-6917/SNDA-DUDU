@@ -19,14 +19,7 @@
 
     <style>
         /* Modernized Industrial Styles */
-        :root {
-            --color-primary: #e96718;
-            --color-bg: #fdf2e9; /* Updated to match feedback theme */
-            --color-card-bg: #ffffff;
-            --color-text: #333333;
-            --color-text-muted: #666666;
-            --color-border: #eeeeee;
-        }
+        /* Theme variables are now handled by style.css */
 
         body {
             background-color: var(--color-bg);
@@ -130,7 +123,7 @@
         .industry-places-section {
             padding: 60px 0;
             overflow: hidden;
-            background: rgba(233, 103, 24, 0.02);
+            background: transparent;
         }
 
         .places-header {
@@ -192,10 +185,10 @@
         }
 
         .industrial-card {
-            background: #fff;
+            background: var(--color-card-bg);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-md);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             text-decoration: none;
@@ -342,23 +335,17 @@
         </div>
         <div class="marquee-wrapper">
             <div class="marquee-content">
-                <img src="{% static 'images/1.png' %}" alt="Industry 1">
-                <img src="{% static 'images/2.png' %}" alt="Industry 2">
-                <img src="{% static 'images/3.png' %}" alt="Industry 3">
-                <img src="{% static 'images/4.png' %}" alt="Industry 4">
-                <img src="{% static 'images/5.png' %}" alt="Industry 5">
-                <img src="{% static 'images/6.png' %}" alt="Industry 6">
-                <img src="{% static 'images/7.png' %}" alt="Industry 7">
-                <img src="{% static 'images/8.png' %}" alt="Industry 8">
+                <img src="{% static 'images/Chennai.jpg' %}" alt="Chennai">
+                <img src="{% static 'images/Bengaluru.png' %}" alt="Bengaluru">
+                <img src="{% static 'images/Coimbatore.webp' %}" alt="Coimbatore">
+                <img src="{% static 'images/Ooty.jpg' %}" alt="Ooty">
+                <img src="{% static 'images/Pondicherry.webp' %}" alt="Pondicherry">
+                <img src="{% static 'images/Madurai.jpg' %}" alt="Madurai">
+                <img src="{% static 'images/Salem.jpg' %}" alt="Salem">
+                <img src="{% static 'images/Trichy.jpg' %}" alt="Trichy">
                 <!-- Duplicate for seamless loop -->
-                <img src="{% static 'images/1.png' %}" alt="Industry 1">
-                <img src="{% static 'images/2.png' %}" alt="Industry 2">
-                <img src="{% static 'images/3.png' %}" alt="Industry 3">
-                <img src="{% static 'images/4.png' %}" alt="Industry 4">
-                <img src="{% static 'images/5.png' %}" alt="Industry 5">
-                <img src="{% static 'images/6.png' %}" alt="Industry 6">
-                <img src="{% static 'images/7.png' %}" alt="Industry 7">
-                <img src="{% static 'images/8.png' %}" alt="Industry 8">
+                <img src="{% static 'images/Chennai.jpg' %}" alt="Chennai">
+                <img src="{% static 'images/Bengaluru.png' %}" alt="Bengaluru">
             </div>
         </div>
     </section>
@@ -373,13 +360,13 @@
             {% for ind in industrials %}
             <a href="{% url 'industrial_detail' ind.id %}" class="industrial-card">
                 <div class="card-image-wrap">
-                    <img src="{% static ind.image %}" onerror="this.src='{% static 'images/iv.jpg' %}';" alt="{{ ind.title }}" loading="lazy">
+                    <img src="{% static ind.image %}" onerror="this.src='{% static 'images/iv.jpg' %}';" alt="{{ ind.name }}" loading="lazy">
                     {% if forloop.counter <= 2 %}
                         <span class="badge-top">Top Rated</span>
                     {% endif %}
                 </div>
                 <div class="card-content">
-                    <h3>{{ ind.title }}</h3>
+                    <h3>{{ ind.name }}</h3>
                     <p>{{ ind.description|truncatewords:20 }}</p>
                     <div class="card-stats">
                         <div class="rating-stars">★★★★★</div>
@@ -400,7 +387,7 @@
     <section class="stats-section reveal">
         <div class="stats-header">
             <h2 class="stats-main-title">ABOUT ME</h2>
-            <p class="stats-subtitle">A bridge for smoothly connecting student curiosity with industrial reality.</p>
+            <p class="stats-subtitle">Dudu is bridge for connect your industrial visit smoothly ✅</p>
         </div>
         <div class="stats-grid">
             {% for stat in stats %}

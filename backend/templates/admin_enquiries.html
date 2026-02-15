@@ -1,0 +1,38 @@
+{% extends 'admin_list_base.html' %}
+
+{% block head_title %}Enquiries - DUDU ADMIN{% endblock %}
+
+{% block list_title %}Contact Enquiries{% endblock %}
+{% block list_subtitle %}Handle incoming requests and sales leads.{% endblock %}
+
+{% block table_head %}
+<th>Date</th>
+<th>Name</th>
+<th>City</th>
+<th>Phone</th>
+<th>Option</th>
+<th>Travel Date</th>
+<th>Status</th>
+{% endblock %}
+
+{% block table_body %}
+{% for enq in enquiries %}
+<tr>
+    <td>{{ enq.created_at|date:"M j" }}</td>
+    <td><strong>{{ enq.name }}</strong></td>
+    <td>{{ enq.city }}</td>
+    <td>{{ enq.phone }}</td>
+    <td>{{ enq.option }}</td>
+    <td>{{ enq.travel_date|date:"M j, Y" }}</td>
+    <td>
+        <span class="status-badge {% if enq.status == 'pending' %}status-pending{% elif enq.status == 'contacted' %}status-completed{% else %}status-completed{% endif %}">
+            {{ enq.status|title }}
+        </span>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" style="text-align: center; padding: 40px; color: #999;">No enquiries found.</td>
+</tr>
+{% endfor %}
+{% endblock %}

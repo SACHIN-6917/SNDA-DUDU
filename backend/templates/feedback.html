@@ -50,8 +50,10 @@
         <!-- Overall Rating -->
         <div class="overall-rating-section reveal">
           <p class="label">Overall Experience</p>
-          <div id="stars" class="stars-large">★★★★☆</div>
-          <p class="summary" id="header-count">4.2 / 5 from {{ reviews|length }} reviews</p>
+          <div id="stars" class="stars-large">
+            <span style="color: #FFD700;">★★★★★</span>
+          </div>
+          <p class="summary" id="header-count">4.7 / 5 from 2500+ reviews</p>
         </div>
 
         <!-- Individual Feedbacks -->
@@ -74,7 +76,7 @@
                   </div>
                 </div>
               </div>
-              <p>“{{ review.comment }}”</p>
+              <p>“{{ review.message }}”</p>
               <small>Visited on {{ review.created_at|date:"d M Y" }}</small>
             </div>
           </div>

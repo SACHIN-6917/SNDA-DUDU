@@ -2,14 +2,20 @@
 {% if not "/login/" in request.path and not "/register/" in request.path %}
 {% include 'cookie_banner.html' %}
 <div class="hero-content" role="navigation" aria-label="Main">
+    <!-- 1. Brand / Logo -->
+    <a href="{% url 'index' %}" class="nav-brand">
+        DUDU IV HUB
+    </a>
+
+    <!-- 2. Centered Navigation Links -->
     <ul class="nav-links-floating">
         <li><a href="{% url 'index' %}#home" id="nav-home">Home</a></li>
         <li><a href="{% url 'industrial_list' %}" id="nav-industrials">Industrials</a></li>
-        <li><a href="{% url 'payment' %}" id="nav-payment">Payment</a></li>
+        <li><a href="{% url 'payment_list' %}" id="nav-payment">Payment</a></li>
         <li><a href="{% url 'feedback' %}" id="nav-feedback">Feedback's</a></li>
-        <li><a href="{% url 'account' %}" id="nav-account">Account</a></li>
     </ul>
     
+    <!-- 3. Right Actions (Theme + Account) -->
     <div class="nav-actions">
         <!-- Theme Toggle -->
         <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
@@ -20,22 +26,26 @@
     <details class="account-dropdown">
         <summary>
             <button class="account-summary" aria-haspopup="menu" aria-expanded="false" style="display: flex; align-items: center; gap: 10px;">
-                {% if request.user.avatar %}
-                    <img src="{{ request.user.avatar }}" alt="User" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
+                {% if request.user.profile.avatar %}
+                    <img src="{{ request.user.profile.avatar.url }}" alt="User" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
                 {% else %}
-                    <img src="https://ui-avatars.com/api/?name={{ request.user.first_name|default:request.user.username }}&background=e96718&color=fff&size=50" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%;">
+                    <img src="https://ui-avatars.com/api/?name={{ request.user.first_name|default:request.user.username }}&background=e96718&color=fff&size=50" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
                 {% endif %}
-                {{ request.user.first_name|default:request.user.username }}
+                <span class="user-name-pill">{{ request.user.first_name|default:request.user.username }}</span>
             </button>
         </summary>
         <div class="account-menu" role="menu" aria-label="Account">
-            <a role="menuitem" href="{% url 'account' %}"><i class="fas fa-user-circle"></i> My Account</a>
+            {% if request.user.is_staff or request.user.profile.role == 'admin' %}
+                <a role="menuitem" href="{% url 'admin_dashboard' %}"><i class="fas fa-chart-line"></i> Admin Panel</a>
+            {% else %}
+                <a role="menuitem" href="{% url 'account' %}"><i class="fas fa-user-circle"></i> My Dashboard</a>
+            {% endif %}
             <a role="menuitem" href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a>
             <a role="menuitem" href="{% url 'logout' %}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </details>
     {% else %}
-    <a href="{% url 'login' %}" class="account-summary" style="text-decoration: none; display: inline-block;">Login</a>
+    <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Login</a>
     {% endif %}
     </div>
 </div>

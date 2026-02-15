@@ -12,23 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/transitions.js' %}" defer></script>
     <style>
-        :root {
-            --color-primary: #e96718;
-            --color-bg: #FFDAB9;
-            --color-card-bg: #ffffff;
-            --color-text: #333333;
-            --color-text-muted: #333333;
-            --color-border: #dddddd;
-            --focus-ring: #1a73e8;
-        }
-
-        [data-theme="dark"] {
-            --color-bg: #121212;
-            --color-card-bg: #1c1c1c;
-            --color-text: #eaeaea;
-            --color-text-muted: #cfcfcf;
-            --color-border: #333333;
-        }
+        /* Theme variables are now handled by style.css */
 
         body {
             background: var(--color-bg);
@@ -54,10 +38,10 @@
             transform: translateX(-50%);
             width: calc(100% - 40px);
             max-width: 1100px;
-            background: #fff;
+            background: var(--color-card-bg);
             border: 1px solid var(--color-border);
             border-radius: 40px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--shadow-lg);
             padding: 10px 16px;
             display: flex;
             align-items: center;
@@ -126,8 +110,8 @@
             right: 0;
             top: 110%;
             min-width: 180px;
-            background: #fff;
-            border: 1px solid #dddddd;
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
             padding: 8px
@@ -136,13 +120,13 @@
         .account-menu a {
             display: block;
             padding: 8px 10px;
-            color: #333;
+            color: var(--color-text);
             text-decoration: none;
             border-radius: 8px
         }
 
         .account-menu a:hover {
-            background: #f5f5f5
+            background: var(--color-bg)
         }
 
         details.account-dropdown .account-menu {
@@ -208,12 +192,12 @@
             font-size: 1.9rem;
             line-height: 1.15;
             margin: 10px 0 10px 0;
-            color: #111;
+            color: var(--color-text);
             font-weight: 900
         }
 
         .left-quote {
-            color: #333;
+            color: var(--color-text-muted);
             line-height: 1.65;
             font-size: 0.95rem;
             max-width: 46ch
@@ -242,12 +226,12 @@
 
         .author-name {
             font-weight: 900;
-            color: #111
+            color: var(--color-text)
         }
 
         .author-role {
             font-size: 0.85rem;
-            color: #333
+            color: var(--color-text-muted)
         }
 
         .left-art {
@@ -292,7 +276,7 @@
             font-size: 1.25rem;
             margin: 0;
             font-weight: 900;
-            color: #111;
+            color: var(--color-text);
         }
 
         .pkg-pill {
@@ -301,7 +285,7 @@
             align-items: center;
             background: rgba(233, 103, 24, 0.1);
             border: 1px solid rgba(233, 103, 24, 0.25);
-            color: #111;
+            color: var(--color-text);
             border-radius: 999px;
             padding: 6px 10px;
             font-weight: 800;
@@ -334,7 +318,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            background: #fff;
+            background: var(--color-card-bg);
             user-select: none;
         }
 
@@ -353,11 +337,11 @@
         }
 
         .plan .meta b {
-            color: #111
+            color: var(--color-text)
         }
 
         .plan .meta small {
-            color: #555
+            color: var(--color-text-muted)
         }
 
         .plan .price {
@@ -435,7 +419,7 @@
             align-items: center;
             gap: 10px;
             margin: 14px 0;
-            color: #666;
+            color: var(--color-text-muted);
             font-weight: 700;
             font-size: 0.9rem;
         }
@@ -472,7 +456,7 @@
 
         .field label {
             font-weight: 800;
-            color: #111;
+            color: var(--color-text);
             font-size: 0.9rem
         }
 
@@ -486,13 +470,13 @@
             display: flex;
             justify-content: space-between;
             gap: 12px;
-            color: #444;
+            color: var(--color-text-muted);
             margin: 8px 0;
             font-weight: 700;
         }
 
         .sum-row.total {
-            color: #111;
+            color: var(--color-text);
             font-weight: 900;
             font-size: 1.05rem
         }
@@ -561,7 +545,7 @@
             flex-direction: column;
             align-items: center;
             padding: 24px;
-            background: #fff;
+            background: var(--color-card-bg);
             border: 1px dashed var(--color-primary);
             border-radius: 20px;
             margin-top: 20px;
@@ -572,12 +556,12 @@
 
         .upi-qr-container h3 {
             margin: 0 0 10px;
-            color: #333;
+            color: var(--color-text);
             font-size: 1.1rem;
         }
 
         .upi-id-copy {
-            background: #f8f9fa;
+            background: var(--color-bg);
             padding: 10px 15px;
             border-radius: 10px;
             font-family: monospace;
@@ -588,16 +572,16 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            border: 1px solid #eee;
+            border: 1px solid var(--color-border);
         }
 
         .qr-code-img {
             width: 180px;
             height: 180px;
             padding: 10px;
-            border: 1px solid #eee;
+            border: 1px solid var(--color-border);
             border-radius: 12px;
-            background: #fff;
+            background: var(--color-card-bg);
         }
 
         /* Success Overlay */
@@ -605,7 +589,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: #fff;
+            background: var(--color-bg);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -631,12 +615,12 @@
         .success-title {
             font-size: 2.5rem;
             font-weight: 900;
-            color: #111;
+            color: var(--color-text);
             margin-bottom: 10px;
         }
 
         .success-text {
-            color: #666;
+            color: var(--color-text-muted);
             font-size: 1.2rem;
             font-weight: 600;
         }
@@ -741,7 +725,7 @@
                 <div class="gateway-header">
                     <h1>Payment Details</h1>
                     <div class="pkg-pill" title="Selected industrial">
-                        <span>Industrial:</span> <strong id="pkgTitle">{{ industrial.title }}</strong>
+                        <span>Industrial:</span> <strong id="pkgTitle">{{ industrial.name }}</strong>
                         <span style="opacity:.7">|</span>
                         <span id="pkgAmountTop">₹{{ industrial.price|floatformat:0 }}</span>
                     </div>

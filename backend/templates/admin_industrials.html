@@ -1,0 +1,43 @@
+{% extends 'admin_list_base.html' %}
+
+{% block head_title %}Industrials - DUDU ADMIN{% endblock %}
+
+{% block list_title %}Industrial Visits{% block subtitle %}Manage your educational tours and visit counts.{% endblock %}{% endblock %}
+
+{% block list_actions %}
+<button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">
+    <i class="fas fa-plus"></i> Add New Visit
+</button>
+{% endblock %}
+
+{% block table_head %}
+<th>ID</th>
+<th>Program Name</th>
+<th>Location</th>
+<th>Price</th>
+<th>Duration</th>
+<th>Visits</th>
+<th>Status</th>
+{% endblock %}
+
+{% block table_body %}
+{% for ind in industrials %}
+<tr>
+    <td>#{{ ind.id }}</td>
+    <td><strong>{{ ind.name }}</strong></td>
+    <td>{{ ind.location }}</td>
+    <td>₹{{ ind.price }}</td>
+    <td>{{ ind.duration }}</td>
+    <td>{{ ind.visit_count }}</td>
+    <td>
+        <span class="status-badge {% if ind.status == 'active' %}status-completed{% else %}status-pending{% endif %}">
+            {{ ind.status|title }}
+        </span>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" style="text-align: center; padding: 40px; color: #999;">No industrials found.</td>
+</tr>
+{% endfor %}
+{% endblock %}

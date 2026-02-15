@@ -102,7 +102,7 @@ def seed_industrials():
 
     for data in industrials_data:
         Industrial.objects.get_or_create(
-            title=data["title"],
+            name=data["title"],
             defaults={
                 "description": data["description"],
                 "location": data["location"],

@@ -1,9 +1,29 @@
+# Local environment
 backend/.env
-__pycache__
-*.pyc
-.ipynb_checkpoints
+.venv/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Database
 db.sqlite3
-.DS_Store
+
+# static & media
 backend/staticfiles/
 backend/media/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
 .vscode/
+.idea/
+.agent/
+.gemini/

@@ -1,0 +1,33 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>{% block list_title %}{% endblock %}</h1>
+            <p style="color: #666;">{% block list_subtitle %}{% endblock %}</p>
+        </div>
+        <div>
+            {% block list_actions %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    {% block table_head %}{% endblock %}
+                </tr>
+            </thead>
+            <tbody>
+                {% block table_body %}{% endblock %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% block list_footer %}{% endblock %}
+</div>
+{% endblock %}

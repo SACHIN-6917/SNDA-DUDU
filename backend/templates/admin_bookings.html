@@ -1,0 +1,41 @@
+{% extends 'admin_list_base.html' %}
+
+{% block head_title %}Bookings - DUDU ADMIN{% endblock %}
+
+{% block list_title %}Bookings{% endblock %}
+{% block list_subtitle %}Monitor and manage student industrial visit bookings.{% endblock %}
+
+{% block table_head %}
+<th>ID</th>
+<th>Customer</th>
+<th>Industrial</th>
+<th>Plan</th>
+<th>Amount</th>
+<th>Date</th>
+<th>Status</th>
+{% endblock %}
+
+{% block table_body %}
+{% for booking in bookings %}
+<tr>
+    <td>#{{ booking.id }}</td>
+    <td>
+        <strong>{{ booking.name }}</strong><br>
+        <small style="color: #666;">{{ booking.email }}</small>
+    </td>
+    <td>{{ booking.industrial.name }}</td>
+    <td><span style="text-transform: capitalize;">{{ booking.plan }}</span></td>
+    <td>₹{{ booking.amount }}</td>
+    <td>{{ booking.created_at|date:"M j, Y" }}</td>
+    <td>
+        <span class="status-badge {% if booking.status == 'pending' %}status-pending{% else %}status-completed{% endif %}">
+            {{ booking.status|title }}
+        </span>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" style="text-align: center; padding: 40px; color: #999;">No bookings found.</td>
+</tr>
+{% endfor %}
+{% endblock %}

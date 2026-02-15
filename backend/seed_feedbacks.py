@@ -48,10 +48,10 @@ def seed_feedbacks():
     ]
 
     for data in feedbacks_data:
-        # Create or update based on name and comment to avoid exact duplicates
+        # Create or update based on name and message to avoid exact duplicates
         Feedback.objects.get_or_create(
             name=data["name"],
-            comment=data["comment"],
+            message=data["comment"],
             defaults={
                 "rating": data["rating"],
                 "is_approved": True,

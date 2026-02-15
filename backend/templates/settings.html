@@ -112,7 +112,7 @@
                                     </p>
                                 {% endif %}
                             {% endfor %}
-                            {% if not accounts or not accounts|dictsort:"provider"|first.provider == 'google' %}
+                            {% if not accounts %}
                                 <p class="not-connected">
                                     <i class="fas fa-times-circle"></i> 
                                     Not connected

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ industrial.title }} - DUDU IV Hub</title>
+    <title>{{ industrial.name }} - DUDU IV Hub</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #e96718;
+            color: var(--color-primary);
             text-decoration: none;
             font-weight: 600;
             margin-bottom: 20px;
@@ -93,7 +93,7 @@
 
         .details-header p.subtitle {
             font-size: 1.05rem;
-            color: #555;
+            color: var(--color-text-muted);
             margin-bottom: 12px;
             font-weight: 500;
         }
@@ -137,11 +137,11 @@
         }
 
         .feature-box {
-            background: white;
+            background: var(--color-card-bg);
             border-radius: 16px;
             padding: 20px 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
@@ -171,9 +171,9 @@
             align-items: center;
             gap: 12px;
             padding: 6px 0;
-            color: #444;
+            color: var(--color-text);
             font-size: 0.95rem;
-            border-bottom: 1px solid #f9f9f9;
+            border-bottom: 1px solid var(--color-border);
         }
         
         .feature-list li:last-child {
@@ -208,9 +208,9 @@
 
         .btn-enquire {
             flex: 1;
-            background: white;
-            color: #e96718;
-            border: 2px solid #e96718;
+            background: var(--color-card-bg);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
             padding: 16px;
             border-radius: 50px; /* Pill shape */
             text-align: center;
@@ -273,11 +273,11 @@
         }
 
         .itinerary-card {
-            background: white;
+            background: var(--color-card-bg);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.02);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
         }
 
         .itinerary-card h2 {
@@ -318,13 +318,13 @@
 
         .timeline-item h4 {
             font-size: 1.15rem;
-            color: #333;
+            color: var(--color-text);
             font-weight: 700;
             margin-bottom: 5px;
         }
 
         .timeline-item p {
-            color: #666;
+            color: var(--color-text-muted);
             font-size: 1rem;
             line-height: 1.6;
         }
@@ -351,15 +351,15 @@
         <div class="details-main-grid">
             <!-- Left Column: Image -->
             <div class="details-image-card">
-                <img src="{% static industrial.image %}" alt="{{ industrial.title }}" onerror="this.src='{% static 'images/iv.jpg' %}';">
+                <img src="{% static industrial.image %}" alt="{{ industrial.name }}" onerror="this.src='{% static 'images/iv.jpg' %}';">
             </div>
 
             <!-- Right Column: Details & Content -->
             <div class="details-content-column">
                 <!-- Header Info -->
                 <div class="details-header">
-                    <h1>{{ industrial.location }}</h1>
-                    <p class="subtitle">{{ industrial.title }} & Heritage Sites</p>
+                    <h1>{{ industrial.name }}</h1>
+                    <p class="subtitle">{{ industrial.location }} | Industrial Visit</p>
                     
                     <div class="rating-row">
                         <div class="stars">
@@ -377,31 +377,20 @@
                     </div>
                 </div>
 
-                <!-- Feature Blocks -->
+                <!-- Description Block -->
                 <div class="feature-box">
-                    <h3><i class="fas fa-industry"></i> Industrial Visit</h3>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check"></i> Standard Group Factory</li>
-                        <li><i class="fas fa-check"></i> Manufacturing Plant Tour</li>
-                        <li><i class="fas fa-check"></i> Assembly Line Experience</li>
-                    </ul>
+                    <h3><i class="fas fa-info-circle"></i> About the Visit</h3>
+                    <p style="color: var(--color-text); line-height: 1.6;">{{ industrial.description }}</p>
                 </div>
 
+                <!-- Features (Static for now but better generic) -->
                 <div class="feature-box">
-                    <h3><i class="fas fa-utensils"></i> Food & Cuisine</h3>
+                    <h3><i class="fas fa-check-circle"></i> Inclusions</h3>
                     <ul class="feature-list">
-                        <li><i class="fas fa-check"></i> Famous Jigarthanda</li>
-                        <li><i class="fas fa-check"></i> Local Mess Meals</li>
-                        <li><i class="fas fa-check"></i> Temple Prasadam</li>
-                    </ul>
-                </div>
-
-                <div class="feature-box">
-                    <h3><i class="fas fa-map-marker-alt"></i> Places to Visit</h3>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check"></i> Meenakshi Amman Temple</li>
-                        <li><i class="fas fa-check"></i> Thirumalai Nayakkar Palace</li>
-                        <li><i class="fas fa-check"></i> Gandhi Museum</li>
+                        <li><i class="fas fa-bus"></i> Transport (To & Fro)</li>
+                        <li><i class="fas fa-hotel"></i> Premium Accommodation</li>
+                        <li><i class="fas fa-utensils"></i> All Meals Included</li>
+                        <li><i class="fas fa-id-badge"></i> Industrial Guide</li>
                     </ul>
                 </div>
 
@@ -420,16 +409,16 @@
             <h2><i class="fas fa-route"></i> Sample Itinerary</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <h4>Day 1 - Arrival</h4>
-                    <p>Reach {{ industrial.location }}, check-in, evening Meenakshi Temple visit.</p>
+                    <h4>Day 1 - Journey & Arrival</h4>
+                    <p>Travel to {{ industrial.location }}, hotel check-in, and local sightseeing.</p>
                 </div>
                 <div class="timeline-item">
                     <h4>Day 2 - Industrial Visit</h4>
-                    <p>TVS Group factory tour, understanding automotive manufacturing.</p>
+                    <p>Comprehensive tour of the industrial facility in {{ industrial.location }} followed by technical sessions.</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>Day 3 - Heritage Tour</h4>
-                    <p>Palace visit, museum tour, Jigarthanda tasting, departure.</p>
+                    <h4>Day 3 - Exploration & Return</h4>
+                    <p>Visit to remaining landmarks in {{ industrial.location }} and departure.</p>
                 </div>
             </div>
         </div>

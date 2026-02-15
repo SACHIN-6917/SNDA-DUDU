@@ -1,0 +1,40 @@
+{% extends 'admin_list_base.html' %}
+
+{% block head_title %}News - DUDU ADMIN{% endblock %}
+
+{% block list_title %}News & Events{% endblock %}
+{% block list_subtitle %}Manage the latest updates and announcements shown on the dashboard.{% endblock %}
+
+{% block list_actions %}
+<button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">
+    <i class="fas fa-plus"></i> Create Post
+</button>
+{% endblock %}
+
+{% block table_head %}
+<th>Date</th>
+<th>Title</th>
+<th>Content Snippet</th>
+<th>Status</th>
+{% endblock %}
+
+{% block table_body %}
+{% for item in news_items %}
+<tr>
+    <td>{{ item.date|date:"M j, Y" }}</td>
+    <td><strong>{{ item.title }}</strong></td>
+    <td>{{ item.content|truncatewords:10 }}</td>
+    <td>
+        {% if item.is_active %}
+            <span class="status-badge status-completed">Active</span>
+        {% else %}
+            <span class="status-badge status-pending">Draft</span>
+        {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4" style="text-align: center; padding: 40px; color: #999;">No news or events found.</td>
+</tr>
+{% endfor %}
+{% endblock %}

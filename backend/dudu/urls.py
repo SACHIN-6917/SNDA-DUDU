@@ -1,14 +1,5 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from . import views, api_views
-
-router = DefaultRouter()
-router.register(r'api/users', api_views.UserViewSet)
-router.register(r'api/industrials', api_views.IndustrialViewSet)
-router.register(r'api/bookings', api_views.BookingViewSet)
-router.register(r'api/feedbacks', api_views.FeedbackViewSet)
-router.register(r'api/enquiries', api_views.EnquiryViewSet)
-router.register(r'api/newsletters', api_views.NewsletterViewSet)
+from django.urls import path
+from . import views
 
 urlpatterns = [
     # Pages
@@ -16,25 +7,31 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
-    
-    path('industrials/', views.industrial_list, name='industrial_list'),
-    path('industrials/<int:ind_id>/', views.industrial_detail, name='industrial_detail'),
-    
-    path('book/<int:ind_id>/', views.booking_create, name='booking_create'),
-    path('payment/', views.payment_view_direct, name='payment'),
-    path('api/google-auth/', views.google_auth, name='google_auth'),
+    path('industrial/', views.industrial_list, name='industrial_list'),
+    path('industrial/<int:pk>/', views.industrial_detail, name='industrial_detail'),
+    path('payment/<int:pk>/', views.payment_view, name='payment'),
+    path('payment/', views.payment_list_view, name='payment_list'),
+    path('feedback/', views.feedback_view, name='feedback'),
     path('account/', views.account_view, name='account'),
     path('settings/', views.settings_view, name='settings'),
-    path('feedback/', views.feedback_view, name='feedback'),
+    path('booking/<int:pk>/create/', views.booking_create, name='booking_create'),
+    path('submit-enquiry/', views.submit_enquiry, name='submit_enquiry'),
     
-    # API endpoints (Specific/Legacy)
-    path('api/enquiry/', views.submit_enquiry, name='submit_enquiry'),
-    path('api/chat/', api_views.ChatbotAPIView.as_view(), name='chat_api'),
-    
-    # Payment API endpoints
-    path('api/payment/create/', api_views.PaymentCreateAPIView.as_view(), name='payment_create'),
-    path('api/payment/verify/', api_views.PaymentVerifyAPIView.as_view(), name='payment_verify'),
-    
-    # REST API Router
-    path('', include(router.urls)),
+    # Admin
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-dashboard/industrials/', views.admin_industrials, name='admin_industrials'),
+    path('admin-dashboard/bookings/', views.admin_bookings, name='admin_bookings'),
+    path('admin-dashboard/enquiries/', views.admin_enquiries, name='admin_enquiries'),
+    path('admin-dashboard/users/', views.admin_users, name='admin_users'),
+    path('admin-dashboard/news/', views.admin_news, name='admin_news'),
+
+    # Google SSO
+    path('google/login/', views.google_login, name='google_login'),
+    path('google/auth/', views.google_auth, name='google_auth'),
+
+    # Chatbot API
+    path('api/chat/', views.chat_api, name='chat_api'),
+
+    # Newsletter
+    path('api/newsletter/', views.newsletter_subscribe, name='newsletter_subscribe'),
 ]

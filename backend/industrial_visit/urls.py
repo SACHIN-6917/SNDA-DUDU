@@ -34,6 +34,7 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # Also include the STATICFILES_DIRS if needed, but STATIC_ROOT is usually enough for runserver
     # Actually, runserver pulls from STATICFILES_DIRS automatically if configured.
     # To be safe for all environments:

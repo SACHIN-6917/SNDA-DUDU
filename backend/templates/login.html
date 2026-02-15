@@ -18,16 +18,20 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <!-- Early Theme Init (prevents flash of wrong theme) -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const prefer = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', saved || prefer);
+        })();
+    </script>
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
         body {
-            background-color: #ffd7b5;
-            background-image: url('{% static "images/iv.jpg" %}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-color: var(--color-bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -44,8 +48,8 @@
         }
 
         .login-container {
-            background: #fff;
-            border: solid 1px rgba(233, 103, 24, 0.25);
+            background: var(--color-card-bg);
+            border: solid 1px var(--color-border);
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             width: 100%;
@@ -196,14 +200,14 @@
         .welcome-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #333;
+            color: var(--color-text);
             text-align: center;
             margin-bottom: 5px;
         }
 
         .welcome-sub {
             font-size: 0.95rem;
-            color: #666;
+            color: var(--color-text-muted);
             text-align: center;
             margin-bottom: 30px;
         }
@@ -222,6 +226,8 @@
             padding: 10px 0;
             font-size: 1rem;
             width: 100%;
+            background: var(--input-bg);
+            color: var(--input-text);
             transition: all 0.3s;
             margin-bottom: 20px;
         }
@@ -267,9 +273,9 @@
         .btn-sso {
             width: 100%;
             padding: 12px;
-            background: #fff;
-            color: #555;
-            border: 2px solid #eee;
+            background: var(--color-card-bg);
+            color: var(--color-text-muted);
+            border: 2px solid var(--color-border);
             border-radius: 12px;
             font-weight: 600;
             display: flex;
@@ -282,12 +288,10 @@
         }
 
         .btn-sso:hover {
-            background: #fdf2e9;
+            background: rgba(233, 103, 24, 0.1);
             border-color: #e96718;
             color: #e96718;
         }
-
-
 
         .sso-divider {
             display: flex;
@@ -297,10 +301,11 @@
         .sso-divider::before, .sso-divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--color-border);
         }
         .sso-divider span {
             padding: 0 10px;
+            color: var(--color-text-muted);
         }
 
         .toggle-link {
@@ -316,11 +321,53 @@
         #messages-container {
             margin-bottom: 20px;
         }
+
+        /* Login page standalone theme toggle */
+        .login-theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .login-theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .text-muted {
+            color: var(--color-text-muted) !important;
+        }
     </style>
 </head>
 
 <body>
-    {% include 'navbar.html' %}
+    <!-- Login Theme Toggle (standalone since navbar is hidden) -->
+    <button class="login-theme-toggle" id="loginThemeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Background Elements -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Navbar removed as per requirements -->
 
     <div class="login-page">
         <div class="login-container">
@@ -389,6 +436,9 @@
                     <p class="text-center mt-4 mb-0 small text-muted">
                         Don't have an account? <a href="#" class="toggle-link" id="showSignup">Sign Up</a>
                     </p>
+                    <div class="text-center mt-3">
+                        <small class="text-muted" style="opacity: 0.7;">Admin? Just login to access dashboard.</small>
+                    </div>
                 </form>
             </div>
 
@@ -514,6 +564,24 @@
         }
         setupToggle('toggleLoginPass', 'loginPassword');
         setupToggle('toggleSignupPass', 'signupPassword');
+
+        // Login page theme toggle
+        const loginToggle = document.getElementById('loginThemeToggle');
+        if (loginToggle) {
+            // Set initial icon
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const icon = loginToggle.querySelector('i');
+            if (icon) icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+            loginToggle.addEventListener('click', () => {
+                const html = document.documentElement;
+                const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                const i = loginToggle.querySelector('i');
+                if (i) i.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            });
+        }
     </script>
 </body>
 </html>

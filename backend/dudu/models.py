@@ -1,213 +1,139 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password, check_password
-from django.utils import timezone
-from django.conf import settings
-
-# ===== USER MODEL =====
-class User(models.Model):
-    """Custom User model for authentication"""
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True, db_index=True)
-    password = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    city = models.CharField(max_length=50, blank=True, null=True)
-    state = models.CharField(max_length=50, blank=True, null=True)
-    zip_code = models.CharField(max_length=10, blank=True, null=True)
-    avatar = models.CharField(max_length=500, blank=True, null=True)  # URL to avatar
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        db_table = 'users'
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return f"{self.name} ({self.email})"
-    
-    def set_password(self, raw_password):
-        """Hash and set password"""
-        self.password = make_password(raw_password)
-    
-    def check_password(self, raw_password):
-        """Verify password"""
-        return check_password(raw_password, self.password)
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-# ===== INDUSTRIAL MODEL =====
-class Industrial(models.Model):
-    """Industrial Visit Industrial"""
-    INDUSTRIAL_STATUS = (
-        ('active', 'Active'),
-        ('inactive', 'Inactive'),
-        ('upcoming', 'Upcoming'),
+class UserProfile(models.Model):
+    ROLE_CHOICES = (
+        ('customer', 'Customer'),
+        ('admin', 'Admin'),
     )
-    
-    title = models.CharField(max_length=200)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='customer')
+    phone = models.CharField(max_length=20, blank=True)
+    dob = models.DateField(null=True, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    address = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)  # Store actual images
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+class Industrial(models.Model):
+    name = models.CharField(max_length=200)  # Renamed from title
     description = models.TextField()
     location = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration = models.CharField(max_length=50)  # e.g., "1 Day", "2 Days 1 Night"
-    max_participants = models.IntegerField(default=50)
-    min_participants = models.IntegerField(default=10)
-    image = models.CharField(max_length=500, blank=True, null=True)  # URL to image
-    itinerary = models.JSONField(blank=True, null=True)  # Store itinerary as JSON
-    includes = models.JSONField(blank=True, null=True)  # What's included
-    excludes = models.JSONField(blank=True, null=True)  # What's not included
-    status = models.CharField(max_length=20, choices=INDUSTRIAL_STATUS, default='active')
+    duration = models.CharField(max_length=50)
+    image = models.CharField(max_length=255, blank=True)
+    visit_count = models.IntegerField(default=0)  # Added
+    status = models.CharField(max_length=20, default='active')
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        db_table = 'industrials'
-        ordering = ['-created_at']
-    
+
     def __str__(self):
-        return f"{self.title} - ₹{self.price}"
+        return self.name
 
 
-# ===== BOOKING MODEL =====
-class Booking(models.Model):
-    """Booking for industrial visits"""
-    BOOKING_STATUS = (
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('completed', 'Completed'),
-        ('cancelled', 'Cancelled'),
-    )
-    
-    PAYMENT_STATUS = (
-        ('unpaid', 'Unpaid'),
-        ('advance', 'Advance Paid'),
-        ('full', 'Full Payment'),
-    )
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
-    industrial = models.ForeignKey(Industrial, on_delete=models.CASCADE, related_name='bookings')
-    visit_date = models.DateField()
-    num_participants = models.IntegerField(default=1)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='unpaid')
-    payment_method = models.CharField(max_length=50, blank=True, null=True)  # UPI, Card, etc.
-    transaction_id = models.CharField(max_length=100, blank=True, null=True)
-    booking_status = models.CharField(max_length=20, choices=BOOKING_STATUS, default='pending')
-    notes = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        db_table = 'bookings'
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return f"{self.user.name} - {self.industrial.title} ({self.visit_date})"
-
-
-# ===== FEEDBACK MODEL =====
 class Feedback(models.Model):
-    """User feedback for industrials or overall service"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedbacks', null=True, blank=True)
-    industrial = models.ForeignKey(Industrial, on_delete=models.CASCADE, related_name='feedbacks', null=True, blank=True)
-    name = models.CharField(max_length=100)  # For non-logged-in users
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1-5 stars
-    comment = models.TextField()
-    is_approved = models.BooleanField(default=True)  # For moderation
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    industrial = models.ForeignKey(Industrial, on_delete=models.SET_NULL, null=True, blank=True)  # Added
+    message = models.TextField()  # Renamed from comment
+    rating = models.IntegerField(default=5)
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'feedbacks'
-        ordering = ['-created_at']
-    
+
+    # For backward compatibility with existing seeds that might use 'name' instead of User
+    # We'll keep 'name' for anonymous/legacy feedback
+    name = models.CharField(max_length=100, default='Anonymous')
+
     def __str__(self):
         return f"{self.name} - {self.rating}★"
 
 
-# ===== ENQUIRY MODEL =====
-class Enquiry(models.Model):
-    """Contact/Enquiry form submissions"""
-    ENQUIRY_STATUS = (
-        ('new', 'New'),
-        ('contacted', 'Contacted'),
-        ('closed', 'Closed'),
-    )
-    
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    industrial = models.ForeignKey(Industrial, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    city = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    phone = models.CharField(max_length=15)
-    whatsapp = models.CharField(max_length=15, blank=True, null=True)
-    college = models.CharField(max_length=200, blank=True, null=True)
-    message = models.CharField(max_length=200, blank=True, null=True)
-    travel_date = models.DateField(blank=True, null=True)
-    num_people = models.IntegerField(default=1)
-    status = models.CharField(max_length=20, choices=ENQUIRY_STATUS, default='new')
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'enquiries'
-        ordering = ['-created_at']
-    
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    plan = models.CharField(max_length=20, default='full')  # full or advance
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    payment_method = models.CharField(max_length=50, blank=True)
+    payment_status = models.CharField(max_length=20, default='pending')  # Added
+    status = models.CharField(max_length=20, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)  # This is booking_date
+
     def __str__(self):
-        return f"{self.name} - {self.email}"
+        return f"{self.name} - {self.industrial.name}"
 
 
-# ===== NEWSLETTER SUBSCRIPTION MODEL =====
+class Payment(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=20, default='pending')
+    transaction_id = models.CharField(max_length=100, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment {self.id} for Booking {self.booking.id}"
+
+
 class Newsletter(models.Model):
-    """Newsletter subscribers"""
     email = models.EmailField(unique=True)
-    is_active = models.BooleanField(default=True)
-    subscribed_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'newsletters'
-        ordering = ['-subscribed_at']
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.email
 
 
-# ===== CHATBOT LOGS (WISH) MODEL =====
-class Wish(models.Model):
-    """Chatbot conversation logs (Wish List)"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='wishes', null=True, blank=True)
-    session_id = models.CharField(max_length=100)  # For anonymous users
-    query = models.TextField()
-    response = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'wish'
-        ordering = ['-created_at']
-        verbose_name_plural = "Wishes"
-    
-    def __str__(self):
-        return f"{self.session_id} - {self.query[:50]}"
-
-# ===== CHATBOT KNOWLEDGE MODEL =====
-class ChatbotKnowledge(models.Model):
-    """Stored Q&A pairs for the chatbot to ensure persistence and easy management"""
-    question = models.TextField()
-    answer = models.TextField()
-    category = models.CharField(max_length=50, default="general")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'chatbot_knowledge'
-        verbose_name_plural = "Chatbot Knowledge"
-
-    def __str__(self):
-        return f"Q: {self.question[:50]}..."
-
-# ===== PROJECT STATS MODEL =====
 class ProjectStat(models.Model):
-    """Statistics for Landing Page Counter"""
-    title = models.CharField(max_length=100) # e.g. "Happy Users"
-    count = models.IntegerField(default=0)   # e.g. 80000
-    suffix = models.CharField(max_length=10, blank=True) # e.g. "+" or "/5"
-    icon = models.CharField(max_length=50, default="fa-users") # FontAwesome class
-    
+    title = models.CharField(max_length=100)
+    count = models.IntegerField(default=0)
+    suffix = models.CharField(max_length=20, blank=True)
+    icon = models.CharField(max_length=50, blank=True)
+
     def __str__(self):
-        return f"{self.title}: {self.count}{self.suffix}"
+        return self.title
+class Enquiry(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('contacted', 'Contacted'),
+        ('closed', 'Closed'),
+    )
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True) # Adding email as well
+    city = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20, blank=True)
+    option = models.CharField(max_length=100, blank=True)
+    travel_date = models.DateField()
+    no_of_people = models.IntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Enquiry from {self.name} - {self.city}"
+class NewsEvent(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    date = models.DateField()
+    image = models.CharField(max_length=255, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
