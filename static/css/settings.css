@@ -1,0 +1,421 @@
+/* Account Settings Page Styles */
+
+/* Settings Container */
+.settings-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 120px 20px 80px;
+    min-height: 100vh;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #e96718 0%, #ff8c42 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Settings Menu */
+.settings-menu {
+    background: var(--color-card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+.menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.menu-item:hover {
+    background: rgba(233, 103, 24, 0.1);
+    border-color: rgba(233, 103, 24, 0.3);
+    transform: translateX(5px);
+    box-shadow: 0 4px 20px rgba(233, 103, 24, 0.2);
+}
+
+.menu-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #e96718 0%, #ff8c42 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.menu-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.menu-content {
+    flex: 1;
+}
+
+.menu-content h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--color-text);
+}
+
+.menu-content p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.menu-item>.fa-chevron-right {
+    color: rgba(233, 103, 24, 0.7);
+    font-size: 1.2rem;
+}
+
+/* Social Accounts Card */
+.social-accounts-card {
+    background: var(--color-card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--color-text);
+}
+
+.section-title i {
+    color: #e96718;
+}
+
+/* Social Account Item */
+.social-account-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.social-account-item:last-child {
+    margin-bottom: 0;
+}
+
+.social-account-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(233, 103, 24, 0.2);
+}
+
+.social-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.social-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.social-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.social-icon.google {
+    background: linear-gradient(135deg, #DB4437 0%, #F4B400 100%);
+}
+
+.social-info h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--color-text);
+}
+
+.social-info p {
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-info .connected {
+    color: #4caf50;
+}
+
+.social-info .not-connected {
+    color: var(--color-text-muted);
+}
+
+.social-info i {
+    font-size: 0.85rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #e96718 0%, #ff8c42 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(233, 103, 24, 0.4);
+}
+
+.btn-primary-outline {
+    background: transparent;
+    border: 2px solid #e96718;
+    color: #e96718;
+}
+
+.btn-primary-outline:hover {
+    background: rgba(233, 103, 24, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #f44336 0%, #e53935 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 67, 54, 0.4);
+}
+
+.btn-danger-outline {
+    background: transparent;
+    border: 2px solid #f44336;
+    color: #f44336;
+}
+
+.btn-danger-outline:hover {
+    background: rgba(244, 67, 54, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Danger Zone */
+.danger-zone {
+    background: rgba(244, 67, 54, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(244, 67, 54, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(244, 67, 54, 0.1);
+}
+
+.danger-zone .section-title {
+    color: #f44336;
+}
+
+.danger-zone .section-title i {
+    color: #f44336;
+}
+
+.danger-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(244, 67, 54, 0.2);
+    border-radius: 15px;
+}
+
+.danger-info h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--color-text);
+}
+
+.danger-info p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+/* Login Required */
+.login-required {
+    text-align: center;
+    padding: 100px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.login-required i {
+    font-size: 5rem;
+    color: rgba(233, 103, 24, 0.5);
+    margin-bottom: 1.5rem;
+}
+
+.login-required h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.login-required p {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Animations */
+.reveal {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.reveal:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.reveal:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.reveal:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 100px 15px 60px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .menu-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .menu-item>.fa-chevron-right {
+        display: none;
+    }
+
+    .social-account-item {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .social-left {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .social-actions {
+        width: 100%;
+    }
+
+    .social-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .danger-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .danger-content .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .menu-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .social-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .social-icon i {
+        font-size: 1.5rem;
+    }
+}

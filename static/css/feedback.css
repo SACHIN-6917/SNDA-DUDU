@@ -1,0 +1,236 @@
+main {
+    flex: 1;
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    padding-top: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+#feedback {
+    background: var(--color-bg);
+    padding: 60px 20px 40px;
+}
+
+#feedback h2 {
+    text-align: center;
+    color: #d85d15;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.enquire-btn-center {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 24px;
+}
+
+.enquire-btn {
+    display: inline-block;
+    min-width: 180px;
+    background: linear-gradient(90deg, #e96718, #ff8c42);
+    color: white;
+    text-align: center;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(233, 103, 24, 0.25);
+    text-transform: uppercase;
+}
+
+.enquire-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 8px 18px rgba(233, 103, 24, 0.3);
+}
+
+.feedback-card {
+    background: #e96718;
+    background: linear-gradient(135deg, #e96718 0%, #f07a2e 100%);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(233, 103, 24, 0.2);
+    transition: transform .3s ease, box-shadow 0.3s ease;
+    margin-bottom: 25px;
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.feedback-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(233, 103, 24, 0.3);
+}
+
+.feedback-card-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.feedback-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #e96718;
+    font-size: 1.5rem;
+}
+
+.avatar-initials {
+    background: #fff;
+    color: #e96718;
+}
+
+.feedback-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-card strong {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.feedback-card .stars {
+    color: #ffc107;
+    font-size: 1rem;
+    margin-top: 2px;
+}
+
+.feedback-card p {
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 5px;
+    line-height: 1.6;
+    font-weight: 400;
+    font-size: 0.95rem;
+}
+
+.feedback-card small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 15px;
+}
+
+.overall-rating-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.overall-rating-section p.label {
+    color: #d85d15;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.overall-rating-section .stars-large {
+    font-size: 32px;
+    color: #d85d15;
+}
+
+.overall-rating-section p.summary {
+    color: var(--color-text-muted);
+    margin-top: 8px;
+}
+
+/* Form Styles */
+.feedback-form-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+#feedback-form {
+    background: var(--color-card-bg);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+#feedback-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#feedback-form .form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+#feedback-form input[type="text"],
+#feedback-form textarea {
+    padding: 12px;
+    border: 1px solid #e96718;
+    border-radius: 8px;
+    width: 100%;
+    font-family: inherit;
+}
+
+#fb-stars {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+#fb-stars button {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: #d85d15;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+#fb-stars button:hover {
+    transform: scale(1.1);
+}
+
+#feedback-form button[type="submit"] {
+    background: #d85d15;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+#feedback-form button[type="submit"]:hover {
+    background: #c04d10;
+}
+
+#fb-error {
+    color: #b00020;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    #feedback h2 {
+        font-size: 2rem;
+    }
+}
