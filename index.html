@@ -4,17 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DUDU IV Hub - Premium Industrial Visits</title>
-    <meta name="description" content="Book industrials with DUDU IV Hub. Explore top companies and educational tours.">
+    <meta name="description" content="India's leading platform for organized Industrial Visits. Empowering students with real-world exposure.">
     
-    <!-- Emergency Reveal Script -->
-    <script>
-        // Force reveal if animations fail
-        setTimeout(() => {
-            document.body.style.opacity = "1";
-            document.body.classList.add('page-visible');
-        }, 1500);
-    </script>
-
     <!-- Early Theme Initialization -->
     <script>
         (function() {
@@ -28,7 +19,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Metamorphous&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -36,6 +27,31 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/landing.css">
+    
+    <style>
+        /* Ensure navbar links look like Django version */
+        .nav-links-floating li a.active {
+            color: var(--color-primary);
+        }
+        /* Fix for blue login button in user screenshot */
+        .nav-actions .login-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .nav-actions .login-btn:hover {
+            transform: scale(1.05);
+            background: #d85d15;
+        }
+    </style>
 </head>
 <body class="page-transition">
 
@@ -47,65 +63,59 @@
     </div>
     <div class="noise-overlay"></div>
 
-    <!-- Floating Navbar -->
-    <div class="hero-content" role="navigation" aria-label="Main">
-        <!-- 1. Brand / Logo -->
-        <a href="index.html" class="nav-brand">
-            DUDU IV HUB
-        </a>
-
-        <!-- 2. Centered Navigation Links -->
+    <!-- Floating Navbar (Matching Real UI exactly) -->
+    <nav class="hero-content">
+        <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
         <ul class="nav-links-floating">
-            <li><a href="index.html#home" id="nav-home">Home</a></li>
-            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-industrials">Industrials</a></li>
-            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-payment">Payment</a></li>
-            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-feedback">Feedback's</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="industrial.html">Industrials</a></li>
+            <li><a href="payment.html">Payment</a></li>
+            <li><a href="feedback.html">Feedback's</a></li>
         </ul>
-        
-        <!-- 3. Right Actions (Theme + Account) -->
         <div class="nav-actions">
             <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
                 <i class="fas fa-moon"></i>
             </button>
-            <a href="https://github.com/SACHIN-6917/SNDA-DUDU" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Login</a>
+            <div class="nav-user-dropdown">
+                <a href="login.html" class="login-btn">
+                    <i class="fas fa-user-circle"></i> Login
+                </a>
+            </div>
         </div>
-    </div>
+    </nav>
 
     <!-- WhatsApp Float -->
     <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-
     <!-- Hero Section -->
     <section id="home" class="hero-layout">
         <div class="hero-grid">
-            <!-- Left Column: Large Text -->
             <div class="hero-text-col">
                 <h1 class="hero-headline">
-                    <span class="line-mask"><span class="line-text">Unfold your</span></span>
-                    <span class="line-mask"><span class="line-text">Education</span></span>
-                    <span class="line-mask"><span class="line-text">Journey</span></span>
-                    <span class="line-mask"><span class="line-text">with <span class="dudu-highlight">&quot;Dudu&quot;</span></span></span>
+                    <span class="line-mask"><span class="line-text">Unfold your</span></span><br>
+                    <span class="line-mask"><span class="line-text">Education</span></span><br>
+                    <span class="line-mask"><span class="line-text">Journey</span></span><br>
+                    <span class="line-mask"><span class="line-text">with <span class="dudu-highlight">&quot;DUDU&quot;</span></span></span>
                 </h1>
+                <p class="hero-subtext" style="margin-top: 20px; font-size: 1.1rem; opacity: 0.8; max-width: 500px;">
+                    India's leading platform for organized Industrial Visits. Empowering students with real-world exposure.
+                </p>
             </div>
 
-            <!-- Right Column: Image Card & Button -->
             <div class="hero-image-col">
                 <div class="hero-image-card">
-                    <img class="hero-pan" src="static/images/iv.jpg" alt="Industrial Visit">
+                    <img class="hero-pan" src="static/images/iv.jpg" alt="Industrial Visit" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800'">
                     <div class="hero-image-overlay">
-                        <h2>Explore</h2>
+                        <h2>EXPLORE</h2>
                         <p>“Gain real-world exposure through organized and impactful visits.”</p>
                     </div>
                 </div>
-                <a href="#enquire" class="enquire-btn">ENQUIRE</a>
+                <a href="#enquire" class="enquire-btn">ENQUIRE NOW</a>
             </div>
         </div>
     </section>
-
-
-
 
     <!-- Welcome Section -->
     <section id="welcome" class="content-section" style="padding: 100px 5%;">
@@ -142,7 +152,7 @@
         </div>
     </section>
 
-    <!-- Smala Inspired Sections (Horizontal Pinning) -->
+    <!-- Horizontal Pinning Sections -->
     <section id="about" class="smala-pinned-section">
         <div class="smala-pin-container">
             <div class="smala-wrapper">
@@ -181,7 +191,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Project Statistics Section -->
     <section class="stats-section reveal">
@@ -277,7 +286,7 @@
         </div>
     </section>
 
-    <!-- Antigravity Inspired Section (Typing Animation) -->
+    <!-- Typing Animation Section -->
     <section class="about-antigravity reveal">
         <div class="about-content">
             <h2 class="typing-text">
@@ -286,51 +295,41 @@
         </div>
     </section>
 
-
     <!-- Footer -->
-    <footer class="site-footer" role="contentinfo" aria-label="Footer">
+    <footer class="site-footer" role="contentinfo">
         <div class="footer-container">
             <div class="footer-brand">
                 <span class="copyright">Copyright © 2026 DUDU Hub Pvt Ltd.</span>
             </div>
-            <nav class="footer-nav" aria-label="Footer">
+            <nav class="footer-nav">
                 <a href="#about">About</a>
                 <a href="#enquire">Contact</a>
             </nav>
-            <div class="footer-social" aria-label="Social">
-                <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
-                <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
-                <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
-                <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
-                <a href="https://wa.me/919940764517" target="_blank" rel="noopener" aria-label="WhatsApp">📱</a>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                <a href="https://wa.me/919940764517" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <form class="footer-newsletter" id="footerNewsletter" aria-label="Newsletter subscription" novalidate>
-                <input type="email" id="nlEmail" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
+            <form class="footer-newsletter" id="footerNewsletter">
+                <input type="email" placeholder="Your Email" required>
                 <button type="submit" class="footer-subscribe">Subscribe</button>
             </form>
         </div>
     </footer>
 
-
-    <!-- Panda Bot -->
-    <button class="footer-panda" id="pandaFab" aria-label="Open Panda Bot">
-        <span>🐼</span>
-    </button>
-    <div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog" aria-label="Panda Bot">
+    <!-- Panda Bot FAB & Window -->
+    <button class="footer-panda" id="pandaFab"><span>🐼</span></button>
+    <div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog">
         <div class="chat-header">
             <span>Panda Bot</span>
-            <button class="chat-close" id="pandaClose" aria-label="Close">&times;</button>
+            <button class="chat-close" id="pandaClose">&times;</button>
         </div>
-        <div class="chat-body" id="pandaBody">
-            <!-- Messages populated by script.js -->
-        </div>
-        <!-- Suggestions Container -->
+        <div class="chat-body" id="pandaBody"></div>
         <div class="chat-suggestions" id="pandaSuggestions"></div>
         <div class="chat-input-container">
-            <input class="chat-input" id="pandaInput" placeholder="Type your question..." aria-label="Message Panda Bot" />
-            <button class="chat-send" id="pandaSend" aria-label="Send Message">
-                <i class="fas fa-paper-plane"></i>
-            </button>
+            <input class="chat-input" id="pandaInput" placeholder="Type your question..." />
+            <button class="chat-send" id="pandaSend"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -343,10 +342,16 @@
     <script src="static/js/landing.js" defer></script>
 
     <script>
+        // Force immediate reveal if animations fail
+        setTimeout(() => {
+            document.body.style.opacity = "1";
+            document.body.classList.add('page-visible');
+        }, 1500);
+
         // Enquiry form static handler
         document.getElementById('enquiryForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Enquiry received! In the full version, this data is saved to our Django database.');
+            alert('Enquiry received! This is a static demo version. In the full app, this data goes to the database.');
             e.target.reset();
         });
     </script>

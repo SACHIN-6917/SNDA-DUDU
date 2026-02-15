@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DUDU IV Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/js/transitions.js" defer></script>
+    <style>
+        body { background: var(--color-bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .login-card { background: var(--color-card-bg); border: 1px solid var(--color-border); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-xl); width: 100%; max-width: 400px; text-align: center; }
+        .panda-avatar { font-size: 5rem; margin-bottom: 20px; display: block; }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 700; color: var(--color-primary); margin-bottom: 8px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg); color: var(--color-text); }
+        .login-btn { width: 100%; background: var(--color-primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .login-btn:hover { background: #d85d15; }
+        .sso-btn { width: 100%; border: 1px solid var(--color-border); background: white; color: #555; padding: 12px; border-radius: 12px; margin-top: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; }
+    </style>
+</head>
+<body class="page-transition">
+    <!-- Close Button -->
+    <a href="index.html" style="position: fixed; top: 20px; left: 20px; font-size: 1.5rem; color: var(--color-primary);"><i class="fas fa-arrow-left"></i></a>
+
+    <div class="login-card">
+        <span class="panda-avatar">🐼</span>
+        <h2 style="color: var(--color-primary); font-weight: 900; margin-bottom: 10px;">DUDU IV HUB</h2>
+        <p style="opacity: 0.7; margin-bottom: 30px;">Sign in to your account</p>
+
+        <form>
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="name@college.edu">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <button type="button" class="login-btn" onclick="location.href='index.html'">LOGIN</button>
+        </form>
+
+        <div style="margin: 25px 0; display: flex; align-items: center; gap: 10px; opacity: 0.3;">
+            <hr style="flex: 1;"> OR <hr style="flex: 1;">
+        </div>
+
+        <button class="sso-btn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Continue with Google</button>
+        
+        <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
+            Don't have an account? <span style="color: var(--color-primary); font-weight: 700; cursor: pointer;">Sign Up</span>
+        </p>
+    </div>
+
+    <script>
+        setTimeout(() => document.body.style.opacity = "1", 1000);
+    </script>
+</body>
+</html>

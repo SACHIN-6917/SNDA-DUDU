@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrials - DUDU IV Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Early Theme Initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/feedback.css">
+    <link rel="stylesheet" href="static/css/landing.css">
+    
+    <script src="static/js/transitions.js" defer></script>
+    <script src="static/js/script.js" defer></script>
+    <script src="static/js/industrials.js" defer></script>
+
+    <style>
+        body { background-color: var(--color-bg); }
+        .hero {
+            position: relative;
+            height: 400px;
+            max-height: 60vh;
+            overflow: hidden;
+            margin-top: 80px;
+            border-radius: 0 0 50px 50px;
+        }
+        .slider { position: relative; width: 100%; height: 100%; }
+        .slider img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .slider img.active { opacity: 1; }
+        .hero-text {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+        }
+        .hero-text h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; }
+        .marquee-wrapper { display: flex; overflow: hidden; gap: 40px; margin-top: 20px; }
+        .marquee-content { display: flex; gap: 40px; animation: scroll-marquee 30s linear infinite; }
+        .marquee-content img { height: 200px; width: 320px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        @keyframes scroll-marquee { from { transform: translateX(0); } to { transform: translateX(calc(-100% - 40px)); } }
+        
+        /* Matching the Django Navbar exactly */
+        .hero-content {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1100px;
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 40px;
+            box-shadow: var(--shadow-lg);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            z-index: 1200;
+        }
+        .nav-links-floating li a.active { color: var(--color-primary); }
+    </style>
+</head>
+
+<body class="page-transition">
+    <!-- Background Blobs -->
+    <div class="bg-blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Navbar -->
+    <nav class="hero-content">
+        <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
+        <ul class="nav-links-floating">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="industrial.html" class="active">Industrials</a></li>
+            <li><a href="payment.html">Payment</a></li>
+            <li><a href="feedback.html">Feedback's</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button>
+            <div class="nav-user-dropdown"><a href="login.html" class="login-btn"><i class="fas fa-user-circle"></i> Login</a></div>
+        </div>
+    </nav>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- HERO SLIDER -->
+    <section class="hero">
+        <div class="slider">
+            <img src="static/images/iv.jpg" class="slide active" alt="IV 1">
+            <img src="static/images/iv.jpg" class="slide" alt="IV 2">
+            <img src="static/images/iv.jpg" class="slide" alt="IV 3">
+        </div>
+        <div class="hero-text">
+            <h1>Industrials</h1>
+            <p>Explore Learning & Travel across India</p>
+        </div>
+    </section>
+
+    <!-- TRENDING MARQUEE -->
+    <section class="industry-places-section reveal" style="padding: 60px 0;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">TRENDING INDUSTRIALS</h2>
+        </div>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <img src="static/images/Chennai.jpg" alt="Chennai" onerror="this.src='https://images.unsplash.com/photo-1582510003544-2d095665039b?w=400'">
+                <img src="static/images/Bengaluru.png" alt="Bengaluru" onerror="this.src='https://images.unsplash.com/photo-1596422846543-95c6fe16e917?w=400'">
+                <img src="static/images/Coimbatore.webp" alt="Coimbatore" onerror="this.src='https://images.unsplash.com/photo-1605146761889-44a5ad165839?w=400'">
+                <img src="static/images/Ooty.jpg" alt="Ooty" onerror="this.src='https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400'">
+                <!-- Duplicate for loop -->
+                <img src="static/images/Chennai.jpg" alt="Chennai">
+                <img src="static/images/Bengaluru.png" alt="Bengaluru">
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL INDUSTRIALS GRID -->
+    <section class="industrials-section reveal" style="padding: 60px 20px;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: var(--color-primary); font-size: 2.5rem; font-weight: 800;">All Industrial Visits</h2>
+            <p style="color: var(--color-text-muted);">Select a destination to view detail itinerary and pricing</p>
+        </div>
+        <div class="industrials-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+            <!-- Card 1 -->
+            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
+                <div style="height: 240px; overflow: hidden;">
+                    <img src="static/images/Chennai.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Chennai IT IV">
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">IT & Tech Hub - Chennai</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Visit leading software giants like TCS, HCL and Infosys. Gain insights into software development lifecycles.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
+                        <span style="font-weight: 800; font-size: 1.2rem;">₹2,500</span>
+                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 2 -->
+            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
+                <div style="height: 240px; overflow: hidden;">
+                    <img src="static/images/Bengaluru.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Bengaluru Manufacturing">
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">Manufacturing Excellence - Bengaluru</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Explore automotive and heavy machinary plants. Witness robot precision and lean manufacturing.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
+                        <span style="font-weight: 800; font-size: 1.2rem;">₹3,200</span>
+                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 3 -->
+            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
+                <div style="height: 240px; overflow: hidden;">
+                    <img src="static/images/Coimbatore.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Coimbatore Textile">
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">Textile Infrastructure - Coimbatore</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Visit the Manchester of South India. Understand the journey from cotton to finished garments.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
+                        <span style="font-weight: 800; font-size: 1.2rem;">₹1,800</span>
+                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- IMPACT STATS -->
+    <section class="stats-section reveal" style="padding: 60px 20px; background: rgba(233, 103, 24, 0.05);">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">OUR IMPACT</h2>
+            <p style="color: var(--color-text-muted);">Dudu is bridge for connect your industrial visit smoothly ✅</p>
+        </div>
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; text-align: center;">
+            <div class="stat-item">
+                <i class="fas fa-university" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
+                <div><span class="stat-number" data-target="120" style="font-size: 1.8rem; font-weight: 900;">120</span>+</div>
+                <div style="font-weight: 600; opacity: 0.7;">Colleges Joined</div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-building" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
+                <div><span class="stat-number" data-target="50" style="font-size: 1.8rem; font-weight: 900;">50</span>+</div>
+                <div style="font-weight: 600; opacity: 0.7;">Partner Companies</div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-users" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
+                <div><span class="stat-number" data-target="2500" style="font-size: 1.8rem; font-weight: 900;">2500</span>+</div>
+                <div style="font-weight: 600; opacity: 0.7;">Happy Students</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer" style="padding: 60px 5%; border-top: 1px solid var(--color-border);">
+        <div class="footer-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
+            <span class="copyright">Copyright © 2026 DUDU Hub Pvt Ltd.</span>
+            <div class="footer-social" style="display: flex; gap: 20px; font-size: 1.5rem;">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Emergency reveal
+        setTimeout(() => document.body.style.opacity = "1", 1000);
+    </script>
+</body>
+</html>
