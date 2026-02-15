@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DUDU IV Hub - Premium Industrial Visits</title>
+    <meta name="description" content="Book industrials with DUDU IV Hub. Explore top companies and educational tours.">
     
     <!-- Emergency Reveal Script -->
     <script>
@@ -13,7 +14,7 @@
             document.body.classList.add('page-visible');
         }, 1500);
     </script>
-    
+
     <!-- Early Theme Initialization -->
     <script>
         (function() {
@@ -27,7 +28,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Metamorphous&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -35,26 +36,8 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/landing.css">
-    
-    <style>
-        /* Extra styles for static version */
-        .static-banner {
-            background: var(--color-primary);
-            color: white;
-            text-align: center;
-            padding: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            z-index: 9999;
-            position: relative;
-        }
-    </style>
 </head>
-<body>
-    <!-- Static Version Banner -->
-    <div class="static-banner">
-        <i class="fas fa-info-circle"></i> This is a Static Preview. For the full app with Logins & Bookings, host on Render/PythonAnywhere.
-    </div>
+<body class="page-transition">
 
     <!-- Background Elements -->
     <div class="bg-blobs-container">
@@ -64,34 +47,40 @@
     </div>
     <div class="noise-overlay"></div>
 
-    <!-- Floating Navbar (Matching Real UI) -->
-    <nav class="hero-content">
-        <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
+    <!-- Floating Navbar -->
+    <div class="hero-content" role="navigation" aria-label="Main">
+        <!-- 1. Brand / Logo -->
+        <a href="index.html" class="nav-brand">
+            DUDU IV HUB
+        </a>
+
+        <!-- 2. Centered Navigation Links -->
         <ul class="nav-links-floating">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#welcome">About</a></li>
-            <li><a href="#enquire">Enquiry</a></li>
+            <li><a href="index.html#home" id="nav-home">Home</a></li>
+            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-industrials">Industrials</a></li>
+            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-payment">Payment</a></li>
+            <li><a href="https://github.com/SACHIN-6917/SNDA-DUDU" id="nav-feedback">Feedback's</a></li>
         </ul>
+        
+        <!-- 3. Right Actions (Theme + Account) -->
         <div class="nav-actions">
-            <button id="themeToggle" class="theme-toggle-btn">
+            <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
                 <i class="fas fa-moon"></i>
             </button>
-            <div class="nav-user-dropdown">
-                <a href="https://github.com/SACHIN-6917/SNDA-DUDU" class="login-btn">
-                    <i class="fas fa-user-circle"></i> Login
-                </a>
-            </div>
+            <a href="https://github.com/SACHIN-6917/SNDA-DUDU" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Login</a>
         </div>
-    </nav>
+    </div>
 
     <!-- WhatsApp Float -->
-    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
+
 
     <!-- Hero Section -->
     <section id="home" class="hero-layout">
         <div class="hero-grid">
+            <!-- Left Column: Large Text -->
             <div class="hero-text-col">
                 <h1 class="hero-headline">
                     <span class="line-mask"><span class="line-text">Unfold your</span></span>
@@ -99,8 +88,9 @@
                     <span class="line-mask"><span class="line-text">Journey</span></span>
                     <span class="line-mask"><span class="line-text">with <span class="dudu-highlight">&quot;Dudu&quot;</span></span></span>
                 </h1>
-                <p class="hero-subline reveal">India's leading platform for organized Industrial Visits. Empowering students with real-world exposure.</p>
             </div>
+
+            <!-- Right Column: Image Card & Button -->
             <div class="hero-image-col">
                 <div class="hero-image-card">
                     <img class="hero-pan" src="static/images/iv.jpg" alt="Industrial Visit">
@@ -109,15 +99,94 @@
                         <p>“Gain real-world exposure through organized and impactful visits.”</p>
                     </div>
                 </div>
-                <a href="#enquire" class="enquire-btn">ENQUIRE NOW</a>
+                <a href="#enquire" class="enquire-btn">ENQUIRE</a>
             </div>
         </div>
     </section>
 
-    <!-- Project Statistics -->
+
+
+
+    <!-- Welcome Section -->
+    <section id="welcome" class="content-section" style="padding: 100px 5%;">
+        <div class="about-wrap">
+            <h1 class="ml5">
+                <span class="text-wrapper">
+                  <span class="line line1"></span>
+                  <span class="letters">WELCOME</span>
+                  <span class="line line2"></span>
+                </span>
+            </h1>
+            <div class="paragraph-lines">
+                <div class="line-wrapper">
+                    <p class="line-text">DUDU IV Hub is a smart solution designed to simplify industrial visits</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">We focus on safe transportation, reliable accommodation, quality food</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">With end-to-end coordination and trusted vendors for memorable experiences</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">Complete travel solutions with transport, accommodation, and planning</p>
+                    <div class="line-underline"></div>
+                </div>
+                <div class="line-wrapper">
+                    <p class="line-text">A trusted travel partner that understands real needs and delivers quality</p>
+                    <div class="line-underline"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smala Inspired Sections (Horizontal Pinning) -->
+    <section id="about" class="smala-pinned-section">
+        <div class="smala-pin-container">
+            <div class="smala-wrapper">
+                <div class="smala-pane" id="pane-industry">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">INDUSTRY</h2>
+                            <p class="smala-description">Bridge the gap between campus and corporate with immersive industrial visits to top-tier manufacturing and tech hubs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-travel">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">TRAVEL</h2>
+                            <p class="smala-description">End-to-end logistics handled. From luxury buses to safe railway transit, we ensure Every mile is a memory.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-foods">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">FOODS</h2>
+                            <p class="smala-description">Hygienic, nutritious, and diverse menu options tailored to student needs, ensuring energy for Every exploration.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="smala-pane" id="pane-fun">
+                    <div class="pane-content">
+                        <div class="pane-text">
+                            <h2 class="smala-title">FUN ACTIVITIES</h2>
+                            <p class="smala-description">Beyond the factories, we curate team-building exercises, local sightseeing, and cultural experiences that bond students for life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Project Statistics Section -->
     <section class="stats-section reveal">
         <div class="stats-header">
-            <h2 class="stats-main-title">CORE IMPACT</h2>
+            <h2 class="stats-main-title">OUR IMPACT</h2>
         </div>
         <div class="stats-grid">
             <div class="stat-item">
@@ -153,24 +222,117 @@
         </div>
     </section>
 
-    <!-- Footer Dummy Elements to prevent JS errors -->
-    <div id="typing-target" style="display:none"></div>
-    <div id="footerYear" style="display:none"></div>
-    <form id="footerNewsletter" style="display:none"><input id="nlEmail"></form>
-    <div id="pandaFab" style="display:none"></div>
-    <div id="pandaChat" style="display:none"></div>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <p>&copy; 2026 DUDU IV Hub. All rights reserved.</p>
+    <!-- Enquiry Form Section -->
+    <section id="enquire" class="dynamic-form-section reveal">
+        <div class="form-container">
+            <div class="form-left">
+                <div class="brand-circle">
+                    <h2>DUDU</h2>
+                    <h3>IV Hub</h3>
+                    <h4>Stay Connected</h4>
+                    <p>+919940764517</p>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="https://github.com/SACHIN-6917/SNDA-DUDU" target="_blank">View on GitHub</a>
+            <div class="form-right">
+                <form id="enquiryForm" class="enquiry-form">
+                    <div class="form-group">
+                        <label>Name*</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City of Residence*</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number*</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Whatsapp</label>
+                        <input type="tel" name="whatsapp">
+                    </div>
+                    <div class="form-group">
+                        <label>Option 1</label>
+                        <select name="option">
+                            <option value="">Select Option</option>
+                            <option value="Industrial Info">Industrial Info</option>
+                            <option value="Custom Visit">Custom Visit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Travel*</label>
+                        <input type="date" name="travel_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. of People*</label>
+                        <input type="number" name="people" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Captcha* (1 + 7 = )</label>
+                        <input type="text" name="captcha" placeholder="Enter answer" required>
+                    </div>
+                    <button type="submit" class="submit-btn">SUBMIT</button>
+                </form>
             </div>
         </div>
+    </section>
+
+    <!-- Antigravity Inspired Section (Typing Animation) -->
+    <section class="about-antigravity reveal">
+        <div class="about-content">
+            <h2 class="typing-text">
+                <span id="typing-target"></span><span class="cursor-colorful">|</span>
+            </h2>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo" aria-label="Footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="copyright">Copyright © 2026 DUDU Hub Pvt Ltd.</span>
+            </div>
+            <nav class="footer-nav" aria-label="Footer">
+                <a href="#about">About</a>
+                <a href="#enquire">Contact</a>
+            </nav>
+            <div class="footer-social" aria-label="Social">
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+                <a href="https://www.instagram.com/dudu_ivhub/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+                <a href="https://www.youtube.com/@Duduivhub" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+                <a href="https://wa.me/919940764517" target="_blank" rel="noopener" aria-label="WhatsApp">📱</a>
+            </div>
+            <form class="footer-newsletter" id="footerNewsletter" aria-label="Newsletter subscription" novalidate>
+                <input type="email" id="nlEmail" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
+                <button type="submit" class="footer-subscribe">Subscribe</button>
+            </form>
+        </div>
     </footer>
+
+
+    <!-- Panda Bot -->
+    <button class="footer-panda" id="pandaFab" aria-label="Open Panda Bot">
+        <span>🐼</span>
+    </button>
+    <div class="chat-window" id="pandaChat" aria-hidden="true" role="dialog" aria-label="Panda Bot">
+        <div class="chat-header">
+            <span>Panda Bot</span>
+            <button class="chat-close" id="pandaClose" aria-label="Close">&times;</button>
+        </div>
+        <div class="chat-body" id="pandaBody">
+            <!-- Messages populated by script.js -->
+        </div>
+        <!-- Suggestions Container -->
+        <div class="chat-suggestions" id="pandaSuggestions"></div>
+        <div class="chat-input-container">
+            <input class="chat-input" id="pandaInput" placeholder="Type your question..." aria-label="Message Panda Bot" />
+            <button class="chat-send" id="pandaSend" aria-label="Send Message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -179,5 +341,14 @@
     <script src="static/js/transitions.js" defer></script>
     <script src="static/js/script.js" defer></script>
     <script src="static/js/landing.js" defer></script>
+
+    <script>
+        // Enquiry form static handler
+        document.getElementById('enquiryForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Enquiry received! In the full version, this data is saved to our Django database.');
+            e.target.reset();
+        });
+    </script>
 </body>
 </html>
