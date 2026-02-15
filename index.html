@@ -14,6 +14,16 @@
         }, 1500);
     </script>
     
+    <!-- Early Theme Initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +48,6 @@
             z-index: 9999;
             position: relative;
         }
-        body { opacity: 1; } /* Ensure base visibility */
     </style>
 </head>
 <body>
@@ -56,23 +65,21 @@
     <div class="noise-overlay"></div>
 
     <!-- Floating Navbar (Matching Real UI) -->
-    <nav class="navbar-floating-container">
-        <div class="navbar-floating">
-            <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#welcome">About</a></li>
-                <li><a href="#enquire">Enquiry</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button id="themeToggle" class="theme-toggle-btn">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <div class="nav-user-dropdown">
-                    <a href="https://github.com/SACHIN-6917/SNDA-DUDU" class="login-btn">
-                        <i class="fas fa-user-circle"></i> Login
-                    </a>
-                </div>
+    <nav class="hero-content">
+        <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
+        <ul class="nav-links-floating">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#welcome">About</a></li>
+            <li><a href="#enquire">Enquiry</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-toggle-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="nav-user-dropdown">
+                <a href="https://github.com/SACHIN-6917/SNDA-DUDU" class="login-btn">
+                    <i class="fas fa-user-circle"></i> Login
+                </a>
             </div>
         </div>
     </nav>
