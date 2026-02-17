@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Industrials - DUDU IV Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Early Theme Initialization -->
     <script>
@@ -15,86 +14,44 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/feedback.css">
     <link rel="stylesheet" href="static/css/landing.css">
     
-    <script src="static/js/transitions.js" defer></script>
-    <script src="static/js/script.js" defer></script>
-    <script src="static/js/industrials.js" defer></script>
-
     <style>
-        body { background-color: var(--color-bg); }
-        .hero {
-            position: relative;
-            height: 400px;
-            max-height: 60vh;
-            overflow: hidden;
-            margin-top: 80px;
-            border-radius: 0 0 50px 50px;
-        }
-        .slider { position: relative; width: 100%; height: 100%; }
-        .slider img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .slider img.active { opacity: 1; }
-        .hero-text {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 10;
-        }
-        .hero-text h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; }
-        .marquee-wrapper { display: flex; overflow: hidden; gap: 40px; margin-top: 20px; }
-        .marquee-content { display: flex; gap: 40px; animation: scroll-marquee 30s linear infinite; }
-        .marquee-content img { height: 200px; width: 320px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        @keyframes scroll-marquee { from { transform: translateX(0); } to { transform: translateX(calc(-100% - 40px)); } }
+        .industrial-hero { background: var(--color-bg); padding: 50px 0; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 40px 5%; }
+        .industrial-card { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 20px; overflow: hidden; transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
+        .industrial-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); }
+        .card-img-wrapper { height: 200px; overflow: hidden; position: relative; }
+        .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .card-price-tag { position: absolute; top: 15px; right: 15px; background: var(--color-primary); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 0.9rem; }
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.25rem; font-weight: 800; color: var(--color-text); margin-bottom: 10px; }
+        .card-text { font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 20px; line-height: 1.6; }
+        .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border); padding-top: 15px; }
+        .book-btn { background: var(--color-primary); color: white; border: none; padding: 8px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 0.85rem; }
         
-        /* Matching the Django Navbar exactly */
-        .hero-content {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 1100px;
-            background: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            border-radius: 40px;
-            box-shadow: var(--shadow-lg);
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            z-index: 1200;
-        }
-        .nav-links-floating li a.active { color: var(--color-primary); }
+        /* Marquee styles */
+        .marquee-container { background: var(--color-primary); color: white; padding: 12px 0; overflow: hidden; white-space: nowrap; margin-bottom: 30px; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
     </style>
 </head>
-
 <body class="page-transition">
-    <!-- Background Blobs -->
+    <!-- Background -->
     <div class="bg-blobs-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+        <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
     </div>
-    <div class="noise-overlay"></div>
-
-    <!-- Floating Navbar -->
+    
+    <!-- Navbar -->
     <nav class="hero-content">
         <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
         <ul class="nav-links-floating">
@@ -105,135 +62,228 @@
         </ul>
         <div class="nav-actions">
             <button id="themeToggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button>
-            <div class="nav-user-dropdown"><a href="login.html" class="login-btn"><i class="fas fa-user-circle"></i> Login</a></div>
+            <div class="nav-user-dropdown"><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Login</a></div>
         </div>
     </nav>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/919940764517" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
-    <!-- HERO SLIDER -->
-    <section class="hero">
-        <div class="slider">
-            <img src="static/images/iv.jpg" class="slide active" alt="IV 1">
-            <img src="static/images/iv.jpg" class="slide" alt="IV 2">
-            <img src="static/images/iv.jpg" class="slide" alt="IV 3">
-        </div>
-        <div class="hero-text">
-            <h1>Industrials</h1>
-            <p>Explore Learning & Travel across India</p>
-        </div>
-    </section>
-
-    <!-- TRENDING MARQUEE -->
-    <section class="industry-places-section reveal" style="padding: 60px 0;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">TRENDING INDUSTRIALS</h2>
-        </div>
-        <div class="marquee-wrapper">
+    <main style="padding-top: 100px;">
+        <div class="marquee-container">
             <div class="marquee-content">
-                <img src="static/images/Chennai.jpg" alt="Chennai" onerror="this.src='https://images.unsplash.com/photo-1582510003544-2d095665039b?w=400'">
-                <img src="static/images/Bengaluru.png" alt="Bengaluru" onerror="this.src='https://images.unsplash.com/photo-1596422846543-95c6fe16e917?w=400'">
-                <img src="static/images/Coimbatore.webp" alt="Coimbatore" onerror="this.src='https://images.unsplash.com/photo-1605146761889-44a5ad165839?w=400'">
-                <img src="static/images/Ooty.jpg" alt="Ooty" onerror="this.src='https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400'">
-                <!-- Duplicate for loop -->
-                <img src="static/images/Chennai.jpg" alt="Chennai">
-                <img src="static/images/Bengaluru.png" alt="Bengaluru">
+                🚀 Trending Tours: Bengaluru IT Tour • Chennai Manufacturing • Ooty Tea Estate • Madurai MSME • Hyderabad Pharma Hub • Kochi Shipyard 🚀
             </div>
         </div>
-    </section>
 
-    <!-- ALL INDUSTRIALS GRID -->
-    <section class="industrials-section reveal" style="padding: 60px 20px;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color: var(--color-primary); font-size: 2.5rem; font-weight: 800;">All Industrial Visits</h2>
-            <p style="color: var(--color-text-muted);">Select a destination to view detail itinerary and pricing</p>
-        </div>
-        <div class="industrials-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-            <!-- Card 1 -->
-            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
-                <div style="height: 240px; overflow: hidden;">
-                    <img src="static/images/Chennai.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Chennai IT IV">
-                </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">IT & Tech Hub - Chennai</h3>
-                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Visit leading software giants like TCS, HCL and Infosys. Gain insights into software development lifecycles.</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
-                        <span style="font-weight: 800; font-size: 1.2rem;">₹2,500</span>
-                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+        <section style="padding: 0 5%;">
+            <h2 class="reveal" style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary); margin-bottom: 10px;">Our Industrial Visits</h2>
+            <p class="reveal" style="color: var(--color-text-muted); margin-bottom: 40px; max-width: 600px;">Select from our premium handpicked industrial visit packages designed to bridge the gap between classroom and industry.</p>
+            
+            <div class="grid-container">
+                <!-- 1. Bengaluru -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Bengaluru.png" alt="Bengaluru Tech">
+                        <div class="card-price-tag">₹2500</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Bengaluru Industrial Tech Tour</h3>
+                        <p class="card-text">Explore the Silicon Valley of India with visits to top IT hubs and tech parks.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.9</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
                     </div>
                 </div>
-            </a>
-            <!-- Card 2 -->
-            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
-                <div style="height: 240px; overflow: hidden;">
-                    <img src="static/images/Bengaluru.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Bengaluru Manufacturing">
-                </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">Manufacturing Excellence - Bengaluru</h3>
-                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Explore automotive and heavy machinary plants. Witness robot precision and lean manufacturing.</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
-                        <span style="font-weight: 800; font-size: 1.2rem;">₹3,200</span>
-                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+
+                <!-- 2. Chennai -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Chennai.jpg" alt="Chennai Hub">
+                        <div class="card-price-tag">₹2200</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Chennai Manufacturing Hub</h3>
+                        <p class="card-text">Visit major automobile and manufacturing plants in the 'Detroit of Asia'.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.8</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
                     </div>
                 </div>
-            </a>
-            <!-- Card 3 -->
-            <a href="index.html#enquire" class="industrial-card" style="text-decoration: none; color: inherit; background: var(--color-card-bg); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s; display: block;">
-                <div style="height: 240px; overflow: hidden;">
-                    <img src="static/images/Coimbatore.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Coimbatore Textile">
-                </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">Textile Infrastructure - Coimbatore</h3>
-                    <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6;">Visit the Manchester of South India. Understand the journey from cotton to finished garments.</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 15px;">
-                        <span style="font-weight: 800; font-size: 1.2rem;">₹1,800</span>
-                        <div style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;">View Details</div>
+
+                <!-- 3. Coimbatore -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Coimbatore.webp" alt="Coimbatore">
+                        <div class="card-price-tag">₹1800</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Coimbatore Textile & Pump Industry</h3>
+                        <p class="card-text">Discover the textile capital and the pump manufacturing heart of South India.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.7</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
                     </div>
                 </div>
-            </a>
-        </div>
-    </section>
 
-    <!-- IMPACT STATS -->
-    <section class="stats-section reveal" style="padding: 60px 20px; background: rgba(233, 103, 24, 0.05);">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">OUR IMPACT</h2>
-            <p style="color: var(--color-text-muted);">Dudu is bridge for connect your industrial visit smoothly ✅</p>
-        </div>
-        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; text-align: center;">
-            <div class="stat-item">
-                <i class="fas fa-university" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
-                <div><span class="stat-number" data-target="120" style="font-size: 1.8rem; font-weight: 900;">120</span>+</div>
-                <div style="font-weight: 600; opacity: 0.7;">Colleges Joined</div>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-building" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
-                <div><span class="stat-number" data-target="50" style="font-size: 1.8rem; font-weight: 900;">50</span>+</div>
-                <div style="font-weight: 600; opacity: 0.7;">Partner Companies</div>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-users" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;"></i>
-                <div><span class="stat-number" data-target="2500" style="font-size: 1.8rem; font-weight: 900;">2500</span>+</div>
-                <div style="font-weight: 600; opacity: 0.7;">Happy Students</div>
-            </div>
-        </div>
-    </section>
+                <!-- 4. Kodaikanal -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Kodaikanal Solar Observatory.jpg" alt="Kodaikanal">
+                        <div class="card-price-tag">₹3500</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Kodaikanal Agricultural Tour</h3>
+                        <p class="card-text">Learn about hill station agriculture, spice plantations, and sustainable farming.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.9</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
 
-    <footer class="site-footer" style="padding: 60px 5%; border-top: 1px solid var(--color-border);">
+                <!-- 5. Madurai -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Madurai.jpg" alt="Madurai">
+                        <div class="card-price-tag">₹1500</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Madurai Heritage & MSME Tour</h3>
+                        <p class="card-text">Explore vibrant MSME clusters and the rich cultural heritage of the temple city.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.6</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Ooty -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="static/images/Ooty.jpg" alt="Ooty">
+                        <div class="card-price-tag">₹4000</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Ooty Tea Estates Experience</h3>
+                        <p class="card-text">A deep dive into tea processing, chocolate making, and hill-station industries.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 5.0</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Chennai Auto -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?q=80&w=2070&auto=format&fit=crop" alt="Auto">
+                        <div class="card-price-tag">₹3347</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Chennai Automobile Tour</h3>
+                        <p class="card-text">A comprehensive visit to Automobile Manufacturing Hub. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.7</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Pune IT -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Pune">
+                        <div class="card-price-tag">₹4590</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Pune IT Tour</h3>
+                        <p class="card-text">A comprehensive visit to IT & Automotive Tech Park. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.8</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Mumbai Financial -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1570160897042-4394cd1c530b?q=80&w=2070&auto=format&fit=crop" alt="Mumbai">
+                        <div class="card-price-tag">₹3810</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Mumbai Financial Tour</h3>
+                        <p class="card-text">A comprehensive visit to Financial District & Port Authority. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.9</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Hyderabad -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1579165466511-70338a8e100c?q=80&w=2070&auto=format&fit=crop" alt="Pharma">
+                        <div class="card-price-tag">₹4674</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Hyderabad Pharmaceutical Tour</h3>
+                        <p class="card-text">A comprehensive visit to Pharmaceutical & Biotech Hub. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.7</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Kochi -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=1928&auto=format&fit=crop" alt="Shipyard">
+                        <div class="card-price-tag">₹3132</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Kochi Shipyard Tour</h3>
+                        <p class="card-text">A comprehensive visit to Shipyard & Maritime Industry. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.6</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. Delhi -->
+                <div class="industrial-card reveal">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1565891741441-64926e441838?q=80&w=2071&auto=format&fit=crop" alt="Delhi">
+                        <div class="card-price-tag">₹2764</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Delhi Manufacturing Tour</h3>
+                        <p class="card-text">A comprehensive visit to Manufacturing & Logistics Center. Explore industry standards and operations.</p>
+                        <div class="card-footer">
+                            <span style="font-weight:700; color: #ffb800;"><i class="fas fa-star"></i> 4.5</span>
+                            <a href="payment.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" style="padding: 40px 5%; border-top: 1px solid var(--color-border); margin-top: 60px;">
         <div class="footer-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
             <span class="copyright">Copyright © 2026 DUDU Hub Pvt Ltd.</span>
-            <div class="footer-social" style="display: flex; gap: 20px; font-size: 1.5rem;">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <div class="footer-links">
+                <a href="index.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 10px;">Home</a>
+                <a href="feedback.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 10px;">Feedback's</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Emergency reveal
-        setTimeout(() => document.body.style.opacity = "1", 1000);
-    </script>
+    <script src="static/js/script.js" defer></script>
 </body>
 </html>

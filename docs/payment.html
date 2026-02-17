@@ -8,22 +8,31 @@
     <link rel="stylesheet" href="static/css/style.css">
     <script src="static/js/transitions.js" defer></script>
     <style>
-        body { background: var(--color-bg); font-family: 'Poppins', sans-serif; }
+        body { background: var(--color-bg); font-family: 'Poppins', sans-serif; color: var(--color-text-muted); }
+        .hero-content { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 1100px; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 40px; box-shadow: var(--shadow-lg); padding: 10px 16px; display: flex; align-items: center; gap: 18px; z-index: 1200; }
         .container { max-width: 1100px; margin: 110px auto 40px; padding: 0 16px; }
         .gateway-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; }
         .panel { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 18px; box-shadow: var(--shadow-lg); overflow: hidden; }
-        .left-panel { background: linear-gradient(180deg, rgba(233, 103, 24, 0.12), rgba(255, 218, 185, 0.8)); padding: 40px; }
+        .left-panel { background: linear-gradient(180deg, rgba(233, 103, 24, 0.12), rgba(255, 218, 185, 0.8)); padding: 40px; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
         .right-panel { padding: 30px; }
-        .nav-links-floating li a.active { color: var(--color-primary); }
-        .pay-btn { border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; margin-bottom: 10px; width: 100%; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
-        .pay-btn.gpay { background: #fff; color: #3c4043; }
-        .pay-btn.phonepe { background: #5f259f; color: white; }
-        .pay-btn.paytm { background: #00baf2; color: white; }
+        .pkg-pill { background: rgba(233, 103, 24, 0.1); border: 1px solid rgba(233, 103, 24, 0.25); color: var(--color-text); border-radius: 999px; padding: 6px 12px; font-weight: 800; display: inline-flex; gap: 10px; align-items: center; }
+        .pay-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .pay-btn { border: 1px solid var(--color-border); border-radius: 12px; padding: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; color: white; border: none; }
+        .pay-btn.gpay { background: #fff; color: #3c4043; border: 1px solid #d1d1d1; }
+        .pay-btn.phonepe { background: #5f259f; }
+        .pay-btn.paytm { background: #00baf2; }
+        .pay-btn.bhim { background: #ff7a00; }
+        .pay-btn.others { background: var(--color-card-bg); color: var(--color-text); border: 1px solid var(--color-border); }
+        .plan-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .plan { border: 1px solid var(--color-border); border-radius: 14px; padding: 15px; cursor: pointer; background: var(--color-card-bg); display: flex; flex-direction: column; }
+        .plan.active { border-color: var(--color-primary); background: rgba(233, 103, 24, 0.05); }
+        .plan b { color: var(--color-text); display: block; }
+        .plan .price { color: var(--color-primary); font-weight: 900; margin-top: 5px; }
     </style>
 </head>
 <body class="page-transition">
     <!-- Navbar -->
-    <nav class="hero-content" style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 1100px; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 40px; box-shadow: var(--shadow-lg); padding: 10px 16px; display: flex; align-items: center; gap: 18px; z-index: 1200;">
+    <nav class="hero-content">
         <a href="index.html" class="nav-brand">DUDU<span>IV HUB</span></a>
         <ul class="nav-links-floating">
             <li><a href="index.html">Home</a></li>
@@ -33,51 +42,69 @@
         </ul>
         <div class="nav-actions">
             <button id="themeToggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button>
-            <div class="nav-user-dropdown"><a href="login.html" class="login-btn"><i class="fas fa-user-circle"></i> Login</a></div>
+            <div class="nav-user-dropdown"><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Login</a></div>
         </div>
     </nav>
 
     <div class="container">
         <div class="gateway-layout">
             <aside class="panel left-panel">
-                <h2 style="font-weight: 900; color: var(--color-primary);">DUDU IV HUB</h2>
-                <h1 style="font-size: 2rem; margin: 20px 0;">Secure Payment Gateway</h1>
-                <p style="opacity: 0.8; line-height: 1.8;">Complete your booking by paying the industrial visit fees. Your slots will be confirmed immediately after successful payment.</p>
-                <div style="margin-top: 40px; display: flex; gap: 10px;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--color-primary);"></div>
+                <div>
+                    <h2 style="font-weight: 900; color: var(--color-primary); margin: 0;">DUDU IV HUB</h2>
+                    <h1 style="font-size: 2rem; margin: 20px 0; color: var(--color-text);">Secure Payment Gateway</h1>
+                    <p style="opacity: 0.8; line-height: 1.8;">Complete your booking by paying the industrial visit fees. Your slots will be confirmed immediately after successful payment.</p>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--color-primary); color: white; display:flex; align-items:center; justify-content:center; font-weight:900;">D</div>
                     <div>
-                        <strong>Support Team</strong><br>
+                        <strong style="color: var(--color-text);">DUDU Support</strong><br>
                         <small>24/7 Assistance</small>
                     </div>
                 </div>
             </aside>
 
             <section class="panel right-panel">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
-                    <h2 style="margin: 0;">Checkout</h2>
-                    <div style="background: rgba(233, 103, 24, 0.1); padding: 5px 15px; border-radius: 20px; color: var(--color-primary); font-weight: 700;">₹ 2,500.00</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+                    <h2 style="margin: 0; color: var(--color-text);">Checkout</h2>
+                    <div class="pkg-pill">
+                        <span>Industrial:</span> <strong>Bengaluru IT Tour</strong>
+                    </div>
                 </div>
 
-                <p style="font-weight: 700; margin-bottom: 20px;">Choose Payment Method:</p>
+                <div class="plan-toggle">
+                    <div class="plan active">
+                        <b>Full Payment</b>
+                        <small>100% now</small>
+                        <span class="price">₹2,500</span>
+                    </div>
+                    <div class="plan">
+                        <b>Advance Pay</b>
+                        <small>30% now</small>
+                        <span class="price">₹750</span>
+                    </div>
+                </div>
+
+                <p style="font-weight: 700; color: var(--color-text); margin-bottom: 15px;">Pay via UPI:</p>
+                <div class="pay-actions">
+                    <button class="pay-btn gpay"><i class="fab fa-google"></i> Google Pay</button>
+                    <button class="pay-btn phonepe">PhonePe</button>
+                    <button class="pay-btn paytm">Paytm</button>
+                    <button class="pay-btn bhim">BHIM UPI</button>
+                    <button class="pay-btn others" style="grid-column: span 2;">Net Banking / Card</button>
+                </div>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--color-border);">
                 
-                <button class="pay-btn gpay"><i class="fab fa-google"></i> Google Pay</button>
-                <button class="pay-btn phonepe"><i class="fas fa-mobile-alt"></i> PhonePe</button>
-                <button class="pay-btn paytm"><i class="fas fa-wallet"></i> Paytm</button>
-                
-                <hr style="margin: 30px 0; opacity: 0.1;">
-                
-                <div style="background: var(--color-bg); padding: 20px; border-radius: 12px; text-align: center;">
+                <div style="background: var(--color-bg); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--color-border);">
                     <i class="fas fa-shield-alt" style="color: #4caf50; font-size: 1.5rem; margin-bottom: 10px;"></i>
                     <p style="margin: 0; font-size: 0.8rem; opacity: 0.7;">Secure 256-bit encrypted transactions</p>
                 </div>
 
-                <button style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 900; margin-top: 30px; cursor: pointer;">PLACE ORDER</button>
+                <button class="btn btn-primary w-100" style="background: var(--color-primary); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 900; margin-top: 25px; cursor: pointer;">PLACE ORDER</button>
             </section>
         </div>
     </div>
 
-    <script>
-        setTimeout(() => document.body.style.opacity = "1", 1000);
-    </script>
+    <script src="static/js/script.js" defer></script>
 </body>
 </html>

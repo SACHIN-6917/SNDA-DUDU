@@ -1,58 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - DUDU IV Hub</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Early Theme Init -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const prefer = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', saved || prefer);
+        })();
+    </script>
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="static/css/style.css">
-    <script src="static/js/transitions.js" defer></script>
+    <link rel="stylesheet" href="static/css/login.css">
     <style>
-        body { background: var(--color-bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .login-card { background: var(--color-card-bg); border: 1px solid var(--color-border); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-xl); width: 100%; max-width: 400px; text-align: center; }
-        .panda-avatar { font-size: 5rem; margin-bottom: 20px; display: block; }
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { display: block; font-weight: 700; color: var(--color-primary); margin-bottom: 8px; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg); color: var(--color-text); }
-        .login-btn { width: 100%; background: var(--color-primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .login-btn:hover { background: #d85d15; }
-        .sso-btn { width: 100%; border: 1px solid var(--color-border); background: white; color: #555; padding: 12px; border-radius: 12px; margin-top: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; }
+        body { background-color: var(--color-bg); min-height: 100vh; display: flex; flex-direction: column; }
+        .login-page { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; z-index: 1; }
+        /* Re-including critical styles from Django template to ensure perfection */
+        .login-container { background: var(--color-card-bg); border: solid 1px var(--color-border); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); width: 100%; max-width: 420px; padding: 40px; position: relative; backdrop-filter: blur(10px); }
+        .avatar-frame { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; border-radius: 50%; border: 3px solid #e96718; overflow: hidden; background: #fdf2e9; display: flex; align-items: center; justify-content: center; }
+        .panda-container { position: relative; width: 200px; height: 240px; transform: scale(0.7); }
+        .panda-head { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 160px; height: 160px; background: #fff; border-radius: 50%; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .ear { position: absolute; width: 50px; height: 50px; background: #333; border-radius: 50%; top: -5px; }
+        .ear.left { left: 5px; } .ear.right { right: 5px; }
+        .eye-patch { position: absolute; width: 45px; height: 55px; background: #333; border-radius: 50%; top: 45px; }
+        .eye-patch.left { left: 25px; } .eye-patch.right { right: 25px; }
+        .eye { position: absolute; width: 16px; height: 16px; background: black; border-radius: 50%; top: 20px; left: 15px; transition: transform 0.1s ease; }
+        .eye.white { position: absolute; width: 6px; height: 6px; background: white; border-radius: 50%; top: 3px; left: 3px; }
+        .nose { position: absolute; width: 14px; height: 10px; background: black; border-radius: 50%; top: 105px; left: 50%; transform: translateX(-50%); }
+        .mouth { position: absolute; width: 30px; height: 15px; border-bottom: 3px solid black; border-radius: 0 0 30px 30px; top: 120px; left: 50%; transform: translateX(-50%); }
+        .arm { position: absolute; width: 45px; height: 80px; background: #333; border-radius: 40px; top: 110px; z-index: 5; transition: transform 0.4s ease; }
+        .arm.left { left: 0; transform-origin: top center; } .arm.right { right: 0; transform-origin: top center; }
+        .arm.cover.left { transform: translate(60px, -70px) rotate(45deg); }
+        .arm.cover.right { transform: translate(-60px, -70px) rotate(-45deg); }
+        .panda-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 150px; height: 180px; background: #fff; border-radius: 50% 50% 45% 45%; }
+        .brand-name { display: block; text-align: center; font-size: 1.8rem; font-weight: 800; color: #e96718; margin-bottom: 25px; font-family: 'Poppins', sans-serif; }
     </style>
 </head>
-<body class="page-transition">
-    <!-- Close Button -->
-    <a href="index.html" style="position: fixed; top: 20px; left: 20px; font-size: 1.5rem; color: var(--color-primary);"><i class="fas fa-arrow-left"></i></a>
+<body>
+    <button class="login-theme-toggle" id="loginThemeToggle" style="position: fixed; top: 20px; right: 20px; background: var(--color-card-bg); border: 1px solid var(--color-border); width: 44px; height: 44px; border-radius: 50%; cursor: pointer;">
+        <i class="fas fa-moon"></i>
+    </button>
 
-    <div class="login-card">
-        <span class="panda-avatar">🐼</span>
-        <h2 style="color: var(--color-primary); font-weight: 900; margin-bottom: 10px;">DUDU IV HUB</h2>
-        <p style="opacity: 0.7; margin-bottom: 30px;">Sign in to your account</p>
-
-        <form>
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" placeholder="name@college.edu">
+    <div class="login-page">
+        <div class="login-container">
+            <div class="avatar-frame">
+                <div class="panda-container">
+                    <div class="panda-head">
+                        <div class="ear left"></div><div class="ear right"></div>
+                        <div class="eye-patch left"><div class="eye" id="eyeLeft"><div class="eye white"></div></div></div>
+                        <div class="eye-patch right"><div class="eye" id="eyeRight"><div class="eye white"></div></div></div>
+                        <div class="nose"></div><div class="mouth"></div>
+                    </div>
+                    <div class="arm left" id="armLeft"></div><div class="arm right" id="armRight"></div>
+                    <div class="panda-body"></div>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <button type="button" class="login-btn" onclick="location.href='index.html'">LOGIN</button>
-        </form>
 
-        <div style="margin: 25px 0; display: flex; align-items: center; gap: 10px; opacity: 0.3;">
-            <hr style="flex: 1;"> OR <hr style="flex: 1;">
+            <span class="brand-name">DUDU IV Hub</span>
+
+            <div id="loginSection">
+                <h1 style="font-size: 1.5rem; text-align: center; font-weight: 700;">Welcome Back!</h1>
+                <p style="text-align: center; color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 30px;">Sign in to your account</p>
+
+                <form id="staticLoginForm">
+                    <div class="mb-3">
+                        <label class="form-label" style="color: #e96718; font-weight: 700;">Email Address</label>
+                        <input type="email" class="form-control" placeholder="Enter your email" required style="border: none; border-bottom: 2px solid rgba(233,103,24,0.2); border-radius:0;">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" style="color: #e96718; font-weight: 700;">Password</label>
+                        <input type="password" id="loginPass" class="form-control" placeholder="Enter password" required style="border: none; border-bottom: 2px solid rgba(233,103,24,0.2); border-radius:0;">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" style="background: #e96718; border: none; padding: 14px; border-radius: 12px; font-weight: 800; box-shadow: 0 5px 15px rgba(233, 103, 24, 0.3);">LOGIN</button>
+                    
+                    <div style="text-align: center; margin-top: 25px; color: var(--color-text-muted); font-size: 0.85rem;">
+                        <p>OR CONTINUE WITH</p>
+                        <button type="button" class="btn btn-outline-secondary w-100 py-2" style="border-radius: 10px;">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" class="me-2"> Google
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <button class="sso-btn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Continue with Google</button>
-        
-        <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
-            Don't have an account? <span style="color: var(--color-primary); font-weight: 700; cursor: pointer;">Sign Up</span>
-        </p>
     </div>
 
     <script>
-        setTimeout(() => document.body.style.opacity = "1", 1000);
+        // Static Login Logic
+        document.getElementById('staticLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate login by setting a fake user in localStorage
+            localStorage.setItem('authUser', JSON.stringify({ name: 'Admin User', role: 'admin' }));
+            window.location.href = 'index.html';
+        });
+
+        const eyeLeft = document.getElementById("eyeLeft");
+        const eyeRight = document.getElementById("eyeRight");
+        const armLeft = document.getElementById("armLeft");
+        const armRight = document.getElementById("armRight");
+        const passInput = document.getElementById("loginPass");
+
+        passInput.addEventListener("focus", () => {
+            armLeft.classList.add("cover");
+            armRight.classList.add("cover");
+        });
+        passInput.addEventListener("blur", () => {
+            armLeft.classList.remove("cover");
+            armRight.classList.remove("cover");
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 15;
+            const y = (e.clientY / window.innerHeight - 0.5) * 15;
+            eyeLeft.style.transform = `translate(${x}px, ${y}px)`;
+            eyeRight.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Theme Toggle
+        const toggle = document.getElementById('loginThemeToggle');
+        toggle.addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
     </script>
 </body>
 </html>

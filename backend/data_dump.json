@@ -1,0 +1,108 @@
+{
+  "industrials": [
+    {
+      "name": "Bengaluru Industrial Tech Tour",
+      "description": "Explore the Silicon Valley of India with visits to top IT hubs and tech parks.",
+      "price": 2500.0,
+      "image": "images/Bengaluru.png"
+    },
+    {
+      "name": "Chennai Manufacturing Hub",
+      "description": "Visit major automobile and manufacturing plants in the 'Detroit of Asia'.",
+      "price": 2200.0,
+      "image": "images/Chennai.jpg"
+    },
+    {
+      "name": "Coimbatore Textile & Pump Industry",
+      "description": "Discover the textile capital and the pump manufacturing heart of South India.",
+      "price": 1800.0,
+      "image": "images/Coimbatore.webp"
+    },
+    {
+      "name": "Kodaikanal Agricultural Tour",
+      "description": "Learn about hill station agriculture, spice plantations, and sustainable farming.",
+      "price": 3500.0,
+      "image": "images/Kodaikanal Solar Observatory.jpg"
+    },
+    {
+      "name": "Madurai Heritage & MSME Tour",
+      "description": "Explore vibrant MSME clusters and the rich cultural heritage of the temple city.",
+      "price": 1500.0,
+      "image": "images/Madurai.jpg"
+    },
+    {
+      "name": "Ooty Tea Estates Experience",
+      "description": "A deep dive into tea processing, chocolate making, and hill-station industries.",
+      "price": 4000.0,
+      "image": "images/Ooty.jpg"
+    },
+    {
+      "name": "Chennai Automobile Tour",
+      "description": "A comprehensive visit to Automobile Manufacturing Hub. Explore industry standards and operations.",
+      "price": 3347.0,
+      "image": "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      "name": "Pune IT Tour",
+      "description": "A comprehensive visit to IT & Automotive Tech Park. Explore industry standards and operations.",
+      "price": 4590.0,
+      "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+    },
+    {
+      "name": "Mumbai Financial Tour",
+      "description": "A comprehensive visit to Financial District & Port Authority. Explore industry standards and operations.",
+      "price": 3810.0,
+      "image": "https://images.unsplash.com/photo-1570160897042-4394cd1c530b?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      "name": "Hyderabad Pharmaceutical Tour",
+      "description": "A comprehensive visit to Pharmaceutical & Biotech Hub. Explore industry standards and operations.",
+      "price": 4674.0,
+      "image": "https://images.unsplash.com/photo-1579165466511-70338a8e100c?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      "name": "Kochi Shipyard Tour",
+      "description": "A comprehensive visit to Shipyard & Maritime Industry. Explore industry standards and operations.",
+      "price": 3132.0,
+      "image": "https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=1928&auto=format&fit=crop"
+    },
+    {
+      "name": "Delhi Manufacturing Tour",
+      "description": "A comprehensive visit to Manufacturing & Logistics Center. Explore industry standards and operations.",
+      "price": 2764.0,
+      "image": "https://images.unsplash.com/photo-1565891741441-64926e441838?q=80&w=2071&auto=format&fit=crop"
+    }
+  ],
+  "feedbacks": [
+    {
+      "name": "Rajesh",
+      "rating": 5,
+      "message": "Our Chennai industrial visit with DUDU IV Hub was very well organized. The travel arrangements were safe and punctual, the accommodation was clean and comfortable, and the food provided was of good quality. The industrial visit activities were properly scheduled and highly informative for students. Overall, it was a smooth and stress-free experience."
+    },
+    {
+      "name": "Praveen",
+      "rating": 4,
+      "message": "The Kochi industrial visit was excellently managed by DUDU IV Hub. Travel, hotel stay, and food arrangements were handled professionally. All company visits and activities were conducted on time and as planned. The team's coordination made the entire trip comfortable and hassle-free. Highly recommended for college industrial visits."
+    },
+    {
+      "name": "Kajal",
+      "rating": 5,
+      "message": "The Varkala friends trip with DUDU IV Hub was very enjoyable. Travel arrangements were safe, the stay was comfortable with good privacy, and the food was hygienic. Activities and sightseeing were well planned. As a female traveler, I felt safe and well supported throughout the trip, with clear attention to women's safety and privacy."
+    },
+    {
+      "name": "Ananya",
+      "rating": 5,
+      "message": "Incredible experience with the Bangalore IT tour. The DUDU team managed to get us into top-tier tech parks which was highly educational. The luxury bus transit was super comfortable. Definitely using them for our next batch too!"
+    },
+    {
+      "name": "Suresh Kumar",
+      "rating": 4,
+      "message": "Great coordination for our Coimbatore pump industry visit. The food was specifically tailored to our student preferences which was a plus. The on-site coordinator was very helpful and knowledgeable about the industries."
+    },
+    {
+      "name": "Meera",
+      "rating": 5,
+      "message": "DUDU IV Hub made our Ooty tea estate visit a breeze. From permissions to stay, everything was seamless. The fun activities in the evening were the highlight and helped in team bonding among students. Excellent service!"
+    }
+  ]
+}
